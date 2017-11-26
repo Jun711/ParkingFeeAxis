@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry, Text, View, ListView} from 'react-native';
+import {AppRegistry, Text, View, ListView, StyleSheet} from 'react-native';
 
 const users = [
   {name: 'Ironman'},
@@ -19,8 +19,8 @@ export default class Component4 extends Component {
 
   renderRow(user, sectionId, rowId, highlightRow) {
     return (
-      <View>
-        <Text>{user.name}</Text>
+      <View style={styles.row}>
+        <Text style={styles.rowText}>{user.name}</Text>
       </View>
     )
   }
@@ -35,5 +35,18 @@ export default class Component4 extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: '#f4f4f4',
+    marginBottom: 3
+  },
+  rowText: {
+    flex: 1
+  }
+})
 
 AppRegistry.registerComponent('Component4', () => Component4);

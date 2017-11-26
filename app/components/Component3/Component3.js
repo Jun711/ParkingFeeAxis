@@ -34,7 +34,7 @@ export default class Component3 extends Component {
           placeholder="Enter text"
           value={this.state.textValue}
           onChangeText={(value) => this.onChangeText(value)}
-          onSubmitEditing={"this.onSubmit"}
+          onSubmitEditing={this.onSubmit}
         />
         <Text>{this.state.textValue}</Text>
         <Switch

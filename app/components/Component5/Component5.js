@@ -1,26 +1,33 @@
 import React, {Component} from 'react';
 import {AppRegistry, Text, View, ListView, StyleSheet} from 'react-native';
 
-const users = [
-  {name: 'Ironman'},
-  {name: 'Spiderman'},
-  {name: 'The Hulk'},
-  {name: 'Thor'}
-]
-
-export default class Component4 extends Component {
+export default class Component5 extends Component {
   constructor() {
     super()
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      userDataSource: ds.cloneWithRows(users),
+      userDataSource: ds,
     };
+  }
+
+  componentDidMount() {
+    this.fetchUsers();
+  }
+
+  fetchUsers() {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((response) => response.json())
+      .then((response) => {
+        this.setState({
+          userDataSource: this.state.userDataSource.cloneWithRows(response)
+        })
+      })
   }
 
   renderRow(user, sectionId, rowId, highlightRow) {
     return (
       <View style={styles.row}>
-        <Text style={styles.rowText}>{user.name}</Text>
+        <Text style={styles.rowText}>{user.name}: {user.email}</Text>
       </View>
     )
   }
@@ -48,4 +55,4 @@ const styles = StyleSheet.create({
   }
 })
 
-AppRegistry.registerComponent('Component4', () => Component4);
+AppRegistry.registerComponent('Component5', () => Component5);

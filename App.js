@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry, Text, View} from 'react-native';
+import {AppRegistry, View, Text} from 'react-native';
 
 import Component1 from './app/components/Component1/Component1';
 import Component2 from './app/components/Component2/Component2';
@@ -8,6 +8,7 @@ import Component4 from './app/components/Component4/Component4';
 import Component5 from './app/components/Component5/Component5';
 import Component6 from './app/components/Component6/Component6';
 import Splash from './app/components/Splash/Splash';
+import Login from './app/components/Login/Login';
 
 export default class myapp extends Component {
 
@@ -36,7 +37,9 @@ export default class myapp extends Component {
 // {/*</View>*/}
   render() {
     return(
-      <Splash />
+      <View>
+        <Component2 />
+      </View>
     );
   }
 }

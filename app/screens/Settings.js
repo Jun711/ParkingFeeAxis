@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView} from 'react-native';
+import {AppRegistry, ScrollView} from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 
 class Settings extends Component {
@@ -29,3 +29,4 @@ class Settings extends Component {
 }
 
 export default Settings;
+AppRegistry.registerComponent('Setting', () => Setting);

@@ -7,8 +7,10 @@ import Component3 from './app/components/Component3/Component3';
 import Component4 from './app/components/Component4/Component4';
 import Component5 from './app/components/Component5/Component5';
 import Component6 from './app/components/Component6/Component6';
-import Splash from './app/components/Splash/Splash';
-import Login from './app/components/Login/Login';
+// import Splash from './app/components/Splash/Splash';
+// import Login from './app/components/Login/Login';
+
+import { Tabs } from './app/config/router';
 
 export default class myapp extends Component {
 
@@ -37,9 +39,7 @@ export default class myapp extends Component {
 // {/*</View>*/}
   render() {
     return(
-      <View>
-        <Component2 />
-      </View>
+      <Tabs />
     );
   }
 }

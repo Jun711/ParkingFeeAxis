@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView} from 'react-native';
+import {AppRegistry, ScrollView} from 'react-native';
 import {Tile, List, ListItem} from 'react-native-elements';
 
 class UserDetail extends Component {
@@ -25,6 +25,7 @@ class UserDetail extends Component {
             title="Phone"
             rightTitle={phone}
             hideChevron
+          />
         </List>
         <List>
           <ListItem
@@ -43,6 +44,7 @@ class UserDetail extends Component {
             title="City"
             rightTitle={location.city}
             hideChevron
+          />
         </List>
       </ScrollView>
     );
@@ -50,3 +52,5 @@ class UserDetail extends Component {
 }
 
 export default UserDetail;
+AppRegistry.registerComponent('UserDetail', () => UserDetail);
+

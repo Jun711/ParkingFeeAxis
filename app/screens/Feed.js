@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {
+  AppRegistry,
   Text,
   View,
   ScrollView
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
-import {user} from '../config/data';
+import {users} from '../config/data';
 
 class Feed extends Component {
   onLearnMore = (user) => {
@@ -33,3 +34,4 @@ class Feed extends Component {
 }
 
 export default Feed;
+AppRegistry.registerComponent('Feed', () => Feed);

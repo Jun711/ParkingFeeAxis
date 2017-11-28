@@ -10,7 +10,7 @@ import Component6 from './app/components/Component6/Component6';
 // import Splash from './app/components/Splash/Splash';
 // import Login from './app/components/Login/Login';
 
-import { Tabs } from './app/config/router';
+import { Root, Tabs } from './app/config/router';
 
 export default class myapp extends Component {
 
@@ -39,7 +39,7 @@ export default class myapp extends Component {
 // {/*</View>*/}
   render() {
     return(
-      <Tabs />
+      <Root />
     );
   }
 }

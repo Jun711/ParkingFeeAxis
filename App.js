@@ -30,11 +30,20 @@ export default class myapp extends Component {
         <MapView
           style={styles.map}
           initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
+            latitude: 49.2625590,
+            longitude: -123.0647230,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}>
+          <MapView.Marker
+            coordinate={{
+              latitude: 49.2625590,
+              longitude: -123.0647230,
+            }}>
+              <View style={styles.radius}>
+                <View style={styles.marker} />
+              </View>
+          </MapView.Marker>
         </MapView>
       </View>
     );
@@ -67,6 +76,20 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     position: 'absolute'
+  },
+  radius: {
+    height: 50,
+    width: 50,
+    borderRadius: 50/2,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(0, 112, 255, 0.3)',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  marker: {
+
   }
 });
 

@@ -2,22 +2,9 @@ import React, {Component} from 'react';
 import {AppRegistry, View, Text, StyleSheet, Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
 
-// import Component1 from './app/components/Component1/Component1';
-// import Component2 from './app/components/Component2/Component2';
-// import Component3 from './app/components/Component3/Component3';
-// import Component4 from './app/components/Component4/Component4';
-// import Component5 from './app/components/Component5/Component5';
-// import Component6 from './app/components/Component6/Component6';
-// import Splash from './app/components/Splash/Splash';
-// import Login from './app/components/Login/Login';
-import Map from './app/components/Map/Map';
-
-// import { Root, Tabs } from './app/config/router';
-
 const {width, height} = Dimensions.get('window');
 
-
-export default class myapp extends Component {
+export default class Map extends Component {
 // {/*<View>*/}
 // {/*/!*<Component1 />*!/*/}
 // {/*/!*<Component2 />*!/*/}
@@ -27,27 +14,43 @@ export default class myapp extends Component {
 // {/**/}
 // {/*</View>*/}
 
-  // watchID: ?number = null
-  //
-  // componentDidMount() {
-  //   navigator.geolocation.getCurrentPosition((position) => {
-  //     var lat = parseFloat(position.coords.latitude)
-  //     var long = parseFloat(position.coords.longitude)
-  //
-  //     var initialRegion = {
-  //       latitude: lat,
-  //       longitude: long,
-  //     }
-  //
-  //   })
-  // }
+  watchID: ?number = null
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      var lat = parseFloat(position.coords.latitude)
+      var long = parseFloat(position.coords.longitude)
+
+      var initialRegion = {
+        latitude: lat,
+        longitude: long,
+      }
+
+    })
+  }
   render() {
     const { region } = this.props;
     console.log(region);
     return(
-      <View style={styles.container}>
-        <Map />
-      </View>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: 49.2625590,
+          longitude: -123.0647230,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        }}>
+        <MapView.Marker
+          draggable
+          coordinate={{
+            latitude: 49.2625590,
+            longitude: -123.0647230,
+          }}>
+          <View style={styles.radius}>
+            <View style={styles.marker} />
+          </View>
+        </MapView.Marker>
+      </MapView>
     );
   }
 }
@@ -101,4 +104,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('myapp', () => myapp);
+AppRegistry.registerComponent('Map', () => Map);

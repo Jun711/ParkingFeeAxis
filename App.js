@@ -36,6 +36,7 @@ export default class myapp extends Component {
             longitudeDelta: 0.0121,
           }}>
           <MapView.Marker
+            draggable 
             coordinate={{
               latitude: 49.2625590,
               longitude: -123.0647230,
@@ -89,7 +90,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   marker: {
-
+    height: 20,
+    width: 20,
+    borderRadius: 20/2,
+    borderWidth: 3,
+    borderColor: 'white',
+    overflow: 'hidden',
+    backgroundColor: 'rgb(0, 122, 255)'
   }
 });
 

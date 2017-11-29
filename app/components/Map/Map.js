@@ -4,15 +4,35 @@ import MapView from 'react-native-maps';
 
 const {width, height} = Dimensions.get('window');
 
+const SCREEN_HEIGHT = height
+const SCREEN_WIDTH = width
+const ASPECT_RATIO = width / height
+const LATITUDE_DELTA = 0.020
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+
 export default class Map extends Component {
-// {/*<View>*/}
-// {/*/!*<Component1 />*!/*/}
-// {/*/!*<Component2 />*!/*/}
-// {/*/!*<Component3 />*!/*/}
-// {/*/!*<Component4 />*!/*/}
-// {/*/!*<Component5 />*!/*/}
-// {/**/}
-// {/*</View>*/}
+
+  // latitude: 49.2625590,
+  // longitude: -123.0647230,
+  // latitudeDelta: 0.015,
+  // longitudeDelta: 0.0121,
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      initialPosition: {
+        latitude: 49.2820,
+        longitude: -123.1171,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      },
+      markerPosition: {
+        latitude: 49.2820,
+        longitude: -123.1171
+      }
+    }
+  }
 
   watchID: ?number = null
 
@@ -24,28 +44,46 @@ export default class Map extends Component {
       var initialRegion = {
         latitude: lat,
         longitude: long,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
       }
 
+      this.setState({initialPosition: initialRegion})
+      this.setState({markerPosition: initialRegion})
+    }, (error) => alert(JSON.stringify(error)),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
+
+    // watcher
+    this.watchID = navigator.geolocation.watchPosition((position) => {
+      var lat = parseFloat(position.coords.latitude)
+      var long = parseFloat(position.coords.longitude)
+
+      var lastRegion = {
+        latitude: lat,
+        longitude: long,
+        longitudeDelta: LONGITUDE_DELTA,
+        latitudeDelta: LATITUDE_DELTA
+      }
+
+      this.setState({initialPosition: lastRegion})
+      this.setState({markerPosition: lastRegion})
     })
   }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+
   render() {
-    const { region } = this.props;
-    console.log(region);
+    // const { region } = this.props;
+    // console.log(region);
     return(
       <MapView
         style={styles.map}
-        initialRegion={{
-          latitude: 49.2625590,
-          longitude: -123.0647230,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}>
+        region={this.state.initialPosition}>
         <MapView.Marker
           draggable
-          coordinate={{
-            latitude: 49.2625590,
-            longitude: -123.0647230,
-          }}>
+          coordinate={this.state.markerPosition}>
           <View style={styles.radius}>
             <View style={styles.marker} />
           </View>

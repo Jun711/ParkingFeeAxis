@@ -51,7 +51,7 @@ export default class Map extends Component {
       this.setState({initialPosition: initialRegion})
       this.setState({markerPosition: initialRegion})
     }, (error) => alert(JSON.stringify(error)),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
+      {enableHighAccuracy: true, timeout: 10000, maximumAge: 1000})
 
     // watcher
     this.watchID = navigator.geolocation.watchPosition((position) => {

@@ -1,6 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {AppRegistry, View, Text, StyleSheet, Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
+import {Router} from 'react-native-router-flux';
+
+import {Provider} from 'react-redux';
 
 // import Component1 from './app/components/Component1/Component1';
 // import Component2 from './app/components/Component2/Component2';
@@ -18,6 +21,9 @@ const {width, height} = Dimensions.get('window');
 
 
 export default class myapp extends Component {
+  static propTypes = {
+    store: PropTypes.object.isRequired
+  }
 // {/*<View>*/}
 // {/*/!*<Component1 />*!/*/}
 // {/*/!*<Component2 />*!/*/}

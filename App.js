@@ -1,9 +1,12 @@
-import React, {Component, PropTypes} from 'react';
-import {AppRegistry, View, Text, StyleSheet, Dimensions} from 'react-native';
+import React, {Component} from 'react';
+import {
+  AppRegistry,
+  View,
+  Text,
+  StyleSheet,
+  Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
-import {Router} from 'react-native-router-flux';
 
-import {Provider} from 'react-redux';
 
 // import Component1 from './app/components/Component1/Component1';
 // import Component2 from './app/components/Component2/Component2';
@@ -14,6 +17,7 @@ import {Provider} from 'react-redux';
 // import Splash from './app/components/Splash/Splash';
 // import Login from './app/components/Login/Login';
 import Map from './app/components/Map/Map';
+import Root from './app/main';
 
 // import { Root, Tabs } from './app/config/router';
 
@@ -21,9 +25,6 @@ const {width, height} = Dimensions.get('window');
 
 
 export default class myapp extends Component {
-  static propTypes = {
-    store: PropTypes.object.isRequired
-  }
 // {/*<View>*/}
 // {/*/!*<Component1 />*!/*/}
 // {/*/!*<Component2 />*!/*/}
@@ -33,10 +34,14 @@ export default class myapp extends Component {
 // {/**/}
 // {/*</View>*/}
 
+// <View style={styles.container}>
+//   <Map />
+// </View>
+
   render() {
     return(
       <View style={styles.container}>
-        <Map />
+       <Root {...this.props}/>
       </View>
     );
   }
@@ -58,9 +63,9 @@ export default class myapp extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // backgroundColor: '#F5FCFF',
   }
 });
 

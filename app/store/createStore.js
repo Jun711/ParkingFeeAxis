@@ -1,14 +1,14 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import makeRootReducer from './reducers';
-import { createLogger } from 'redux-logger';
+import {createLogger} from 'redux-logger';
 
 const log = createLogger({ diff: true, collapsed: true });
 
 export default (initialState = {}) => {
   const middleware = [thunk, log];
 
-  const enhanceers = [];
+  const enhancers = [];
 
   const store = createStore(
     makeRootReducer(),

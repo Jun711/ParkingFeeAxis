@@ -1,10 +1,14 @@
 import {connect} from 'react-redux';
 import Home from '../components/Home';
-import {} from '../modules/home';
+import {
+  setTime
+} from '../modules/home';
 
 const mapStateToProps = (state) => ({
-
+  time: state.home.time
 })
 
-const mapActionCreators = {};
+const mapActionCreators = {
+  setTime
+};
 export default connect(mapStateToProps, mapActionCreators)(Home)

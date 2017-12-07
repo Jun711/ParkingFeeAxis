@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'native-base';
 import MapView from 'react-native-maps';
 
-import styles from './MapContainerStyles';
+import styles from './MapContainerStyles.js';
 
 export const MapContainer = ({region}) => {
   return (
@@ -12,7 +12,13 @@ export const MapContainer = ({region}) => {
         style={styles.map}
         region={region}
       >
+        <MapView.Marker
+          coordinate={region}
+          pinColor='blue'
+        />
       </MapView>
     </View>
   )
 }
+
+export default MapContainer;

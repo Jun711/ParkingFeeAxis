@@ -15,11 +15,11 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 class Home extends React.Component {
 
   componentDidMount() {
-    this.props.setTime();
+    this.props.getCurrentLocation();
   }
 
   render() {
-    const region={
+    let region = {
       latitude: 49.2820,
       longitude: -123.1171,
       latitudeDelta: LATITUDE_DELTA,
@@ -27,7 +27,9 @@ class Home extends React.Component {
     }
     return(
       <Container>
-       <MapContainer region={region}/>
+        {this.props.region.latitude &&
+          <MapContainer region={this.props.region}/>
+        }
       </Container>
     )
   }

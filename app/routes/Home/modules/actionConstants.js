@@ -1,3 +1,3 @@
 export default {
-  SET_TIME:'SET_TIME'
+  GET_CURRENT_LOCATION: 'GET_CURRENT_LOCATION'
 };

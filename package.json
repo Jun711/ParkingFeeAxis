@@ -12,6 +12,7 @@
 		"react-addons-update": "^15.6.2",
 		"react-native": "^0.50.4",
 		"react-native-elements": "^0.18.4",
+		"react-native-google-places": "^2.4.2",
 		"react-native-maps": "^0.18.1",
 		"react-native-router-flux": "^4.0.0-beta.24",
 		"react-native-vector-icons": "^4.4.2",

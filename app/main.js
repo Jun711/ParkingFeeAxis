@@ -4,10 +4,11 @@ import createStore from './store/createStore';
 import AppContainer from './AppContainer';
 
 const initialState = window.__INITIAL_STATE__;
-const store = createStore(initialState);
+export const store = createStore(initialState);
 
 export default class Root extends React.Component {
   renderApp(){
+    console.log('renderApp store: ', store);
     return (
       <AppContainer store={store} />
     );

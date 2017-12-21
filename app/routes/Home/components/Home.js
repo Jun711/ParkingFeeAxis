@@ -28,7 +28,13 @@ class Home extends React.Component {
     return(
       <Container>
         {this.props.region.latitude &&
-          <MapContainer region={this.props.region}/>
+          <MapContainer
+            region={this.props.region}
+            getInputData={this.props.getInputData}
+            toggleSearchResultModal={this.props.toggleSearchResultModal}
+            getLocationPredictions={this.props.getLocationPredictions}
+            resultTypes={this.props.resultTypes}
+          />
         }
       </Container>
     )

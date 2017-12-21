@@ -1,14 +1,24 @@
 import {connect} from 'react-redux';
 import Home from '../components/Home';
 import {
-  getCurrentLocation
+  getCurrentLocation,
+  getInputData,
+  toggleSearchResultModal,
+  getLocationPredictions
 } from '../modules/home';
 
 const mapStateToProps = (state) => ({
-  region: state.home.region
+  region: state.home.region,
+  inputData: state.home.inputData || {},
+  resultTypes: state.home.resultTypes || {},
+  predictions: state.home.predictions || []
 })
 
+// so that the component knows these actions exist
 const mapActionCreators = {
-  getCurrentLocation
+  getCurrentLocation,
+  getInputData,
+  toggleSearchResultModal,
+  getLocationPredictions
 };
 export default connect(mapStateToProps, mapActionCreators)(Home)

@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'native-base';
 import MapView from 'react-native-maps';
 
-import SearchBox from '../SearchBox';
+import SearchBox from '../SearchBox/SearchBox';
 import SearchResults from '../SearchResults';
 import styles from './MapContainerStyles.js';
 

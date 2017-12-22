@@ -4,6 +4,7 @@ import {AppRegistry, View, Text, StyleSheet, Dimensions} from 'react-native';
 import {Container} from 'native-base'
 import MapContainer from './MapContainer';
 import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent';
+import FooterComponent from '../../../components/FooterComponent/FooterComponent';
 
 const {width, height} = Dimensions.get('window');
 
@@ -46,6 +47,7 @@ class Home extends React.Component {
             predictions={this.props.predictions}
           />
         }
+        <FooterComponent/>
       </Container>
     )
   }

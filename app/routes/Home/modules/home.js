@@ -128,7 +128,7 @@ function handleToggleSearchResult(state, action) {
         }
       },
       predictions: {
-        $set: {}
+        $set: []
       }
     })
   }
@@ -144,7 +144,7 @@ function handleToggleSearchResult(state, action) {
         }
       },
       predictions: {
-        $set: {}
+        $set: []
       }
     })
   }
@@ -163,7 +163,7 @@ const ACTION_HANDLERS = {
   GET_CURRENT_LOCATION: handleGetCurrentLocation,
   GET_INPUT: handleGetInputData,
   TOGGLE_SEARCH_RESULT: handleToggleSearchResult,
-  // GET_LOCATION_PREDICTIONS: handleGetLocationPredictions,
+  GET_LOCATION_PREDICTIONS: handleGetLocationPredictions,
 }
 
 // initialization

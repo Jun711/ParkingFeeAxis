@@ -6,7 +6,14 @@ import SearchBox from '../SearchBox';
 import SearchResults from '../SearchResults';
 import styles from './MapContainerStyles.js';
 
-export const MapContainer = ({region, getInputData, toggleSearchResultModal, getLocationPredictions, resultTypes}) => {
+export const MapContainer = ({
+                               region,
+                               getInputData,
+                               toggleSearchResultModal,
+                               getLocationPredictions,
+                               resultTypes,
+                               predictions}) => {
+
   return (
     <View style={styles.container}>
       <MapView
@@ -16,8 +23,11 @@ export const MapContainer = ({region, getInputData, toggleSearchResultModal, get
       >
         <MapView.Marker
           coordinate={region}
-          pinColor='blue'
-        />
+          pinColor='blue'>
+          <View style={styles.radius}>
+            <View style={styles.marker} />
+          </View>
+        </MapView.Marker>
       </MapView>
       <SearchBox
         getInputData={getInputData}
@@ -25,7 +35,7 @@ export const MapContainer = ({region, getInputData, toggleSearchResultModal, get
         getLocationPredictions={getLocationPredictions}
       />
       { (resultTypes.pickUp || resultTypes.dropOff)  &&
-        <SearchResults/>
+        <SearchResults predictions={predictions}/>
       }
     </View>
   )

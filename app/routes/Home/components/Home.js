@@ -45,6 +45,7 @@ class Home extends React.Component {
             getLocationPredictions={this.props.getLocationPredictions}
             resultTypes={this.props.resultTypes}
             predictions={this.props.predictions}
+            getSelectedAddress={this.props.getSelectedAddress}
           />
         }
         <FooterComponent/>

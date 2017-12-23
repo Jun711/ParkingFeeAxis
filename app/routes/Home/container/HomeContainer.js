@@ -4,7 +4,8 @@ import {
   getCurrentLocation,
   getInputData,
   toggleSearchResultModal,
-  getLocationPredictions
+  getLocationPredictions,
+  getSelectedAddress
 } from '../modules/home';
 
 const mapStateToProps = (state) => ({
@@ -19,6 +20,7 @@ const mapActionCreators = {
   getCurrentLocation,
   getInputData,
   toggleSearchResultModal,
-  getLocationPredictions
+  getLocationPredictions,
+  getSelectedAddress
 };
 export default connect(mapStateToProps, mapActionCreators)(Home)

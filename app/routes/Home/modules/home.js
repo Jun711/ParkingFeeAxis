@@ -21,7 +21,8 @@ const {
   GET_CURRENT_LOCATION,
   GET_INPUT,
   TOGGLE_SEARCH_RESULT,
-  GET_LOCATION_PREDICTIONS
+  GET_LOCATION_PREDICTIONS,
+  GET_SELECTED_ADDRESS
 } = constants;
 
 //-------------------------------
@@ -43,7 +44,7 @@ export function getCurrentLocation() {
   }
 }
 
-// Get User Input
+// get User Input
 export function getInputData(payload) {
   return {
     type: GET_INPUT,
@@ -61,7 +62,7 @@ export function toggleSearchResultModal(payload) {
   }
 }
 
-// Get location suggestions from google place
+// get location suggestions from google place
 export function getLocationPredictions() {
   console.log('getLocationPredictions')
   return(dispatch, store) => {
@@ -77,6 +78,33 @@ export function getLocationPredictions() {
       })
       .catch((error) => console.error('GPlace prediction error: ', error))
   };
+}
+
+// get selected address
+export function getSelectedAddress(payload) {
+  return (dispatch, store) => {
+    RNGooglePlaces.lookUpPlaceByID(payload)
+      .then((result) => {
+        dispatch({
+          type: GET_SELECTED_ADDRESS,
+          payload: result
+        })
+      }
+      .then(() => {
+        // Get the distance and time
+        if (store().home.selectedAddress.selectedPickUp &&
+        store().home.selectedAddress.selectedDropOff) {
+          request.get('https://maps.googleapis.com/maps/api/distancematrix/json')
+            .query({
+              origins: store().home.selectedAddress.selectedPickUp.latitude + ',' + store().home.selectedAddress.selectedPickUp.longitude,
+              destinations: store().home.selectedAddress.selectedDropOff.latitude + ',' + store().home.selectedAddress.selectedDropOff.longitude,
+              mode: 'driving',
+              key: ''
+            })
+        }
+      }))
+      .catch((error) => console.log(error.message));
+  }
 }
 
 //-------------------------------
@@ -159,18 +187,32 @@ function handleGetLocationPredictions(state, action) {
   })
 }
 
+function handleGetSelectedAddress(state, action) {
+  console.log('handleGetSelectedAddress action: ', action)
+  let selectedTitle = state.resultTypes.pickUp? 'selectedPickUp': 'selectedDropOff';
+  return update(state, {
+    selectedAddress: {
+      [selectedTitle]: {
+        $set: action.payload
+      }
+    }
+  })
+}
+
 const ACTION_HANDLERS = {
   GET_CURRENT_LOCATION: handleGetCurrentLocation,
   GET_INPUT: handleGetInputData,
   TOGGLE_SEARCH_RESULT: handleToggleSearchResult,
   GET_LOCATION_PREDICTIONS: handleGetLocationPredictions,
+  GET_SELECTED_ADDRESS: handleGetSelectedAddress,
 }
 
 // initialization
 const initialState = {
   region: {},
   inputData: {},
-  resultTypes: {}
+  resultTypes: {},
+  selectedAddress: {}
 };
 
 export function HomeReducer (state = initialState, action) {

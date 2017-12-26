@@ -5,6 +5,7 @@ import {Container} from 'native-base'
 import MapContainer from './MapContainer';
 import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent';
 import FooterComponent from '../../../components/FooterComponent/FooterComponent';
+import FloatingActionButton from './FloatingActionButton/FloatingActionButton';
 
 const {width, height} = Dimensions.get('window');
 
@@ -49,6 +50,7 @@ class Home extends React.Component {
             selectedAddress={this.props.selectedAddress}
           />
         }
+        <FloatingActionButton />
         <FooterComponent/>
       </Container>
     )

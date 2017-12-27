@@ -50,7 +50,9 @@ class Home extends React.Component {
             selectedAddress={this.props.selectedAddress}
           />
         }
-        <FloatingActionButton />
+        <FloatingActionButton
+          onPressAction={this.props.getCurrentLocation}
+        />
         <FooterComponent/>
       </Container>
     )

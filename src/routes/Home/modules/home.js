@@ -31,7 +31,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 //Actions
 //-------------------------------
 export function getCurrentLocation() {
-  console.log('getCurrentLocation')
+  console.log('getCurrentLocation dispatch action')
   return (dispatch) => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -68,6 +68,7 @@ export function toggleSearchResultModal(payload) {
 export function getLocationPredictions() {
   console.log('getLocationPredictions')
   return(dispatch, store) => {
+    console.log('store: ', store, ' store(): ', store());
     let userInput = store().home.resultTypes.pickUp? store().home.inputData.pickUp: store().home.inputData.dropOff;
     RNGooglePlaces.getAutocompletePredictions(userInput, {
       country: 'CA'

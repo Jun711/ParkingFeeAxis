@@ -31,7 +31,37 @@ const ASPECT_RATIO = width / height
 const LATITUDE_DELTA = 0.020
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
+//-------------------------------
+// Utility function
+//-------------------------------
+function getLocationPermission() {
+  console.log('getLocationPermission')
+  try {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        'title': 'Parking App Camera Permission',
+        'message': 'Parking App needs access to your location ' +
+        'to locate nearby parking.'
+      }
+    ).then((suc, err) => {
+      if (suc) {
+        console.log("You can access the location")
+      } else {
+        console.log("Location permission denied")
+      }
+    })
+    // console.log('granted: ', granted);
 
+    // if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    //   console.log("You can access the location")
+    // } else {
+    //   console.log("Location permission denied")
+    // }
+  } catch (err) {
+    console.error('getLocationPermission: ', err);
+  }
+}
 
 
 //-------------------------------

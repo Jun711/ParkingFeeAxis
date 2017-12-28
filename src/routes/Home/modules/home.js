@@ -76,7 +76,13 @@ export function getCurrentLocation() {
             payload: position
           });
         },
-        (error) => console.log('getCurrentLocation: ', error.message),
+        (error) => {
+          dispatch({
+            type: GETTING_CURRENT_LOCATION,
+            payload: false
+          });
+          console.log('getCurrentLocation: ', error.message)
+        },
         {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
       )
     } else {

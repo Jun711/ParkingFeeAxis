@@ -2,7 +2,7 @@ import React from 'react';
 import {AppRegistry, View, Text, StyleSheet, Dimensions} from 'react-native';
 
 import {Container} from 'native-base'
-import MapContainer from './MapContainer';
+import MapContainer from './MapContainer/MapContainer';
 import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent';
 import FooterComponent from '../../../components/FooterComponent/FooterComponent';
 import FloatingActionButton from './FloatingActionButton/FloatingActionButton';

@@ -24,6 +24,7 @@ class Home extends React.Component {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA,
     };
+    this.props.checkLocationPermission();
     this.props.getCurrentLocation();
   }
 

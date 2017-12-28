@@ -2,14 +2,18 @@
 
 import update from 'react-addons-update';
 import constants from './actionConstants';
-import {Dimensions} from 'react-native';
+import {PermissionsAndroid, Dimensions} from 'react-native';
 import RNGooglePlaces from 'react-native-google-places';
 import request from '../../../util/request';
+
 
 //-------------------------------
 //Constants
 //-------------------------------
 const {
+  // CHECK_LOCATION_PERMISSION,
+  GET_LOCATION_PERMISSION,
+  SET_LOCATION_PERMISSION,
   GET_CURRENT_LOCATION,
   GET_INPUT,
   TOGGLE_SEARCH_RESULT,
@@ -30,8 +34,34 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 //-------------------------------
 //Actions
 //-------------------------------
+export function checkLocationPermission() {
+  return (dispatch) => {
+    PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+      .then((suc, err) => {
+        if (suc) {
+          dispatch({
+            type: SET_LOCATION_PERMISSION,
+            payload: suc
+          });
+        } else {
+          dispatch({
+            type: GET_LOCATION_PERMISSION,
+          });
+        }
+      })
+      .catch((error) => console.error('PermissionsAndroid error: ', error))
+  }
+}
+
+export function getLocationPermission() {
+
+}
+
 export function getCurrentLocation() {
-  console.log('getCurrentLocation dispatch action')
+  console.log('PermissionsAndroid.PERMISSIONS: ', PermissionsAndroid.PERMISSIONS);
+  console.log('getCurrentLocation dispatch action');
+  // checkLocationPermission();
+
   return (dispatch) => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -121,6 +151,22 @@ export function getSelectedAddress(payload) {
 //-------------------------------
 //Action Handlers
 //-------------------------------
+function handleGetLocationPermission(state, action) {
+  return update(state, {
+    locationPermission: {
+      $set: action.payload
+    }
+  })
+}
+
+function handleSetLocationPermission(state, action) {
+  return update(state, {
+    locationPermission: {
+      $set: action.payload
+    }
+  })
+}
+
 function handleGetCurrentLocation(state, action) {
   return update(state, {
     region: {
@@ -230,18 +276,21 @@ function handleGetDistanceMatrix(state, action) {
 
 
 const ACTION_HANDLERS = {
+  GET_LOCATION_PERMISSION: handleGetLocationPermission,
+  SET_LOCATION_PERMISSION: handleSetLocationPermission,
   GET_CURRENT_LOCATION: handleGetCurrentLocation,
   GET_INPUT: handleGetInputData,
   TOGGLE_SEARCH_RESULT: handleToggleSearchResult,
   GET_LOCATION_PREDICTIONS: handleGetLocationPredictions,
   GET_SELECTED_ADDRESS: handleGetSelectedAddress,
-  GET_DISTANCE_MATRIX: handleGetDistanceMatrix
+  GET_DISTANCE_MATRIX: handleGetDistanceMatrix,
 }
 
 //-------------------------------
 // Initialization
 //-------------------------------
 const initialState = {
+  locationPermission: false,
   region: {},
   inputData: {},
   resultTypes: {},

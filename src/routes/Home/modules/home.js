@@ -6,7 +6,6 @@ import {PermissionsAndroid, Dimensions} from 'react-native';
 import RNGooglePlaces from 'react-native-google-places';
 import request from '../../../util/request';
 
-
 //-------------------------------
 //Constants
 //-------------------------------
@@ -20,7 +19,8 @@ const {
   TOGGLE_SEARCH_RESULT,
   GET_LOCATION_PREDICTIONS,
   GET_SELECTED_ADDRESS,
-  GET_DISTANCE_MATRIX
+  GET_DISTANCE_MATRIX,
+  UPDATE_CENTER_MARKER
 } = constants;
 
 const {width, height} = Dimensions.get('window')
@@ -32,36 +32,35 @@ const LATITUDE_DELTA = 0.020
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 
+
+
 //-------------------------------
-//Actions
+// Actions
 //-------------------------------
 export function checkLocationPermission() {
   return (dispatch) => {
     PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
       .then((suc, err) => {
         if (suc) {
+          // getLocationPermission();
           dispatch({
             type: SET_LOCATION_PERMISSION,
             payload: suc
           });
         } else {
-          dispatch({
-            type: GET_LOCATION_PERMISSION,
-          });
+          getLocationPermission();
+          // dispatch({
+          //   type: GET_LOCATION_PERMISSION,
+          // });
         }
       })
       .catch((error) => console.error('PermissionsAndroid error: ', error))
   }
 }
 
-export function getLocationPermission() {
-
-}
-
 export function getCurrentLocation() {
   console.log('PermissionsAndroid.PERMISSIONS: ', PermissionsAndroid.PERMISSIONS);
   console.log('getCurrentLocation dispatch action');
-  // checkLocationPermission();
 
   return (dispatch, store) => {
     if (!store().home.gettingCurrentLocation) {
@@ -81,7 +80,8 @@ export function getCurrentLocation() {
             type: GETTING_CURRENT_LOCATION,
             payload: false
           });
-          console.log('getCurrentLocation: ', error.message)
+          console.log('getCurrentLocation error: ', error)
+          // TODO: can display a toast informing users what error
         },
         {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
       )
@@ -160,6 +160,15 @@ export function getSelectedAddress(payload) {
         }
       })
       .catch((error) => console.log(error.message));
+  }
+}
+
+// map region changes
+export function handleRegionChangeComplete(payload) {
+  console.log('payload: ', payload);
+  return {
+    type: UPDATE_CENTER_MARKER,
+    payload
   }
 }
 
@@ -301,6 +310,10 @@ function handleGetDistanceMatrix(state, action) {
 
 }
 
+function handleUpdateCenterMarker(state, action) {
+  return update(state, {})
+}
+
 
 const ACTION_HANDLERS = {
   GETTING_CURRENT_LOCATION: handleGettingCurrentLocation,
@@ -312,6 +325,7 @@ const ACTION_HANDLERS = {
   GET_LOCATION_PREDICTIONS: handleGetLocationPredictions,
   GET_SELECTED_ADDRESS: handleGetSelectedAddress,
   GET_DISTANCE_MATRIX: handleGetDistanceMatrix,
+  UPDATE_CENTER_MARKER: handleUpdateCenterMarker
 }
 
 //-------------------------------
@@ -320,7 +334,12 @@ const ACTION_HANDLERS = {
 const initialState = {
   gettingCurrentLocation: false,
   locationPermission: false,
-  region: {},
+  region: {
+    latitude: 49.2820,
+    longitude: -123.1171,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
+  },
   inputData: {},
   resultTypes: {},
   selectedAddress: {}

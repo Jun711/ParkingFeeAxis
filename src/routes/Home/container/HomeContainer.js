@@ -2,12 +2,13 @@ import {connect} from 'react-redux';
 import Home from '../components/Home';
 import {
   checkLocationPermission,
-  getLocationPermission,
+  // getLocationPermission,
   getCurrentLocation,
   getInputData,
   toggleSearchResultModal,
   getLocationPredictions,
   getSelectedAddress,
+  handleRegionChangeComplete
 } from '../modules/home';
 
 const mapStateToProps = (state) => ({
@@ -22,11 +23,12 @@ const mapStateToProps = (state) => ({
 // so that the component knows these actions exist
 const mapActionCreators = {
   checkLocationPermission,
-  getLocationPermission,
+  // getLocationPermission,
   getCurrentLocation,
   getInputData,
   toggleSearchResultModal,
   getLocationPredictions,
-  getSelectedAddress
+  getSelectedAddress,
+  handleRegionChangeComplete
 };
 export default connect(mapStateToProps, mapActionCreators)(Home)

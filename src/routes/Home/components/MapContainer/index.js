@@ -14,24 +14,29 @@ export const MapContainer = ({
                                resultTypes,
                                predictions,
                                getSelectedAddress,
-                               selectedAddress
+                               selectedAddress,
+                               handleRegionChangeComplete
                              }) => {
 
   return (
     <View style={styles.container}>
-      <MapView
+      <MapView.Animated
+        showsUserLocation={false}
+        showsMyLocationButton={true}
+        loadingEnabled={true}
         provider={MapView.PROVIDER_GOOGLE}
         style={styles.map}
         region={region}
+        onRegionChangeComplete={(event)=> handleRegionChangeComplete(event)}
       >
-        <MapView.Marker
+        <MapView.Marker.Animated
           coordinate={region}
           pinColor='blue'>
           <View style={styles.radius}>
             <View style={styles.marker} />
           </View>
-        </MapView.Marker>
-      </MapView>
+        </MapView.Marker.Animated>
+      </MapView.Animated>
       <SearchBox
         getInputData={getInputData}
         toggleSearchResultModal={toggleSearchResultModal}

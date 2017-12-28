@@ -16,26 +16,20 @@ const LATITUDE_DELTA = 0.020
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class Home extends React.Component {
-  
+
   componentDidMount() {
-    this.props.region = {
-      latitude: 49.2820,
-      longitude: -123.1171,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
-    };
+    // console.log('this.props.onRegionChangeComplete: ', this.props.onRegionChangeComplete.bind(this))
+    // console.log('this.props.getSelectedAddress: ', this.props.getSelectedAddress.bind(this))
     this.props.checkLocationPermission();
-    this.props.getCurrentLocation();
+    // this.props.getCurrentLocation();
   }
 
-  render() {
-    let region = {
-      latitude: 49.2820,
-      longitude: -123.1171,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
-    }
+  // componentWillMount() {
+  //   setTimeout(() => this.forceUpdate(), 500);
+  // }
 
+
+  render() {
     return(
       <Container>
         <HeaderComponent />
@@ -49,6 +43,7 @@ class Home extends React.Component {
             predictions={this.props.predictions}
             getSelectedAddress={this.props.getSelectedAddress}
             selectedAddress={this.props.selectedAddress}
+            handleRegionChangeComplete={this.props.handleRegionChangeComplete}
           />
         }
         <FloatingActionButton

@@ -7,7 +7,7 @@ import {
   getInputData,
   toggleSearchResultModal,
   getLocationPredictions,
-  getSelectedAddress
+  getSelectedAddress,
 } from '../modules/home';
 
 const mapStateToProps = (state) => ({

@@ -14,6 +14,7 @@ const {
   // CHECK_LOCATION_PERMISSION,
   GET_LOCATION_PERMISSION,
   SET_LOCATION_PERMISSION,
+  GETTING_CURRENT_LOCATION,
   GET_CURRENT_LOCATION,
   GET_INPUT,
   TOGGLE_SEARCH_RESULT,
@@ -62,17 +63,25 @@ export function getCurrentLocation() {
   console.log('getCurrentLocation dispatch action');
   // checkLocationPermission();
 
-  return (dispatch) => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        dispatch({
-          type: GET_CURRENT_LOCATION,
-          payload: position
-        });
-      },
-      (error) => console.log('getCurrentLocation: ', error.message),
-      {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
-    )
+  return (dispatch, store) => {
+    if (!store().home.gettingCurrentLocation) {
+      dispatch({
+        type: GETTING_CURRENT_LOCATION,
+        payload: true
+      });
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          dispatch({
+            type: GET_CURRENT_LOCATION,
+            payload: position
+          });
+        },
+        (error) => console.log('getCurrentLocation: ', error.message),
+        {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
+      )
+    } else {
+      // TODO: can display a toast saying getting current location
+    }
   }
 }
 
@@ -167,6 +176,15 @@ function handleSetLocationPermission(state, action) {
   })
 }
 
+function handleGettingCurrentLocation(state, action) {
+  console.log('handleGettingCurrentLocation state: ', state);
+  return update(state, {
+    gettingCurrentLocation: {
+      $set: action.payload
+    }
+  })
+}
+
 function handleGetCurrentLocation(state, action) {
   return update(state, {
     region: {
@@ -182,6 +200,9 @@ function handleGetCurrentLocation(state, action) {
       longitudeDelta: {
         $set: LONGITUDE_DELTA
       },
+    },
+    gettingLocationPermission: {
+      $set: false
     }
   })
 }
@@ -276,6 +297,7 @@ function handleGetDistanceMatrix(state, action) {
 
 
 const ACTION_HANDLERS = {
+  GETTING_CURRENT_LOCATION: handleGettingCurrentLocation,
   GET_LOCATION_PERMISSION: handleGetLocationPermission,
   SET_LOCATION_PERMISSION: handleSetLocationPermission,
   GET_CURRENT_LOCATION: handleGetCurrentLocation,
@@ -290,6 +312,7 @@ const ACTION_HANDLERS = {
 // Initialization
 //-------------------------------
 const initialState = {
+  gettingCurrentLocation: false,
   locationPermission: false,
   region: {},
   inputData: {},

@@ -4,11 +4,7 @@ import {View, Button} from 'native-base';
 
 import styles from './FloatingActionButtonStyles';
 
-export const FloatingActionButton = ({onPressAction}) => {
-  function getCurrentLocation() {
-    onPressAction();
-  }
-
+export const FloatingActionButton = ({getCurrentLocation}) => {
   return (
     <Button style={styles.fabContainer} onPress={() => getCurrentLocation()} />
   )

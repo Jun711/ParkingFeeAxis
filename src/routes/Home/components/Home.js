@@ -6,6 +6,7 @@ import MapContainer from './MapContainer/MapContainer';
 import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent';
 import FooterComponent from '../../../components/FooterComponent/FooterComponent';
 import FloatingActionButton from './FloatingActionButton/FloatingActionButton';
+import FloatingCenterMarker from './FloatingCenterMarker/FloatingCenterMarker';
 
 const {width, height} = Dimensions.get('window');
 
@@ -35,7 +36,9 @@ class Home extends React.Component {
         <HeaderComponent />
         {this.props.region.latitude &&
           <MapContainer
+            userCoord={this.props.userCoord}
             region={this.props.region}
+            // displayCentreMarker={this.props.displayCentreMarker}
             getInputData={this.props.getInputData}
             toggleSearchResultModal={this.props.toggleSearchResultModal}
             getLocationPredictions={this.props.getLocationPredictions}
@@ -46,9 +49,10 @@ class Home extends React.Component {
             handleRegionChangeComplete={this.props.handleRegionChangeComplete}
           />
         }
-        <FloatingActionButton
-          onPressAction={this.props.getCurrentLocation}
-        />
+        {this.props.displayCentreMarker &&
+          <FloatingCenterMarker displayCentreCoord={this.props.displayCentreCoord} />
+        }
+        <FloatingActionButton getCurrentLocation={this.props.getCurrentLocation} />
         <FooterComponent/>
       </Container>
     )

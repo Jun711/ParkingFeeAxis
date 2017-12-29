@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text} from 'react-native';
 import {View, List, ListItem, Left, Body} from 'native-base';
-import styles from './SearchResultsStyles.js';
+import styles from './SearchResultsStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export const SearchResults = ({predictions, getSelectedAddress})=> {

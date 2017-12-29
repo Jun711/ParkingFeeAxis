@@ -1,7 +1,7 @@
 import React from 'react'
 import {Text} from 'react-native'
 import {View, InputGroup, Input} from 'native-base'
-import styles from './SearchBoxStyles.js'
+import styles from './SearchBoxStyles'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 export const SearchBox = ({getInputData, toggleSearchResultModal, getLocationPredictions, selectedAddress})=> {

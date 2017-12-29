@@ -4,10 +4,12 @@ import MapView from 'react-native-maps';
 
 import SearchBox from '../SearchBox/SearchBox';
 import SearchResults from '../SearchResults/SearchResults';
-import styles from './MapContainerStyles.js';
+import styles from './MapContainerStyles';
 
 export const MapContainer = ({
+                               userCoord,
                                region,
+                               displayCentreMarker,
                                getInputData,
                                toggleSearchResultModal,
                                getLocationPredictions,
@@ -30,12 +32,18 @@ export const MapContainer = ({
         onRegionChangeComplete={(event)=> handleRegionChangeComplete(event)}
       >
         <MapView.Marker.Animated
-          coordinate={region}
+          coordinate={userCoord}
           pinColor='blue'>
-          <View style={styles.radius}>
+          {/*<View style={styles.radius}>*/}
             <View style={styles.marker} />
-          </View>
+          {/*</View>*/}
         </MapView.Marker.Animated>
+        {/*{displayCentreMarker &&*/}
+          {/*<MapView.Marker.Animated*/}
+            {/*coordinate={region}>*/}
+            {/*<View style={styles.centreMarker} />*/}
+          {/*</MapView.Marker.Animated>*/}
+        {/*}*/}
       </MapView.Animated>
       <SearchBox
         getInputData={getInputData}

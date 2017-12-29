@@ -21,14 +21,23 @@ const styles = {
     justifyContent: 'center'
   },
   marker: {
-    height: 20,
-    width: 20,
-    borderRadius: 20/2,
-    borderWidth: 3,
+    height: 15,
+    width: 15,
+    borderRadius: 15/2,
+    borderWidth: 1,
     borderColor: 'white',
     overflow: 'hidden',
     backgroundColor: 'rgb(0, 122, 255)'
-  }
+  },
+  centreMarker: {
+    height: 15,
+    width: 15,
+    borderRadius: 15/2,
+    borderWidth: 1,
+    borderColor: 'white',
+    overflow: 'hidden',
+    backgroundColor: 'rgb(0, 122, 122)'
+  },
 }
 
 export default styles;

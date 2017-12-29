@@ -20,7 +20,8 @@ const {
   GET_LOCATION_PREDICTIONS,
   GET_SELECTED_ADDRESS,
   GET_DISTANCE_MATRIX,
-  UPDATE_CENTER_MARKER
+  UPDATE_CENTER_MARKER,
+  HANDLE_CENTRE_COORD
 } = constants;
 
 const {width, height} = Dimensions.get('window')
@@ -116,6 +117,7 @@ export function getCurrentLocation() {
         {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
       )
     } else {
+      console.log('it is gettingCurrentLocation');
       // TODO: can display a toast saying getting current location
     }
   }
@@ -195,9 +197,20 @@ export function getSelectedAddress(payload) {
 
 // map region changes
 export function handleRegionChangeComplete(payload) {
-  console.log('payload: ', payload);
+  // console.log('payload: ', payload);
+  return (dispatch, store) => {
+    console.log('store center coord: ', store().home.region)
+    dispatch({
+      type: UPDATE_CENTER_MARKER,
+      payload
+    })
+  }
+}
+
+// display centre coordinates
+export function displayCentreCoord(payload) {
   return {
-    type: UPDATE_CENTER_MARKER,
+    type: HANDLE_CENTRE_COORD,
     payload
   }
 }
@@ -246,7 +259,24 @@ function handleGetCurrentLocation(state, action) {
         $set: LONGITUDE_DELTA
       },
     },
-    gettingLocationPermission: {
+    userCoord: {
+      latitude: {
+        $set: action.payload.coords.latitude
+      },
+      longitude: {
+        $set: action.payload.coords.longitude
+      },
+      latitudeDelta: {
+        $set: LATITUDE_DELTA
+      },
+      longitudeDelta: {
+        $set: LONGITUDE_DELTA
+      },
+    },
+    gettingCurrentLocation: {
+      $set: false
+    },
+    displayCentreMarker: {
       $set: false
     }
   })
@@ -341,7 +371,35 @@ function handleGetDistanceMatrix(state, action) {
 }
 
 function handleUpdateCenterMarker(state, action) {
-  return update(state, {})
+  // console.log('handleUpdateCenterMarker arguments: ', arguments)
+  // console.log('handleUpdateCenterMarker state: ', state)
+
+  let actionLat = action.payload.latitude
+  let actionLon = action.payload.longitude
+  let stateLat = state.userCoord.latitude
+  let stateLon = state.userCoord.longitude
+
+  const isUserAtCentre = (stateLat.toFixed(5) ===  actionLat.toFixed(5) && stateLon.toFixed(5) ===  actionLon.toFixed(5))? false: true;
+  // const isUserAtCentre = false
+  return update(state, {
+    region: {
+      latitude: {
+        $set: actionLat
+      },
+      longitude: {
+        $set: actionLon
+      },
+      latitudeDelta: {
+        $set: LATITUDE_DELTA
+      },
+      longitudeDelta: {
+        $set: LONGITUDE_DELTA
+      },
+    },
+    displayCentreMarker: {
+      $set: isUserAtCentre
+    }
+  })
 }
 
 
@@ -364,6 +422,13 @@ const ACTION_HANDLERS = {
 const initialState = {
   gettingCurrentLocation: false,
   locationPermission: false,
+  displayCentreMarker: false,
+  userCoord: {
+    latitude: 49.2820,
+    longitude: -123.1171,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
+  },
   region: {
     latitude: 49.2820,
     longitude: -123.1171,

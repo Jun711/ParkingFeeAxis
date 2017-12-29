@@ -8,11 +8,14 @@ import {
   toggleSearchResultModal,
   getLocationPredictions,
   getSelectedAddress,
-  handleRegionChangeComplete
+  handleRegionChangeComplete,
+  displayCentreCoord
 } from '../modules/home';
 
 const mapStateToProps = (state) => ({
+  displayCentreMarker: state.home.displayCentreMarker || false,
   locationPermission: state.home.locationPermission || false,
+  userCoord: state.home.userCoord,
   region: state.home.region,
   inputData: state.home.inputData || {},
   resultTypes: state.home.resultTypes || {},
@@ -29,6 +32,7 @@ const mapActionCreators = {
   toggleSearchResultModal,
   getLocationPredictions,
   getSelectedAddress,
-  handleRegionChangeComplete
+  handleRegionChangeComplete,
+  displayCentreCoord
 };
 export default connect(mapStateToProps, mapActionCreators)(Home)

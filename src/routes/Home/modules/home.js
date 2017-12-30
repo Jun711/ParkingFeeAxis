@@ -373,7 +373,7 @@ function handleGetDistanceMatrix(state, action) {
 function handleUpdateCenterMarker(state, action) {
   // console.log('handleUpdateCenterMarker arguments: ', arguments)
   // console.log('handleUpdateCenterMarker state: ', state)
-
+  console.log('action.payload: ', action.payload)
   let actionLat = action.payload.latitude
   let actionLon = action.payload.longitude
   let stateLat = state.userCoord.latitude
@@ -390,10 +390,10 @@ function handleUpdateCenterMarker(state, action) {
         $set: actionLon
       },
       latitudeDelta: {
-        $set: LATITUDE_DELTA
+        $set: action.payload.latitudeDelta
       },
       longitudeDelta: {
-        $set: LONGITUDE_DELTA
+        $set: action.payload.longitudeDelta
       },
     },
     displayCentreMarker: {

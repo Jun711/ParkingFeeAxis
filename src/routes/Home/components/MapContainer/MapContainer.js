@@ -30,6 +30,7 @@ export const MapContainer = ({
         style={styles.map}
         region={region}
         onRegionChangeComplete={(event)=> handleRegionChangeComplete(event)}
+        customMapStyle={styles.mapStyle}
       >
         <MapView.Marker.Animated
           coordinate={userCoord}

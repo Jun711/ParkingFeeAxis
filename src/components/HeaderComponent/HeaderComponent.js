@@ -3,7 +3,7 @@ import {Text, Image} from 'react-native';
 import {Header, Left, Body, Right, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './HeaderComponentStyles';
-const logo = require('../../images/shuriken.png');
+const logo = require('../../assets/shuriken.png');
 
 export const HeaderComponent = () => {
     return (

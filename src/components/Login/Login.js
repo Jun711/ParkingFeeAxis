@@ -10,7 +10,7 @@ export default class Login extends Component {
         <View style={styles.logoContainer}>
           <Image
             style={styles.logo}
-            source={require('../../images/shuriken.png')}
+            source={require('../../assets/shuriken.png')}
           />
           <Text style={styles.title}>Shuriken Login Page</Text>
         </View>

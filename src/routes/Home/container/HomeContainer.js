@@ -20,7 +20,8 @@ const mapStateToProps = (state) => ({
   inputData: state.home.inputData || {},
   resultTypes: state.home.resultTypes || {},
   predictions: state.home.predictions || [],
-  selectedAddress: state.home.selectedAddress || {}
+  selectedAddress: state.home.selectedAddress || {},
+  nearbyParkingSpots: state.home.nearbyParkingSpots || [],
 })
 
 // so that the component knows these actions exist

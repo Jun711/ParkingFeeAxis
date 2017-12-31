@@ -19,8 +19,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 class Home extends React.Component {
 
   componentDidMount() {
-    // console.log('this.props.onRegionChangeComplete: ', this.props.onRegionChangeComplete.bind(this))
-    // console.log('this.props.getSelectedAddress: ', this.props.getSelectedAddress.bind(this))
     this.props.checkLocationPermission();
     // this.props.getCurrentLocation();
   }
@@ -28,7 +26,6 @@ class Home extends React.Component {
   // componentWillMount() {
   //   setTimeout(() => this.forceUpdate(), 500);
   // }
-
 
   render() {
     return(
@@ -47,6 +44,7 @@ class Home extends React.Component {
             getSelectedAddress={this.props.getSelectedAddress}
             selectedAddress={this.props.selectedAddress}
             handleRegionChangeComplete={this.props.handleRegionChangeComplete}
+            nearbyParkingSpots={this.props.nearbyParkingSpots}
           />
         }
         {this.props.displayCentreMarker &&

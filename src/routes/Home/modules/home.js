@@ -5,6 +5,8 @@ import constants from './actionConstants';
 import {PermissionsAndroid, Dimensions} from 'react-native';
 import RNGooglePlaces from 'react-native-google-places';
 import request from '../../../util/request';
+import parkingSpots from '../../../assets/data/parkingSpots'
+
 
 //-------------------------------
 //Constants
@@ -361,7 +363,6 @@ function handleGetSelectedAddress(state, action) {
 }
 
 function handleGetDistanceMatrix(state, action) {
-  // console.log('handleGetDistanceMatrix set: ', $set);
   return update(state, {
     distanceMatrix: {
       $set: action.payload
@@ -371,16 +372,12 @@ function handleGetDistanceMatrix(state, action) {
 }
 
 function handleUpdateCenterMarker(state, action) {
-  // console.log('handleUpdateCenterMarker arguments: ', arguments)
-  // console.log('handleUpdateCenterMarker state: ', state)
-  console.log('action.payload: ', action.payload)
   let actionLat = action.payload.latitude
   let actionLon = action.payload.longitude
   let stateLat = state.userCoord.latitude
   let stateLon = state.userCoord.longitude
 
-  const isUserAtCentre = (stateLat.toFixed(5) ===  actionLat.toFixed(5) && stateLon.toFixed(5) ===  actionLon.toFixed(5))? false: true;
-  // const isUserAtCentre = false
+  const isUserAtCentre = (stateLat.toFixed(6) ===  actionLat.toFixed(6) && stateLon.toFixed(6) ===  actionLon.toFixed(6))? false: true;
   return update(state, {
     region: {
       latitude: {
@@ -398,6 +395,9 @@ function handleUpdateCenterMarker(state, action) {
     },
     displayCentreMarker: {
       $set: isUserAtCentre
+    },
+    nearbyParkingSpots: {
+      $set: parkingSpots
     }
   })
 }
@@ -437,7 +437,8 @@ const initialState = {
   },
   inputData: {},
   resultTypes: {},
-  selectedAddress: {}
+  selectedAddress: {},
+  nearbyParkingSpots: parkingSpots,
 };
 
 export function HomeReducer (state = initialState, action) {

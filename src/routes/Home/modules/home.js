@@ -23,7 +23,8 @@ const {
   GET_SELECTED_ADDRESS,
   GET_DISTANCE_MATRIX,
   UPDATE_CENTER_MARKER,
-  HANDLE_CENTRE_COORD
+  HANDLE_CENTRE_COORD,
+  DISPLAY_NEARBY_PARKING_SPOTS,
 } = constants;
 
 const {width, height} = Dimensions.get('window')
@@ -173,11 +174,9 @@ export function getSelectedAddress(payload) {
         })
       })
       .then(() => {
-        console.log('GET_DISTANCE_MATRIX then')
         // Get the distance and time
         if (store().home.selectedAddress.selectedPickUp &&
         store().home.selectedAddress.selectedDropOff) {
-          console.log('GET_DISTANCE_MATRIX within if?')
           request.get('https://maps.googleapis.com/maps/api/distancematrix/json')
             .query({
               origins: store().home.selectedAddress.selectedPickUp.latitude + ',' + store().home.selectedAddress.selectedPickUp.longitude,
@@ -197,23 +196,30 @@ export function getSelectedAddress(payload) {
   }
 }
 
-// map region changes
+// update map region and get nearby parking spots
 export function handleRegionChangeComplete(payload) {
-  // console.log('payload: ', payload);
   return (dispatch, store) => {
-    console.log('store center coord: ', store().home.region)
     dispatch({
       type: UPDATE_CENTER_MARKER,
       payload
     })
-  }
-}
+    request.get('http://192.168.1.82:3000/api/parkingSpots')
+      .query({
+        latitude: payload.latitude,
+        longitude: payload.longitude
+      })
+      .finish((err, res) => {
+        if (err) {
+          // TODO: display error
+          console.log('parkingSpots req err: ', err);
+        } else {
+          dispatch({
+            type: DISPLAY_NEARBY_PARKING_SPOTS,
+            payload: res.body
+          })
+        }
+      })
 
-// display centre coordinates
-export function displayCentreCoord(payload) {
-  return {
-    type: HANDLE_CENTRE_COORD,
-    payload
   }
 }
 
@@ -368,14 +374,13 @@ function handleGetDistanceMatrix(state, action) {
       $set: action.payload
     }
   })
-
 }
 
 function handleUpdateCenterMarker(state, action) {
-  let actionLat = action.payload.latitude
-  let actionLon = action.payload.longitude
-  let stateLat = state.userCoord.latitude
-  let stateLon = state.userCoord.longitude
+  let actionLat = action.payload.latitude;
+  let actionLon = action.payload.longitude;
+  let stateLat = state.userCoord.latitude;
+  let stateLon = state.userCoord.longitude;
 
   const isUserAtCentre = (stateLat.toFixed(6) ===  actionLat.toFixed(6) && stateLon.toFixed(6) ===  actionLon.toFixed(6))? false: true;
   return update(state, {
@@ -396,10 +401,20 @@ function handleUpdateCenterMarker(state, action) {
     displayCentreMarker: {
       $set: isUserAtCentre
     },
+  })
+}
+
+function handleDisplayNearbyParkingSpots(state, action) {
+  let centreLat = action.payload.latitude;
+  let centreLon = action.payload.longitude;
+
+
+
+  return update(state, {
     nearbyParkingSpots: {
       $set: parkingSpots
     }
-  })
+  });
 }
 
 
@@ -413,7 +428,8 @@ const ACTION_HANDLERS = {
   GET_LOCATION_PREDICTIONS: handleGetLocationPredictions,
   GET_SELECTED_ADDRESS: handleGetSelectedAddress,
   GET_DISTANCE_MATRIX: handleGetDistanceMatrix,
-  UPDATE_CENTER_MARKER: handleUpdateCenterMarker
+  UPDATE_CENTER_MARKER: handleUpdateCenterMarker,
+  DISPLAY_NEARBY_PARKING_SPOTS: handleDisplayNearbyParkingSpots,
 }
 
 //-------------------------------

@@ -5,8 +5,8 @@ import constants from './actionConstants';
 import {PermissionsAndroid, Dimensions} from 'react-native';
 import RNGooglePlaces from 'react-native-google-places';
 import request from '../../../util/request';
-import parkingSpots from '../../../assets/data/parkingSpots'
-
+import parkingSpots from '../../../assets/data/parkingSpots';
+import { PARKING_SERVER_URL } from '../../../util/constants';
 
 //-------------------------------
 //Constants
@@ -203,7 +203,8 @@ export function handleRegionChangeComplete(payload) {
       type: UPDATE_CENTER_MARKER,
       payload
     })
-    request.get('http://192.168.1.82:3000/api/parkingSpots')
+    console.log('PARKING_SERVER_URL: ', PARKING_SERVER_URL)
+    request.get(PARKING_SERVER_URL)
       .query({
         latitude: payload.latitude,
         longitude: payload.longitude
@@ -211,8 +212,9 @@ export function handleRegionChangeComplete(payload) {
       .finish((err, res) => {
         if (err) {
           // TODO: display error
-          console.log('parkingSpots req err: ', err);
+          // console.log('parkingSpots req err: ', err);
         } else {
+          console.log('res: ', res.body)
           dispatch({
             type: DISPLAY_NEARBY_PARKING_SPOTS,
             payload: res.body
@@ -409,10 +411,11 @@ function handleDisplayNearbyParkingSpots(state, action) {
   let centreLon = action.payload.longitude;
 
 
-
+  console.log('handleDisplayNearbyParkingSpots action payload: ', action)
+  console.log('parkingSpots: ', parkingSpots)
   return update(state, {
     nearbyParkingSpots: {
-      $set: parkingSpots
+      $set: action.payload
     }
   });
 }

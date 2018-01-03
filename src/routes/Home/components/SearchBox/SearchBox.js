@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import {Text} from 'react-native'
-import {View, InputGroup, Input} from 'native-base'
+import React, { Component } from 'react'
+import { Text } from 'react-native'
+import { View, InputGroup, Input } from 'native-base'
 import styles from './SearchBoxStyles'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -22,7 +22,7 @@ export default class SearchBox extends Component {
   }
 
   render() {
-    return(
+    return (
       <View style={styles.searchBox}>
         <View style={styles.inputWrapper}>
           <Text style={styles.label}>PICK UP</Text>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View } from 'native-base';
 import MapView from 'react-native-maps';
 
@@ -32,31 +32,33 @@ export const MapContainer = ({
         provider={MapView.PROVIDER_GOOGLE}
         style={styles.map}
         region={region}
-        onRegionChangeComplete={(event)=> handleRegionChangeComplete(event)}
+        onRegionChangeComplete={(event) => handleRegionChangeComplete(event)}
         customMapStyle={styles.mapStyle}
       >
         <MapView.Marker.Animated
           coordinate={userCoord}
           pinColor='blue'>
           <View style={styles.radius}>
-            <View style={styles.marker} />
+            <View style={styles.marker}/>
           </View>
         </MapView.Marker.Animated>
         {/*{displayCentreMarker &&*/}
-          {/*<MapView.Marker.Animated*/}
-            {/*coordinate={region}>*/}
-            {/*<View style={styles.centreMarker} />*/}
-          {/*</MapView.Marker.Animated>*/}
+        {/*<MapView.Marker.Animated*/}
+        {/*coordinate={region}>*/}
+        {/*<View style={styles.centreMarker} />*/}
+        {/*</MapView.Marker.Animated>*/}
         {/*}*/}
         {
           nearbyParkingSpots && nearbyParkingSpots.map((parkingSpot, index) => {
-            return(<MapView.Marker.Animated
+            return (<MapView.Marker.Animated
               key={index}
               coordinate={{
                 latitude: parkingSpot.geometry.coordinates[1],
                 longitude: parkingSpot.geometry.coordinates[0]
               }}
-              image={parkingSpotPin}
+              title={parkingSpot.properties.description}
+              pinColor='blue'
+              // image={parkingSpotPin}
             />)
           })
         }
@@ -67,11 +69,11 @@ export const MapContainer = ({
         getLocationPredictions={getLocationPredictions}
         selectedAddress={selectedAddress}
       />
-      { (resultTypes.pickUp || resultTypes.dropOff)  &&
-        <SearchResults
-          predictions={predictions}
-          getSelectedAddress={getSelectedAddress}
-        />
+      {(resultTypes.pickUp || resultTypes.dropOff) &&
+      <SearchResults
+        predictions={predictions}
+        getSelectedAddress={getSelectedAddress}
+      />
       }
     </View>
   )

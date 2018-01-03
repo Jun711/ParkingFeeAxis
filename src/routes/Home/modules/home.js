@@ -1,12 +1,16 @@
 // contains actions and handlers
-
 import update from 'react-addons-update';
 import constants from './actionConstants';
-import {PermissionsAndroid, Dimensions} from 'react-native';
+import { PermissionsAndroid, Dimensions } from 'react-native';
 import RNGooglePlaces from 'react-native-google-places';
 import request from '../../../util/request';
 import parkingSpots from '../../../assets/data/parkingSpots';
-import { PARKING_SERVER_URL } from '../../../util/constants';
+import {
+  PARKING_SERVER_URL,
+  LATITUDE_DELTA,
+  PERMISSION_REQ_TITLE,
+  PERMISSION_REQ_MSG
+} from '../../../util/constants';
 
 //-------------------------------
 //Constants
@@ -29,11 +33,10 @@ const {
 
 const {width, height} = Dimensions.get('window')
 
-const SCREEN_HEIGHT = height
-const SCREEN_WIDTH = width
-const ASPECT_RATIO = width / height
-const LATITUDE_DELTA = 0.020
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+const SCREEN_HEIGHT = height;
+const SCREEN_WIDTH = width;
+const ASPECT_RATIO = width / height;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 //-------------------------------
 // Utility function
@@ -44,9 +47,8 @@ function getLocationPermission() {
     PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
-        'title': 'Parking App Camera Permission',
-        'message': 'Parking App needs access to your location ' +
-        'to locate nearby parking.'
+        'title': PERMISSION_REQ_TITLE,
+        'message': PERMISSION_REQ_MSG
       }
     ).then((suc, err) => {
       if (suc) {
@@ -55,18 +57,10 @@ function getLocationPermission() {
         console.log("Location permission denied")
       }
     })
-    // console.log('granted: ', granted);
-
-    // if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-    //   console.log("You can access the location")
-    // } else {
-    //   console.log("Location permission denied")
-    // }
   } catch (err) {
     console.error('getLocationPermission: ', err);
   }
 }
-
 
 //-------------------------------
 // Actions
@@ -126,7 +120,7 @@ export function getCurrentLocation() {
   }
 }
 
-// get User Input
+// get user's input
 export function getInputData(payload) {
   return {
     type: GET_INPUT,
@@ -147,9 +141,9 @@ export function toggleSearchResultModal(payload) {
 // get location suggestions from google place
 export function getLocationPredictions() {
   console.log('getLocationPredictions')
-  return(dispatch, store) => {
+  return (dispatch, store) => {
     console.log('store: ', store, ' store(): ', store());
-    let userInput = store().home.resultTypes.pickUp? store().home.inputData.pickUp: store().home.inputData.dropOff;
+    let userInput = store().home.resultTypes.pickUp ? store().home.inputData.pickUp : store().home.inputData.dropOff;
     RNGooglePlaces.getAutocompletePredictions(userInput, {
       country: 'CA'
     })
@@ -163,7 +157,7 @@ export function getLocationPredictions() {
   };
 }
 
-// get selected address
+// get selected address and do a distance matrix request
 export function getSelectedAddress(payload) {
   return (dispatch, store) => {
     RNGooglePlaces.lookUpPlaceByID(payload)
@@ -176,7 +170,7 @@ export function getSelectedAddress(payload) {
       .then(() => {
         // Get the distance and time
         if (store().home.selectedAddress.selectedPickUp &&
-        store().home.selectedAddress.selectedDropOff) {
+          store().home.selectedAddress.selectedDropOff) {
           request.get('https://maps.googleapis.com/maps/api/distancematrix/json')
             .query({
               origins: store().home.selectedAddress.selectedPickUp.latitude + ',' + store().home.selectedAddress.selectedPickUp.longitude,
@@ -228,6 +222,20 @@ export function handleRegionChangeComplete(payload) {
 //-------------------------------
 //Action Handlers
 //-------------------------------
+const ACTION_HANDLERS = {
+  GETTING_CURRENT_LOCATION: handleGettingCurrentLocation,
+  GET_LOCATION_PERMISSION: handleGetLocationPermission,
+  SET_LOCATION_PERMISSION: handleSetLocationPermission,
+  GET_CURRENT_LOCATION: handleGetCurrentLocation,
+  GET_INPUT: handleGetInputData,
+  TOGGLE_SEARCH_RESULT: handleToggleSearchResult,
+  GET_LOCATION_PREDICTIONS: handleGetLocationPredictions,
+  GET_SELECTED_ADDRESS: handleGetSelectedAddress,
+  GET_DISTANCE_MATRIX: handleGetDistanceMatrix,
+  UPDATE_CENTER_MARKER: handleUpdateCenterMarker,
+  DISPLAY_NEARBY_PARKING_SPOTS: handleDisplayNearbyParkingSpots,
+}
+
 function handleGetLocationPermission(state, action) {
   return update(state, {
     locationPermission: {
@@ -352,7 +360,7 @@ function handleGetLocationPredictions(state, action) {
 
 function handleGetSelectedAddress(state, action) {
   console.log('handleGetSelectedAddress action: ', action)
-  let selectedTitle = state.resultTypes.pickUp? 'selectedPickUp': 'selectedDropOff';
+  let selectedTitle = state.resultTypes.pickUp ? 'selectedPickUp' : 'selectedDropOff';
   return update(state, {
     selectedAddress: {
       [selectedTitle]: {
@@ -384,7 +392,7 @@ function handleUpdateCenterMarker(state, action) {
   let stateLat = state.userCoord.latitude;
   let stateLon = state.userCoord.longitude;
 
-  const isUserAtCentre = (stateLat.toFixed(6) ===  actionLat.toFixed(6) && stateLon.toFixed(6) ===  actionLon.toFixed(6))? false: true;
+  const isUserAtCentre = (stateLat.toFixed(6) === actionLat.toFixed(6) && stateLon.toFixed(6) === actionLon.toFixed(6)) ? false : true;
   return update(state, {
     region: {
       latitude: {
@@ -410,29 +418,11 @@ function handleDisplayNearbyParkingSpots(state, action) {
   let centreLat = action.payload.latitude;
   let centreLon = action.payload.longitude;
 
-
-  console.log('handleDisplayNearbyParkingSpots action payload: ', action)
-  console.log('parkingSpots: ', parkingSpots)
   return update(state, {
     nearbyParkingSpots: {
       $set: action.payload
     }
   });
-}
-
-
-const ACTION_HANDLERS = {
-  GETTING_CURRENT_LOCATION: handleGettingCurrentLocation,
-  GET_LOCATION_PERMISSION: handleGetLocationPermission,
-  SET_LOCATION_PERMISSION: handleSetLocationPermission,
-  GET_CURRENT_LOCATION: handleGetCurrentLocation,
-  GET_INPUT: handleGetInputData,
-  TOGGLE_SEARCH_RESULT: handleToggleSearchResult,
-  GET_LOCATION_PREDICTIONS: handleGetLocationPredictions,
-  GET_SELECTED_ADDRESS: handleGetSelectedAddress,
-  GET_DISTANCE_MATRIX: handleGetDistanceMatrix,
-  UPDATE_CENTER_MARKER: handleUpdateCenterMarker,
-  DISPLAY_NEARBY_PARKING_SPOTS: handleDisplayNearbyParkingSpots,
 }
 
 //-------------------------------
@@ -460,23 +450,8 @@ const initialState = {
   nearbyParkingSpots: parkingSpots,
 };
 
-export function HomeReducer (state = initialState, action) {
+export function HomeReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;
-}
-
-export function setTime() {
-  return {
-    type: SET_TIME,
-    payload: 'Now'
-  }
-}
-
-function handleSetTime(state, action) {
-  return update(state, {
-    time: {
-      $set: action.payload
-    }
-  })
 }

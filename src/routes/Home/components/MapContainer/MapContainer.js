@@ -40,10 +40,10 @@ export default class MapContainer extends Component {
               return (<MapView.Marker.Animated
                 key={index}
                 coordinate={{
-                  latitude: parkingSpot.geometry.geometries? parkingSpot.geometry.geometries[0].coordinates[1] : parkingSpot.geometry.coordinates[1],
-                  longitude: parkingSpot.geometry.geometries? parkingSpot.geometry.geometries[0].coordinates[0] : parkingSpot.geometry.coordinates[0]
+                  latitude: parkingSpot.geometry.geometries ? parkingSpot.geometry.geometries[0].coordinates[1] : parkingSpot.geometry.coordinates[1],
+                  longitude: parkingSpot.geometry.geometries ? parkingSpot.geometry.geometries[0].coordinates[0] : parkingSpot.geometry.coordinates[0]
                 }}
-                title={parkingSpot.properties.description}
+                description={parkingSpot.properties.description}
                 // pinColor='blue'
                 image={parkingSpotPin}
               />)

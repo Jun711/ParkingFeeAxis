@@ -9,7 +9,9 @@ import {
   getLocationPredictions,
   getSelectedAddress,
   handleRegionChangeComplete,
-  displayCentreCoord
+  displayCentreCoord,
+  onMarkerPressed,
+  onMapPressed,
 } from '../modules/home';
 
 const mapStateToProps = (state) => ({
@@ -34,6 +36,8 @@ const mapActionCreators = {
   getLocationPredictions,
   getSelectedAddress,
   handleRegionChangeComplete,
-  displayCentreCoord
+  displayCentreCoord,
+  onMarkerPressed,
+  onMapPressed,
 };
 export default connect(mapStateToProps, mapActionCreators)(Home)

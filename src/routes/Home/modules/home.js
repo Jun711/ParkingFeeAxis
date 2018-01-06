@@ -29,6 +29,8 @@ const {
   UPDATE_CENTER_MARKER,
   HANDLE_CENTRE_COORD,
   DISPLAY_NEARBY_PARKING_SPOTS,
+  SET_MARKER_PRESSED,
+  SET_MARKER_UNPRESSED,
 } = constants;
 
 const {width, height} = Dimensions.get('window')
@@ -111,7 +113,7 @@ export function getCurrentLocation() {
           console.log('getCurrentLocation error: ', error)
           // TODO: can display a toast informing users what error
         },
-        {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
+        { enableHighAccuracy: false, timeout: 25000, maximumAge: 1000 }
       )
     } else {
       console.log('it is gettingCurrentLocation');
@@ -193,28 +195,51 @@ export function getSelectedAddress(payload) {
 // update map region and get nearby parking spots
 export function handleRegionChangeComplete(payload) {
   return (dispatch, store) => {
+    if (store().home.calloutPressed) {
+      payload = { ...payload, notDisplayingMarker: true }
+    }
     dispatch({
       type: UPDATE_CENTER_MARKER,
       payload
     })
     console.log('PARKING_SERVER_URL: ', PARKING_SERVER_URL)
-    request.get(PARKING_SERVER_URL)
-      .query({
-        latitude: payload.latitude,
-        longitude: payload.longitude
-      })
-      .finish((err, res) => {
-        if (err) {
-          // TODO: display error
-          // console.log('parkingSpots req err: ', err);
-        } else {
-          console.log('res: ', res.body)
-          dispatch({
-            type: DISPLAY_NEARBY_PARKING_SPOTS,
-            payload: res.body
-          })
-        }
-      })
+    if (!store().home.calloutPressed) {
+      request.get(PARKING_SERVER_URL)
+        .query({
+          latitude: payload.latitude,
+          longitude: payload.longitude
+        })
+        .finish((err, res) => {
+          if (err) {
+            // TODO: display error
+            // console.log('parkingSpots req err: ', err);
+          } else {
+            console.log('res: ', res.body)
+            dispatch({
+              type: DISPLAY_NEARBY_PARKING_SPOTS,
+              payload: res.body
+            })
+          }
+        })
+    }
+  }
+}
+
+// handle marker press
+export function onMarkerPressed(payload) {
+  console.log('onMarkerPressed: ', payload)
+  return {
+    type: SET_MARKER_PRESSED,
+    payload
+  }
+}
+
+// handle map press
+export function onMapPressed(payload) {
+  console.log('onMarkerPressed: ', payload)
+  return {
+    type: SET_MARKER_UNPRESSED,
+    payload
   }
 }
 
@@ -233,6 +258,8 @@ const ACTION_HANDLERS = {
   GET_DISTANCE_MATRIX: handleGetDistanceMatrix,
   UPDATE_CENTER_MARKER: handleUpdateCenterMarker,
   DISPLAY_NEARBY_PARKING_SPOTS: handleDisplayNearbyParkingSpots,
+  SET_MARKER_PRESSED: handleSetMarkerPressed,
+  SET_MARKER_UNPRESSED: handleSetMarkerUnpressed,
 }
 
 function handleGetLocationPermission(state, action) {
@@ -391,7 +418,13 @@ function handleUpdateCenterMarker(state, action) {
   let stateLat = state.userCoord.latitude;
   let stateLon = state.userCoord.longitude;
 
-  const isUserAtCentre = (stateLat.toFixed(6) === actionLat.toFixed(6) && stateLon.toFixed(6) === actionLon.toFixed(6)) ? false : true;
+  let displayCenterMarker;
+  if (action.payload.notDisplayingMarker) {
+    displayCenterMarker = false;
+  } else {
+    displayCenterMarker = (stateLat.toFixed(6) === actionLat.toFixed(6) && stateLon.toFixed(6) === actionLon.toFixed(6)) ? false : true;
+  }
+
   return update(state, {
     region: {
       latitude: {
@@ -408,7 +441,7 @@ function handleUpdateCenterMarker(state, action) {
       },
     },
     displayCentreMarker: {
-      $set: isUserAtCentre
+      $set: displayCenterMarker
     },
   })
 }
@@ -426,6 +459,7 @@ function filterParkingSpot(state, parkingSpots) {
   return newParkingSpots;
 }
 
+// merge parking spots local data and data from server
 function handleDisplayNearbyParkingSpots(state, action) {
   let centreLat = action.payload.latitude;
   let centreLon = action.payload.longitude;
@@ -439,13 +473,36 @@ function handleDisplayNearbyParkingSpots(state, action) {
   });
 }
 
+function handleSetMarkerPressed(state, action) {
+  return update(state, {
+    calloutPressed: {
+      $set: true
+    },
+    displayCentreMarker: {
+      $set: false
+    }
+  })
+}
+
+function handleSetMarkerUnpressed(state, action) {
+  return update(state, {
+    calloutPressed: {
+      $set: false
+    },
+    displayCentreMarker: {
+      $set: true
+    }
+  })
+}
+
 //-------------------------------
 // Initialization
 //-------------------------------
 const initialState = {
+  calloutPressed: false,
   gettingCurrentLocation: false,
   locationPermission: false,
-  displayCentreMarker: false,
+  displayCentreMarker: true,
   userCoord: {
     latitude: 49.2820,
     longitude: -123.1171,

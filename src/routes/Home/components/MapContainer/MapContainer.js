@@ -8,7 +8,6 @@ import SearchResults from '../SearchResults/SearchResults';
 import MapCallout from '../MapCallout/MapCallout';
 
 import styles from './MapContainerStyles';
-
 const parkingSpotPin = require('../../../../assets/parking-icon.png');
 
 export default class MapContainer extends Component {
@@ -24,12 +23,16 @@ export default class MapContainer extends Component {
           showsUserLocation={false}
           showsMyLocationButton={true}
           loadingEnabled={true}
+          // scrollEnabled={false}
+          rotateEnabled={false}
+          moveOnMarkerPress={false}
           loadingIndicatorColor={'#746855'}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.map}
           region={this.props.region}
           onRegionChangeComplete={(event) => this.props.handleRegionChangeComplete(event)}
           customMapStyle={styles.mapStyle}
+          onPress={(event) => this.props.onMapPressed(event.nativeEvent)}
         >
           <MapView.Marker.Animated
             coordinate={this.props.userCoord}
@@ -50,9 +53,9 @@ export default class MapContainer extends Component {
                 description={parkingSpot.properties.description}
                 // pinColor='blue'
                 image={parkingSpotPin}
+                onPress={(event)=> this.props.onMarkerPressed(event.nativeEvent)}
               >
-                <MapView.Callout>
-                  {/*<Text>Meter{'\n'}Id</Text>*/}
+                <MapView.Callout tooltip={true} >
                   <MapCallout
                     text={parkingSpot.properties.description}
                   />

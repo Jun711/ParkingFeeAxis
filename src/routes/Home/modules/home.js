@@ -215,7 +215,6 @@ export function handleRegionChangeComplete(payload) {
           })
         }
       })
-
   }
 }
 
@@ -414,13 +413,28 @@ function handleUpdateCenterMarker(state, action) {
   })
 }
 
+// filter parking spots out if its ID already exists in parkingSpotIDSet
+function filterParkingSpot(state, parkingSpots) {
+  const newParkingSpots = parkingSpots.filter((parkingSpot) => {
+    if (state.parkingSpotIDSet && state.parkingSpotIDSet.has(parkingSpot.id)) {
+      return false;
+    } else {
+      state.parkingSpotIDSet.add(parkingSpot.id)
+      return true;
+    }
+  })
+  return newParkingSpots;
+}
+
 function handleDisplayNearbyParkingSpots(state, action) {
   let centreLat = action.payload.latitude;
   let centreLon = action.payload.longitude;
 
+  const newParkingSpots = filterParkingSpot(state, action.payload)
+
   return update(state, {
     nearbyParkingSpots: {
-      $set: action.payload
+      $set: [...state.nearbyParkingSpots, ...newParkingSpots]
     }
   });
 }
@@ -447,7 +461,8 @@ const initialState = {
   inputData: {},
   resultTypes: {},
   selectedAddress: {},
-  nearbyParkingSpots: parkingSpots,
+  nearbyParkingSpots: [],
+  parkingSpotIDSet: new Set(),
 };
 
 export function HomeReducer(state = initialState, action) {

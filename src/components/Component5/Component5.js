@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {AppRegistry, Text, View, ListView, StyleSheet, TouchableHighlight} from 'react-native';
+import React, { Component } from 'react';
+import { AppRegistry, Text, View, ListView, StyleSheet, TouchableHighlight } from 'react-native';
 
 export default class Component5 extends Component {
   constructor() {
@@ -32,7 +32,9 @@ export default class Component5 extends Component {
 
   renderRow(user, sectionId, rowId, highlightRow) {
     return (
-      <TouchableHighlight onPress={() => {this.openDetail(user)}}>
+      <TouchableHighlight onPress={() => {
+        this.openDetail(user)
+      }}>
         <View style={styles.row}>
           <Text style={styles.rowText}>{user.name}: {user.email}</Text>
         </View>
@@ -41,7 +43,7 @@ export default class Component5 extends Component {
   }
 
   render() {
-    return(
+    return (
       <ListView
         dataSource={this.state.userDataSource}
         renderRow={this.renderRow.bind(this)}

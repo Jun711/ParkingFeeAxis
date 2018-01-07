@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   AppRegistry,
   View,
@@ -6,11 +6,12 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
-  StatusBar} from 'react-native';
+  StatusBar
+} from 'react-native';
 
 export default class myapp extends Component {
   render() {
-    return(
+    return (
       <View style={styles.container}>
         <StatusBar
           barStyle="light-content"

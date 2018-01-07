@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {AppRegistry, View, Text, StyleSheet, Image, KeyboardAvoidingView} from 'react-native';
+import React, { Component } from 'react';
+import { AppRegistry, View, Text, StyleSheet, Image, KeyboardAvoidingView } from 'react-native';
 import LoginForm from './LoginForm';
 
 export default class Login extends Component {
 
   render() {
-    return(
+    return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.logoContainer}>
           <Image
@@ -15,7 +15,7 @@ export default class Login extends Component {
           <Text style={styles.title}>Shuriken Login Page</Text>
         </View>
         <View style={styles.formContainer}>
-          <LoginForm />
+          <LoginForm/>
         </View>
       </KeyboardAvoidingView>
     );

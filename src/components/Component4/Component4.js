@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {AppRegistry, Text, View, ListView, StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import { AppRegistry, Text, View, ListView, StyleSheet } from 'react-native';
 
 const users = [
   {name: 'Ironman'},
@@ -26,7 +26,7 @@ export default class Component4 extends Component {
   }
 
   render() {
-    return(
+    return (
       <ListView
         dataSource={this.state.userDataSource}
         renderRow={this.renderRow.bind(this)}

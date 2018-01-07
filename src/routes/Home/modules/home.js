@@ -113,7 +113,7 @@ export function getCurrentLocation() {
           console.log('getCurrentLocation error: ', error)
           // TODO: can display a toast informing users what error
         },
-        { enableHighAccuracy: false, timeout: 25000, maximumAge: 1000 }
+        {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
       )
     } else {
       console.log('it is gettingCurrentLocation');
@@ -196,7 +196,7 @@ export function getSelectedAddress(payload) {
 export function handleRegionChangeComplete(payload) {
   return (dispatch, store) => {
     if (store().home.calloutPressed) {
-      payload = { ...payload, notDisplayingMarker: true }
+      payload = {...payload, notDisplayingMarker: true}
     }
     dispatch({
       type: UPDATE_CENTER_MARKER,

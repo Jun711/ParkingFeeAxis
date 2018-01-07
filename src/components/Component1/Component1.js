@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {AppRegistry, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { AppRegistry, Text, View } from 'react-native';
 
 export default class Component1 extends Component {
   constructor(props) {
@@ -16,8 +16,8 @@ export default class Component1 extends Component {
   }
 
   render() {
-    let name = this.state.showName? this.state.name: 'No name';
-    return(
+    let name = this.state.showName ? this.state.name : 'No name';
+    return (
       <View>
         <Text>{this.state.message}</Text>
         <Text>{name}</Text>

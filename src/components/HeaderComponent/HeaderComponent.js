@@ -8,7 +8,7 @@ const logo = require('../../assets/shuriken.png');
 
 export const HeaderComponent = () => {
   return (
-    <Header style={{backgroundColor: "#FF5E3A"}} iosBarStyle="light-content" androidStatusBarColor="#FF5E3A">
+    <Header style={styles.container} iosBarStyle="light-content" androidStatusBarColor="#FF5E3A">
       <Left style={{flex: 1}}>
         <Button transparent>
           <Icon name="bars" style={styles.icon}/>

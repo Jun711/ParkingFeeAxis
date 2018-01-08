@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {AppRegistry, View, Text, StyleSheet, Dimensions} from 'react-native';
+import React, { Component } from 'react';
+import { AppRegistry, View, Text, StyleSheet, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 
 const {width, height} = Dimensions.get('window');
@@ -38,19 +38,19 @@ export default class Map extends Component {
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition((position) => {
-      var lat = parseFloat(position.coords.latitude)
-      var long = parseFloat(position.coords.longitude)
+        var lat = parseFloat(position.coords.latitude)
+        var long = parseFloat(position.coords.longitude)
 
-      var initialRegion = {
-        latitude: lat,
-        longitude: long,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      }
+        var initialRegion = {
+          latitude: lat,
+          longitude: long,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        }
 
-      this.setState({initialPosition: initialRegion})
-      this.setState({markerPosition: initialRegion})
-    }, (error) => alert(JSON.stringify(error)),
+        this.setState({initialPosition: initialRegion})
+        this.setState({markerPosition: initialRegion})
+      }, (error) => alert(JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 10000, maximumAge: 1000})
 
     // watcher
@@ -77,7 +77,7 @@ export default class Map extends Component {
   render() {
     // const { region } = this.props;
     // console.log(region);
-    return(
+    return (
       <MapView
         style={styles.map}
         region={this.state.initialPosition}>
@@ -85,7 +85,7 @@ export default class Map extends Component {
           draggable
           coordinate={this.state.markerPosition}>
           <View style={styles.radius}>
-            <View style={styles.marker} />
+            <View style={styles.marker}/>
           </View>
         </MapView.Marker>
       </MapView>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   radius: {
     height: 50,
     width: 50,
-    borderRadius: 50/2,
+    borderRadius: 50 / 2,
     overflow: 'hidden',
     backgroundColor: 'rgba(0, 122, 255, 0.1)',
     borderWidth: 1,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   marker: {
     height: 20,
     width: 20,
-    borderRadius: 20/2,
+    borderRadius: 20 / 2,
     borderWidth: 3,
     borderColor: 'white',
     overflow: 'hidden',

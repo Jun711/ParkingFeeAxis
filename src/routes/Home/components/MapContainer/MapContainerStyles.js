@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = {
   container: {
@@ -12,7 +12,7 @@ const styles = {
   radius: {
     height: 50,
     width: 50,
-    borderRadius: 50/2,
+    borderRadius: 50 / 2,
     overflow: 'hidden',
     backgroundColor: 'rgba(0, 122, 255, 0.1)',
     borderWidth: 1,
@@ -23,7 +23,7 @@ const styles = {
   marker: {
     height: 15,
     width: 15,
-    borderRadius: 15/2,
+    borderRadius: 15 / 2,
     borderWidth: 1,
     borderColor: 'white',
     overflow: 'hidden',
@@ -32,7 +32,7 @@ const styles = {
   centreMarker: {
     height: 15,
     width: 15,
-    borderRadius: 15/2,
+    borderRadius: 15 / 2,
     borderWidth: 1,
     borderColor: 'white',
     overflow: 'hidden',

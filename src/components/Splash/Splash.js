@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {AppRegistry, View, Text, StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import { AppRegistry, View, Text, StyleSheet } from 'react-native';
 
 export default class Splash extends Component {
   render() {
-    return(
+    return (
       <View style={styles.wrapper}>
         <View style={styles.titleWrapper}>
           <Text style={styles.title}>Splash</Text>

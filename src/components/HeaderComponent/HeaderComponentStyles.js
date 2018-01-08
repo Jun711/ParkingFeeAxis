@@ -1,12 +1,13 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container:  {
-    backgroundColor: '#FF5E3A'
+  container: {
+    backgroundColor: '#38414e'
   },
   icon: {
     color: '#fff',
-    fontSize: 20
+    fontSize: 20,
+    alignSelf: 'center'
   },
   headerText: {
     color: '#fff',

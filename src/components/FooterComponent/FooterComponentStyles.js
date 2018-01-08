@@ -1,11 +1,18 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
+
 const styles = StyleSheet.create({
   footerContainer: {
-    backgroundColor: "#fff",
+    height: 40,
+    backgroundColor: '#38414e',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
-  subText: {
-    fontSize: 8,
-  }
+  icon: {
+    color: '#fff',
+    fontSize: 20,
+    marginRight: 10,
+  },
 })
 
 export default styles;

@@ -26,12 +26,12 @@ export default class MapContainer extends Component {
           // scrollEnabled={false}
           rotateEnabled={false}
           moveOnMarkerPress={false}
-          loadingIndicatorColor={'#746855'}
+          loadingIndicatorColor={'#515c6d'}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.map}
           region={this.props.region}
           onRegionChangeComplete={(event) => this.props.handleRegionChangeComplete(event)}
-          customMapStyle={styles.mapStyle}
+          // customMapStyle={styles.mapStyle}
           onPress={(event) => this.props.onMapPressed(event.nativeEvent)}
         >
           <MapView.Marker.Animated
@@ -64,18 +64,18 @@ export default class MapContainer extends Component {
             })
           }
         </MapView>
-        <SearchBox
-          getInputData={this.props.getInputData}
-          toggleSearchResultModal={this.props.toggleSearchResultModal}
-          getLocationPredictions={this.props.getLocationPredictions}
-          selectedAddress={this.props.selectedAddress}
-        />
-        {(this.props.resultTypes.pickUp || this.props.resultTypes.dropOff) &&
-        <SearchResults
-          predictions={this.props.predictions}
-          getSelectedAddress={this.props.getSelectedAddress}
-        />
-        }
+        {/*<SearchBox*/}
+          {/*getInputData={this.props.getInputData}*/}
+          {/*toggleSearchResultModal={this.props.toggleSearchResultModal}*/}
+          {/*getLocationPredictions={this.props.getLocationPredictions}*/}
+          {/*selectedAddress={this.props.selectedAddress}*/}
+        {/*/>*/}
+        {/*{(this.props.resultTypes.pickUp || this.props.resultTypes.dropOff) &&*/}
+        {/*<SearchResults*/}
+          {/*predictions={this.props.predictions}*/}
+          {/*getSelectedAddress={this.props.getSelectedAddress}*/}
+        {/*/>*/}
+        {/*}*/}
       </View>
     )
   }

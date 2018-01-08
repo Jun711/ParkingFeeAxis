@@ -1,10 +1,9 @@
 const styles = {
   fabContainer: {
     borderColor: '#fff',
-    borderWidth: 1,
-    height: 20,
-    width: 20,
-    borderRadius: 10,
+    height: 30,
+    width: 30,
+    borderRadius: 30 / 2,
     justifyContent: 'center',
     position: 'absolute',
     bottom: 100,
@@ -16,17 +15,11 @@ const styles = {
       height: 1,
       width: 0
     },
-    backgroundColor:'#FF5E3A'
+    backgroundColor:'#fff'
   },
-  disabledState:{
-    backgroundColor: '#D7D7D7',
-  },
-  activeState: {
-    backgroundColor:'#FF5E3A',
-  },
-  amount:{
-    fontWeight:'bold',
-    fontSize: 12
+  icon: {
+    color: '#38414e',
+    fontSize: 15
   }
 };
 

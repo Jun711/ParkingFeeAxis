@@ -233,8 +233,13 @@ export function handleRegionChangeComplete(payload) {
       payload
     })
     console.log('PARKING_SERVER_URL: ', PARKING_SERVER_URL)
+    dispatch({
+      type: DISPLAY_NEARBY_PARKING_SPOTS,
+      payload: parkingSpots
+    })
     if (!store().home.calloutPressed) {
       console.log('request PARKING_SERVER_URL: ', payload)
+      console.log('req query', request.query)
       request
         .get(PARKING_SERVER_URL)
         .query({
@@ -501,7 +506,8 @@ function handleDisplayNearbyParkingSpots(state, action) {
 
   return update(state, {
     nearbyParkingSpots: {
-      $set: [...state.nearbyParkingSpots, ...newParkingSpots]
+      // $set: [...state.nearbyParkingSpots, ...newParkingSpots]
+      $set: parkingSpots
     }
   });
 }

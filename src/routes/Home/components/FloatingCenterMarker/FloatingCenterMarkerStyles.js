@@ -6,7 +6,7 @@ const styles = {
     borderWidth: 1,
     borderColor: 'white',
     overflow: 'hidden',
-    backgroundColor: 'rgb(0, 122, 122)',
+    backgroundColor: '#515c6d',
     justifyContent: "center",
     position: "absolute",
     left: '50%',

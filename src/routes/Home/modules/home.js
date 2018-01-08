@@ -1,7 +1,7 @@
 // contains actions and handlers
 import update from 'react-addons-update';
 import constants from './actionConstants';
-import { PermissionsAndroid, Dimensions } from 'react-native';
+import { PermissionsAndroid, Dimensions, ToastAndroid } from 'react-native';
 import RNGooglePlaces from 'react-native-google-places';
 import request from '../../../util/request';
 import parkingSpots from '../../../assets/data/parkingSpots';
@@ -9,7 +9,12 @@ import {
   PARKING_SERVER_URL,
   LATITUDE_DELTA,
   PERMISSION_REQ_TITLE,
-  PERMISSION_REQ_MSG
+  PERMISSION_REQ_MSG,
+  TOAST_HEADER_Y_OFFSET,
+  TOAST_HEADER_X_OFFSET,
+  LOCATION_ERROR_MSG_ONE,
+  LOCATION_ERROR_MSG_TWO,
+  LOCATION_ERROR_DEFAULT_MSG
 } from '../../../util/constants';
 
 //-------------------------------
@@ -31,6 +36,7 @@ const {
   DISPLAY_NEARBY_PARKING_SPOTS,
   SET_MARKER_PRESSED,
   SET_MARKER_UNPRESSED,
+  SHOW_TOAST,
 } = constants;
 
 const {width, height} = Dimensions.get('window')
@@ -88,11 +94,38 @@ export function checkLocationPermission() {
   }
 }
 
+function displayLocationErrorToast(errorCode, dispatch) {
+  let errorText;
+  switch (errorCode) {
+    case 1:
+      errorText = LOCATION_ERROR_MSG_ONE;
+      break;
+    case 2:
+      errorText = LOCATION_ERROR_MSG_TWO;
+      break;
+    default:
+      errorText = LOCATION_ERROR_DEFAULT_MSG;
+  }
+
+  dispatch({
+    type: SHOW_TOAST,
+    payload: {
+      text: errorText
+    }
+  });
+}
+
 export function getCurrentLocation() {
-  console.log('PermissionsAndroid.PERMISSIONS: ', PermissionsAndroid.PERMISSIONS);
   console.log('getCurrentLocation dispatch action');
 
   return (dispatch, store) => {
+    dispatch({
+      type: SHOW_TOAST,
+      payload: {
+        text: 'Getting current location.'
+      }
+    });
+
     if (!store().home.gettingCurrentLocation) {
       dispatch({
         type: GETTING_CURRENT_LOCATION,
@@ -111,13 +144,10 @@ export function getCurrentLocation() {
             payload: false
           });
           console.log('getCurrentLocation error: ', error)
-          // TODO: can display a toast informing users what error
+          displayLocationErrorToast(error.code, dispatch);
         },
         {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
       )
-    } else {
-      console.log('it is gettingCurrentLocation');
-      // TODO: can display a toast saying getting current location
     }
   }
 }
@@ -204,7 +234,9 @@ export function handleRegionChangeComplete(payload) {
     })
     console.log('PARKING_SERVER_URL: ', PARKING_SERVER_URL)
     if (!store().home.calloutPressed) {
-      request.get(PARKING_SERVER_URL)
+      console.log('request PARKING_SERVER_URL: ', payload)
+      request
+        .get(PARKING_SERVER_URL)
         .query({
           latitude: payload.latitude,
           longitude: payload.longitude
@@ -212,7 +244,7 @@ export function handleRegionChangeComplete(payload) {
         .finish((err, res) => {
           if (err) {
             // TODO: display error
-            // console.log('parkingSpots req err: ', err);
+            console.log('parkingSpots req err: ', err);
           } else {
             console.log('res: ', res.body)
             dispatch({
@@ -260,6 +292,7 @@ const ACTION_HANDLERS = {
   DISPLAY_NEARBY_PARKING_SPOTS: handleDisplayNearbyParkingSpots,
   SET_MARKER_PRESSED: handleSetMarkerPressed,
   SET_MARKER_UNPRESSED: handleSetMarkerUnpressed,
+  SHOW_TOAST: handleShowToast,
 }
 
 function handleGetLocationPermission(state, action) {
@@ -493,6 +526,17 @@ function handleSetMarkerUnpressed(state, action) {
       $set: true
     }
   })
+}
+
+function handleShowToast(state, action) {
+  ToastAndroid.showWithGravityAndOffset(
+    action.payload.text,
+    ToastAndroid.SHORT,
+    ToastAndroid.TOP,
+    TOAST_HEADER_X_OFFSET,
+    TOAST_HEADER_Y_OFFSET
+  );
+  return update(state, {})
 }
 
 //-------------------------------

@@ -1,5 +1,5 @@
 // contains actions and handlers
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import constants from './actionConstants';
 import { PermissionsAndroid, Dimensions, ToastAndroid } from 'react-native';
 import RNGooglePlaces from 'react-native-google-places';
@@ -14,7 +14,15 @@ import {
   TOAST_HEADER_X_OFFSET,
   LOCATION_ERROR_MSG_ONE,
   LOCATION_ERROR_MSG_TWO,
-  LOCATION_ERROR_DEFAULT_MSG
+  LOCATION_ERROR_DEFAULT_MSG,
+  WEEKDAY_9_6,
+  WEEKDAY_6_PLUS,
+  SAT_9_6,
+  SAT_6_PLUS,
+  SUN_9_6,
+  SUN_6_PLUS,
+  MIN_PARKING_RATE,
+  MAX_PARKING_RATE
 } from '../../../util/constants';
 
 //-------------------------------
@@ -232,14 +240,12 @@ export function handleRegionChangeComplete(payload) {
       type: UPDATE_CENTER_MARKER,
       payload
     })
-    console.log('PARKING_SERVER_URL: ', PARKING_SERVER_URL)
+
     dispatch({
       type: DISPLAY_NEARBY_PARKING_SPOTS,
       payload: parkingSpots
     })
     if (!store().home.calloutPressed) {
-      console.log('request PARKING_SERVER_URL: ', payload)
-      console.log('req query', request.query)
       request
         .get(PARKING_SERVER_URL)
         .query({
@@ -484,6 +490,112 @@ function handleUpdateCenterMarker(state, action) {
   })
 }
 
+function processText(text) {
+  let textArr = text.split('<br>');
+  let weekdayOfficeHourRate = 0;
+  let weekdayAfterOfficeRate = 0;
+  let satOfficeHourRate = 0;
+  let satAfterOfficeRate = 0;
+  let sunOfficeHourRate = 0;
+  let sunAfterOfficeRate = 0;
+  let doParsing = false;
+  let parseDone = false;
+
+  for (let i = 0; i < textArr.length; i++) {
+    if (textArr[i] && !textArr[i].endsWith('\n'))
+      textArr[i] += '\n';
+
+    if (!parseDone && textArr[i] && textArr[i].startsWith('Rates'))
+      doParsing = true;
+
+    if (textArr[i] && textArr[i].startsWith('Effect')) {
+      parseDone = true;
+      doParsing = false;
+    }
+
+    if (doParsing) {
+      if (textArr[i] && textArr[i].startsWith('M-F 9AM'))
+        weekdayOfficeHourRate = textArr[i].substr(-5, 5).trim();
+
+      if (textArr[i] && textArr[i].startsWith('M-F 6PM'))
+        weekdayAfterOfficeRate = textArr[i].substr(-5, 5).trim();
+
+      if (textArr[i] && textArr[i].startsWith('SAT 9AM'))
+        satOfficeHourRate = textArr[i].substr(-5, 5).trim();
+
+      if (textArr[i] && textArr[i].startsWith('SAT 6PM'))
+        satAfterOfficeRate = textArr[i].substr(-5, 5).trim();
+
+      if (textArr[i] && textArr[i].startsWith('SUN 9AM'))
+        sunOfficeHourRate = textArr[i].substr(-5, 5).trim();
+
+      if (textArr[i] && textArr[i].startsWith('SUN 6PM'))
+        sunAfterOfficeRate = textArr[i].substr(-5, 5).trim();
+    }
+  }
+
+  let processedDescription = {
+    description: textArr.join('').trim(),
+    weekdayOfficeHourRate,
+    weekdayAfterOfficeRate,
+    satOfficeHourRate,
+    satAfterOfficeRate,
+    sunOfficeHourRate,
+    sunAfterOfficeRate,
+  }
+  return processedDescription
+}
+
+// determine current parking rate category
+function getPresent() {
+  let present = new Date();
+  console.log('current time: ', present.getHours())
+  console.log('current time: ', present.getDay())
+
+  if (present.getDay() == 0 && present.getHours() >= 9 && present.getHours() <= 18) {
+    return SUN_9_6;
+  } else if (present.getDay() == 0 && present.getHours() > 18 && present.getHours() <= 20) {
+    return SUN_6_PLUS;
+  } else if (present.getDay() == 6 && present.getHours() >= 9 && present.getHours() <= 18) {
+    return SAT_9_6;
+  } else if (present.getDay() == 6 && present.getHours() > 18 && present.getHours() <= 20) {
+    return SAT_6_PLUS;
+  } else if (present.getHours() >= 9 && present.getHours() <= 18) {
+    return WEEKDAY_9_6;
+  } else if (present.getHours() > 18 && present.getHours() <= 20) {
+    return WEEKDAY_6_PLUS;
+  } else {
+    return FREE_PARKING;
+  }
+}
+
+// process parking spot to display
+function processParkingSpotDesc(parkingSpots) {
+  let present = getPresent()
+  let lowestRate = 100;
+  let highestRate = -1;
+
+  for (let i = 0; i < parkingSpots.length; i++) {
+    if (parkingSpots[i] && parkingSpots[i].properties) {
+      let processedDescription = processText(parkingSpots[i].properties.description)
+
+      if (processedDescription[present] < lowestRate) {
+        lowestRate = processedDescription[present];
+      }
+
+      if (processedDescription[present] > highestRate) {
+        highestRate = processedDescription[present];
+      }
+
+      // maybe can use Object assign
+      parkingSpots[i].properties.description = processedDescription.description;
+      parkingSpots[i].properties.presentRate = processedDescription[present];
+    }
+  }
+
+  return { parkingSpots, lowestRate, highestRate };
+}
+
 // filter parking spots out if its ID already exists in parkingSpotIDSet
 function filterParkingSpot(state, parkingSpots) {
   const newParkingSpots = parkingSpots.filter((parkingSpot) => {
@@ -499,15 +611,19 @@ function filterParkingSpot(state, parkingSpots) {
 
 // merge parking spots local data and data from server
 function handleDisplayNearbyParkingSpots(state, action) {
-  let centreLat = action.payload.latitude;
-  let centreLon = action.payload.longitude;
-
-  const newParkingSpots = filterParkingSpot(state, action.payload)
+  let newParkingSpots = filterParkingSpot(state, action.payload);
+  let parkingSpots = [...state.nearbyParkingSpots, ...newParkingSpots]
+  let processedRes = processParkingSpotDesc(parkingSpots);
 
   return update(state, {
     nearbyParkingSpots: {
-      // $set: [...state.nearbyParkingSpots, ...newParkingSpots]
-      $set: parkingSpots
+      $set: processedRes.parkingSpots
+    },
+    lowestRate: {
+      $set: processedRes.lowestRate
+    },
+    highestRate: {
+      $set: processedRes.highestRate
     }
   });
 }
@@ -570,6 +686,8 @@ const initialState = {
   selectedAddress: {},
   nearbyParkingSpots: [],
   parkingSpotIDSet: new Set(),
+  lowestRate: MIN_PARKING_RATE,
+  highestRate: MAX_PARKING_RATE,
 };
 
 export function HomeReducer(state = initialState, action) {

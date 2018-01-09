@@ -10,7 +10,7 @@ export default class MapCallout extends Component {
     super(props);
     this.state = {...props};
   }
-  
+
   render() {
     return (
       <Text style={styles.mapCalloutText}

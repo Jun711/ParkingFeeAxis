@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Home from '../components/Home';
+import { MIN_PARKING_RATE, MAX_PARKING_RATE } from '../../../util/constants';
 import {
   checkLocationPermission,
   // getLocationPermission,
@@ -24,6 +25,8 @@ const mapStateToProps = (state) => ({
   predictions: state.home.predictions || [],
   selectedAddress: state.home.selectedAddress || {},
   nearbyParkingSpots: state.home.nearbyParkingSpots || [],
+  lowestRate: state.home.lowestRate || MIN_PARKING_RATE,
+  highestRate: state.home.highestRate || MAX_PARKING_RATE,
 })
 
 // so that the component knows these actions exist

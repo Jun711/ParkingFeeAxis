@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AppRegistry, View, StyleSheet, ScrollView } from 'react-native';
 import { Container } from 'native-base'
 import Brand from './Brand/Brand';
+import Info from './Info/Info';
 
 class About extends Component {
   render() {
@@ -9,6 +10,7 @@ class About extends Component {
       <View style={styles.container}>
         <ScrollView>
           <Brand />
+          <Info />
         </ScrollView>
       </View>
     )

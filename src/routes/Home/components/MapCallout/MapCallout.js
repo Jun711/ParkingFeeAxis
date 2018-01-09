@@ -10,29 +10,13 @@ export default class MapCallout extends Component {
     super(props);
     this.state = {...props};
   }
-
-  processText(text) {
-    let textArr = text.split('<br>');
-
-    for (let i = 0; i < textArr.length; i++) {
-      if (textArr[i] && !textArr[i].endsWith('\n'))
-        textArr[i] += '\n';
-    }
-
-    this.setState({text: textArr.join('').trim()})
-  }
-
-  componentWillMount() {
-    this.processText(this.props.text);
-  }
-
+  
   render() {
-    let calloutText = this.props.text ? this.state.text : CALLOUT_TEXT;
     return (
       <Text style={styles.mapCalloutText}
             selectable={true}
             adjustsFontSizeToFit={true}
-      >{calloutText}</Text>
+      >{this.props.text}</Text>
     )
   }
 }

@@ -8,10 +8,6 @@ import styles from './InfoStyles';
 
 export default class Info extends Component {
 
-  onPress(event) {
-    console.log('contact on press: ', event.nativeEvent)
-  }
-
   render() {
     console.log('InfoData: ', InfoData)
     return (
@@ -24,13 +20,16 @@ export default class Info extends Component {
                 <View style={styles.iconContainer}>
                   <Icon style={styles.infoIcon} name={item.icon}/>
                 </View>
-                <Text style={styles.infoItem} onPress={(event) => this.onPress(event)}>{item.name}</Text>
+                <Text style={styles.infoItem} onPress={(event) => this.props.openPage({
+                  event: event.nativeEvent,
+                  page: item.key
+                })}>{item.name}</Text>
               </View>)
           }
           renderSectionHeader={
             ({section}) => <Text style={styles.sectionTitle}>{section.sectionTitle}</Text>
           }
-          ItemSeparatorComponent={({section}) => <SeparatorComponent/>}
+          ItemSeparatorComponent={() => <SeparatorComponent/>}
         />
       </View>
     )

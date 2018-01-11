@@ -11,14 +11,14 @@ export default infoData = [
     sectionTitle: 'Love Ninja?',
     key: 'ninja',
     data: [
-      {key: 'contact2', name: 'whatsapp', icon: 'whatsapp'},
-      {key: 'faq2', name: 'linux', icon: 'linux'},
-      {key: 'contact2', name: 'twitter', icon: 'twitter'},
-      {key: 'faq2', name: 'facebook', icon: 'facebook'},
-      {key: 'contact2', name: 'linkedin', icon: 'linkedin'},
-      {key: 'faq2', name: 'github', icon: 'github'},
-      {key: 'contact2', name: 'skype', icon: 'skype'},
-      {key: 'faq2', name: 'weibo', icon: 'weibo'},
+      {key: 'whatsapp', name: 'whatsapp', icon: 'whatsapp'},
+      {key: 'linux', name: 'linux', icon: 'linux'},
+      {key: 'twitter', name: 'twitter', icon: 'twitter'},
+      {key: 'facebook', name: 'facebook', icon: 'facebook'},
+      {key: 'linkedin', name: 'linkedin', icon: 'linkedin'},
+      {key: 'github', name: 'github', icon: 'github'},
+      {key: 'skype', name: 'skype', icon: 'skype'},
+      {key: 'weibo', name: 'weibo', icon: 'weibo'},
     ]
   }
 ]

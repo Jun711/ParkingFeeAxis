@@ -7,12 +7,10 @@ import Info from './Info/Info';
 class About extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView>
-          <Brand />
-          <Info />
-        </ScrollView>
-      </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Brand/>
+        <Info openPage={this.props.openPage}/>
+      </ScrollView>
     )
   }
 }
@@ -23,8 +21,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
   }
 });
 

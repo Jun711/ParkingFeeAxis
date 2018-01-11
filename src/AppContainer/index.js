@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Alert, BackHandler } from 'react-native';
 import PropTypes from 'prop-types'
-import { Router } from 'react-native-router-flux'
+import { Actions, Router } from 'react-native-router-flux'
 
 import scenes from '../routes/scenes';
 
@@ -10,11 +11,42 @@ export default class AppContainer extends Component {
   static propTypes = {
     store: PropTypes.object.isRequired
   }
-  render(){
-    // console.log('this.props: ', this.props)
+
+  showExitAlert() {
+    Alert.alert(
+      'Shut Down',
+      'Do you want to shut down Ninja?',
+      [
+        {
+          text: 'Cancel', onPress: () => {
+          }, style: 'cancel'
+        },
+        {
+          text: 'Shut down', onPress: () => {
+            BackHandler.exitApp()
+          }
+        },
+      ],
+      {cancelable: false}
+    )
+  }
+
+  onBackPress() {
+    if (Actions.state.index !== 0) {
+      Actions.pop();
+      return true;
+    }
+    this.showExitAlert();
+    return true;
+  }
+
+  render() {
     return (
       <Provider store={this.props.store}>
-        <Router scenes={scenes} />
+        <Router
+          backAndroidHandler={this.onBackPress.bind(this)}
+          scenes={scenes}
+        />
       </Provider>
     );
   }

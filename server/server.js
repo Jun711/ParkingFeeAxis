@@ -5,13 +5,13 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var bookings = require('./routes/bookings');
 var parkingSpots = require('./routes/parkingSpots');
-var constant = require('./util/constants');
+var constants = require('./util/constants');
 
 var app = express();
 
-var port = constant.LISTENING_PORT;
+var port = constants.LISTENING_PORT;
 
-app.listen(port, function(){
+app.listen(port, function () {
   console.log('App is running on port ', port);
 })
 

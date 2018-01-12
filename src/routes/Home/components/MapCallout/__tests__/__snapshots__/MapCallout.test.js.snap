@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MapCallout /> MapCallout renders correctly 1`] = `
+<Text
+  accessible={true}
+  adjustsFontSizeToFit={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  selectable={true}
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "borderColor": "#000",
+      "borderWidth": 1,
+      "fontSize": 10,
+      "padding": 5,
+      "position": "relative",
+      "zIndex": 5,
+    }
+  }
+/>
+`;
+
+exports[`MapCallout renders correctly 1`] = `
+<Text
+  accessible={true}
+  adjustsFontSizeToFit={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  selectable={true}
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "borderColor": "#000",
+      "borderWidth": 1,
+      "fontSize": 10,
+      "padding": 5,
+      "position": "relative",
+      "zIndex": 5,
+    }
+  }
+/>
+`;

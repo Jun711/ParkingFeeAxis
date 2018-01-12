@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creates a LOAD_FAQ_LIST action 1`] = `
+Object {
+  "type": "LOAD_FAQ_LIST",
+}
+`;

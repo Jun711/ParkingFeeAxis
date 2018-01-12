@@ -22,7 +22,8 @@ import {
   SUN_9_6,
   SUN_6_PLUS,
   MIN_PARKING_RATE,
-  MAX_PARKING_RATE
+  MAX_PARKING_RATE,
+  FREE_PARKING,
 } from '../../../util/constants';
 
 //-------------------------------
@@ -241,10 +242,11 @@ export function handleRegionChangeComplete(payload) {
       payload
     })
 
-    dispatch({
-      type: DISPLAY_NEARBY_PARKING_SPOTS,
-      payload: parkingSpots
-    })
+    // // TODO
+    // dispatch({
+    //   type: DISPLAY_NEARBY_PARKING_SPOTS,
+    //   payload: parkingSpots
+    // })
     if (!store().home.calloutPressed) {
       request
         .get(PARKING_SERVER_URL)
@@ -543,14 +545,13 @@ function processText(text) {
     sunOfficeHourRate,
     sunAfterOfficeRate,
   }
+
   return processedDescription
 }
 
 // determine current parking rate category
 function getPresent() {
   let present = new Date();
-  console.log('current time: ', present.getHours())
-  console.log('current time: ', present.getDay())
 
   if (present.getDay() == 0 && present.getHours() >= 9 && present.getHours() <= 18) {
     return SUN_9_6;
@@ -570,13 +571,12 @@ function getPresent() {
 }
 
 // process parking spot to display
-function processParkingSpotDesc(parkingSpots) {
+function processParkingSpotDesc(parkingSpots, lowestRate, highestRate) {
   let present = getPresent()
-  let lowestRate = 100;
-  let highestRate = -1;
 
+  // TODO: handle FREE_PARKING
   for (let i = 0; i < parkingSpots.length; i++) {
-    if (parkingSpots[i] && parkingSpots[i].properties) {
+    if (!parkingSpots[i].processed && parkingSpots[i] && parkingSpots[i].properties) {
       let processedDescription = processText(parkingSpots[i].properties.description)
 
       if (processedDescription[present] < lowestRate) {
@@ -590,10 +590,11 @@ function processParkingSpotDesc(parkingSpots) {
       // maybe can use Object assign
       parkingSpots[i].properties.description = processedDescription.description;
       parkingSpots[i].properties.presentRate = processedDescription[present];
+      parkingSpots[i].processed = true;
     }
   }
 
-  return { parkingSpots, lowestRate, highestRate };
+  return {parkingSpots, lowestRate, highestRate};
 }
 
 // filter parking spots out if its ID already exists in parkingSpotIDSet
@@ -613,7 +614,7 @@ function filterParkingSpot(state, parkingSpots) {
 function handleDisplayNearbyParkingSpots(state, action) {
   let newParkingSpots = filterParkingSpot(state, action.payload);
   let parkingSpots = [...state.nearbyParkingSpots, ...newParkingSpots]
-  let processedRes = processParkingSpotDesc(parkingSpots);
+  let processedRes = processParkingSpotDesc(parkingSpots, state.lowestRate, state.highestRate);
 
   return update(state, {
     nearbyParkingSpots: {

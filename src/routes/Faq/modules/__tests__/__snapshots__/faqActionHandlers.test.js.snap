@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`handle LOAD_FAQ_LIST actions handles LOAD_FAQ_LIST success action 1`] = `
+Object {
+  "faqList": Array [
+    Object {
+      "key": "1",
+      "text": "This app allows you to find nearby meter parking spot by searching for a location or move the center flag to a location.",
+    },
+    Object {
+      "key": "2",
+      "text": "The markers / flags on the map indicate a meter parking spot.",
+    },
+    Object {
+      "key": "3",
+      "text": "There are three types of parking flags. Green is the cheapest, yellow is the average while red is the most expensive nearby parking meter rate.",
+    },
+    Object {
+      "key": "4",
+      "text": "If you pan around the map, you will discover parking meter around a center point.",
+    },
+    Object {
+      "key": "5",
+      "text": "This app parking meter data comes from Vancouver Open Data Catalogue.",
+    },
+    Object {
+      "key": "6",
+      "text": "This app requires location permission and gps to work.",
+    },
+    Object {
+      "key": "7",
+      "text": "If no parking spots show up nearby a specific location, it may mean that there is no meter parkings nearby.",
+    },
+    Object {
+      "key": "8",
+      "text": "Your location data is not collected by this app.",
+    },
+    Object {
+      "key": "9",
+      "text": "If you find any bug or anomaly, feel free to contact me at ninja@ninja.com.",
+    },
+    Object {
+      "key": "10",
+      "text": "If you would like to see more features, feel free to contact me at ninja@ninja.com.",
+    },
+  ],
+  "faqLoaded": true,
+}
+`;
+
+exports[`handle LOAD_FAQ_LIST actions handles LOAD_FAQ_LIST_ERROR action 1`] = `
+Object {
+  "faqList": undefined,
+  "faqLoaded": true,
+}
+`;
+
+exports[`handle LOAD_FAQ_LIST actions returns the same state on an unhandled action 1`] = `
+Object {
+  "faqList": undefined,
+  "faqLoaded": true,
+}
+`;

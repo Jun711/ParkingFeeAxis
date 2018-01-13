@@ -6,6 +6,9 @@ import {} from '../../../util/constants'
 import {
   PARKING_FAQS,
 } from '../../../util/constants'
+import {
+  handleLoadFaqList
+} from './faqActionHandlers'
 
 //-------------------------------
 //Constants
@@ -44,13 +47,16 @@ export function loadFaqList() {
 //-------------------------------
 //Action Handlers
 //-------------------------------
-const ACTION_HANDLERS = {}
+const ACTION_HANDLERS = {
+  LOAD_FAQ_LIST: handleLoadFaqList
+}
 
 //-------------------------------
 // Initialization
 //-------------------------------
 export const initialState = {
-  faqLoaded: false
+  faqLoaded: false,
+  faqList: []
 }
 
 export function FaqReducer(state = initialState, action) {

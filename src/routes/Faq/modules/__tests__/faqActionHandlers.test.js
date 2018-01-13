@@ -1,4 +1,4 @@
-import handleLoadFaqList from '../faqActionHandlers'
+import { handleLoadFaqList } from '../faqActionHandlers'
 import { initialState } from '../faq'
 import constants from '../actionConstants'
 import FaqData from '../../components/FaqList/FaqData'
@@ -19,7 +19,7 @@ describe(`handle ${LOAD_FAQ_LIST} actions`, () => {
   it('handles LOAD_FAQ_LIST success action', () => {
     expect(handleLoadFaqList(initialState, {type: LOAD_FAQ_LIST, payload: FaqData})).toEqual({
       ...initialState,
-      faqLoaded: false,
+      faqLoaded: true,
       faqList: FaqData
     })
 

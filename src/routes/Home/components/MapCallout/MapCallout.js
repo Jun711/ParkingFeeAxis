@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
-import { CALLOUT_TEXT } from '../../../../util/constants';
 
 import styles from './MapCalloutStyles';
 

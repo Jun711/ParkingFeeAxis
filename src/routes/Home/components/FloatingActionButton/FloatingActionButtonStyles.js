@@ -15,11 +15,12 @@ const styles = {
       height: 1,
       width: 0
     },
-    backgroundColor:'#fff'
+    backgroundColor: '#fff',
+    alignItems: 'center',
   },
   icon: {
-    color: '#38414e',
-    fontSize: 15
+    color: '#FF5E3A',
+    fontSize: 20
   }
 };
 

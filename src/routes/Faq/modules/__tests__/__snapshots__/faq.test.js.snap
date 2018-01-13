@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<FaqList /> should handle LOAD_FAQ_LIST failure action 1`] = `
+exports[`LOAD_FAQ_LIST action should handle LOAD_FAQ_LIST failure action 1`] = `
 Array [
   Object {
     "payload": [Error: error],
@@ -9,7 +9,7 @@ Array [
 ]
 `;
 
-exports[`<FaqList /> should handle LOAD_FAQ_LIST success action 1`] = `
+exports[`LOAD_FAQ_LIST action should handle LOAD_FAQ_LIST success action 1`] = `
 Array [
   Object {
     "payload": Object {

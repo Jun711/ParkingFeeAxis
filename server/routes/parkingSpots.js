@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var constant = require('../util/constants');
+var constants = require('../util/constants');
 
-var db = mongojs('constant.DB_PARKING', ['parkingSpots']);
+var db = mongojs(constants.DB_PARKING, ['parkingSpots']);
 
-// get nearby drivers
+// get nearby drivers within a radius
 router.get('/parkingSpots', function (req, res, next) {
-
   db.parkingSpots.createIndex({'geometry': '2dsphere'});
   db.parkingSpots.find({
     'geometry': {
@@ -16,7 +15,7 @@ router.get('/parkingSpots', function (req, res, next) {
           'type': 'Point',
           'coordinates': [parseFloat(req.query.longitude), parseFloat(req.query.latitude)]
         },
-        '$maxDistance': 100
+        '$maxDistance': constants.RADIUS
       }
     }
   }, function (err, parkingSpots) {

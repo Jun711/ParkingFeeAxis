@@ -1,13 +1,15 @@
 // contains actions and handlers
 import update from 'immutability-helper'
 import constants from './actionConstants'
-import { PermissionsAndroid, Dimensions, ToastAndroid } from 'react-native'
 import {} from '../../../util/constants'
+import { ToastAndroid } from 'react-native'
+import timeout from '../../../util/timeout'
 import {
   PARKING_FAQS,
 } from '../../../util/constants'
 import {
-  handleLoadFaqList
+  handleLoadFaqList,
+  handleLoadFaqListError
 } from './faqActionHandlers'
 
 //-------------------------------
@@ -29,7 +31,7 @@ const {
 export function loadFaqList() {
   return async (dispatch) => {
     try {
-      const response = await fetch(PARKING_FAQS)
+      const response = await timeout(fetch(PARKING_FAQS))
       const responseJson = await response.json()
       dispatch({
         type: LOAD_FAQ_LIST,
@@ -48,7 +50,8 @@ export function loadFaqList() {
 //Action Handlers
 //-------------------------------
 const ACTION_HANDLERS = {
-  LOAD_FAQ_LIST: handleLoadFaqList
+  LOAD_FAQ_LIST: handleLoadFaqList,
+  LOAD_FAQ_LIST_ERROR: handleLoadFaqListError,
 }
 
 //-------------------------------

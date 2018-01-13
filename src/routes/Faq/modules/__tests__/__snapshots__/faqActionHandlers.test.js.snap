@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`handle LOAD_FAQ_LIST actions handles LOAD_FAQ_LIST success action 1`] = `
+exports[`handle LOAD_FAQ_LIST action handles LOAD_FAQ_LIST success action 1`] = `
 Object {
   "faqList": Array [
     Object {
@@ -48,14 +48,14 @@ Object {
 }
 `;
 
-exports[`handle LOAD_FAQ_LIST actions handles LOAD_FAQ_LIST_ERROR action 1`] = `
+exports[`handle LOAD_FAQ_LIST action returns the same state on an unhandled action 1`] = `
 Object {
   "faqList": undefined,
   "faqLoaded": true,
 }
 `;
 
-exports[`handle LOAD_FAQ_LIST actions returns the same state on an unhandled action 1`] = `
+exports[`handle LOAD_FAQ_LIST_ERROR action handles LOAD_FAQ_LIST_ERROR action 1`] = `
 Object {
   "faqList": undefined,
   "faqLoaded": true,

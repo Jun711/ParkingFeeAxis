@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var bookings = require('./routes/bookings');
 var parkingSpots = require('./routes/parkingSpots');
+var faqs = require('./routes/faqs');
 var constants = require('./util/constants');
 
 var app = express();
@@ -29,3 +30,4 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use('/', index);
 app.use('/api', bookings);
 app.use('/api', parkingSpots);
+app.use('/api', faqs);

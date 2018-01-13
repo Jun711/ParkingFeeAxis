@@ -33,7 +33,10 @@
 		"watchman": "^1.0.0"
 	},
 	"jest": {
-		"preset": "react-native"
+		"preset": "react-native",
+		"setupFiles": [
+			"./config/jest/globalFetch.js"
+		]
 	},
 	"config": {
 		"commitizen": {

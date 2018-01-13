@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, StyleSheet, Text } from 'react-native';
+import { AppRegistry, View, StyleSheet } from 'react-native';
 import { Container } from 'native-base'
 import FaqList from './FaqList/FaqList';
 
 class Faq extends Component {
+
+  componentWillMount() {
+    this.props.loadFaqList();
+  }
+
   render() {
     return (
       <View style={styles.container}>

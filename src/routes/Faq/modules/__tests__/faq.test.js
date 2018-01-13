@@ -14,7 +14,7 @@ beforeEach(() => {
   store.clearActions()
 })
 
-describe('<FaqList />', () => {
+describe(`${LOAD_FAQ_LIST} action`, () => {
   it(`should handle ${LOAD_FAQ_LIST} failure action`, async () => {
     const mockError = new Error('error')
     fetch.mockResponseFailure(mockError)

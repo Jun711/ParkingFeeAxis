@@ -5,7 +5,10 @@ import {
   loadFaqList,
 } from '../modules/faq';
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  faqLoaded: state.faq.faqLoaded || false,
+  faqList: state.faq.faqList || []
+})
 
 // so that the component knows these actions exist
 const mapActionCreators = {

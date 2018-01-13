@@ -1,7 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`creates a LOAD_FAQ_LIST action 1`] = `
-Object {
-  "type": "LOAD_FAQ_LIST",
-}
+exports[`<FaqList /> should handle LOAD_FAQ_LIST failure action 1`] = `
+Array [
+  Object {
+    "payload": [Error: error],
+    "type": "LOAD_FAQ_LIST_ERROR",
+  },
+]
+`;
+
+exports[`<FaqList /> should handle LOAD_FAQ_LIST success action 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "faqs": Array [
+        Object {
+          "text": "Frequently asked questions",
+        },
+      ],
+    },
+    "type": "LOAD_FAQ_LIST",
+  },
+]
 `;

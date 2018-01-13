@@ -1,0 +1,4 @@
+export default {
+  LOAD_FAQ_LIST: 'LOAD_FAQ_LIST',
+  LOAD_FAQ_LIST_ERROR: 'LOAD_FAQ_LIST_ERROR',
+};

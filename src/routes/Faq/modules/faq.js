@@ -1,15 +1,19 @@
 // contains actions and handlers
-import update from 'immutability-helper';
-import constants from './actionConstants';
-import { PermissionsAndroid, Dimensions, ToastAndroid } from 'react-native';
-import {} from '../../../util/constants';
+import update from 'immutability-helper'
+import constants from './actionConstants'
+import { PermissionsAndroid, Dimensions, ToastAndroid } from 'react-native'
+import {} from '../../../util/constants'
+import {
+  PARKING_FAQS,
+} from '../../../util/constants'
 
 //-------------------------------
 //Constants
 //-------------------------------
 const {
-  LOAD_FAQ_LIST
-} = constants;
+  LOAD_FAQ_LIST,
+  LOAD_FAQ_LIST_ERROR
+} = constants
 
 //-------------------------------
 // Utility function
@@ -20,27 +24,37 @@ const {
 // Actions
 //-------------------------------
 export function loadFaqList() {
-  return {
-    type: LOAD_FAQ_LIST,
+  return async (dispatch) => {
+    try {
+      const response = await fetch(PARKING_FAQS)
+      const responseJson = await response.json()
+      dispatch({
+        type: LOAD_FAQ_LIST,
+        payload: responseJson
+      })
+    } catch (error) {
+      dispatch({
+        type: LOAD_FAQ_LIST_ERROR,
+        payload: error
+      })
+    }
   }
 }
-
 
 //-------------------------------
 //Action Handlers
 //-------------------------------
-const ACTION_HANDLERS = {
-}
+const ACTION_HANDLERS = {}
 
 //-------------------------------
 // Initialization
 //-------------------------------
-const initialState = {
+export const initialState = {
   faqLoaded: false
-};
+}
 
 export function FaqReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type];
+  const handler = ACTION_HANDLERS[action.type]
 
-  return handler ? handler(state, action) : state;
+  return handler ? handler(state, action) : state
 }

@@ -27,6 +27,7 @@ import {
 } from '../../../util/constants';
 import {
   handleHeaderPressed,
+  handleMapPressed,
 } from './homeActionHandlers'
 
 //-------------------------------
@@ -47,7 +48,7 @@ const {
   HANDLE_CENTRE_COORD,
   DISPLAY_NEARBY_PARKING_SPOTS,
   SET_MARKER_PRESSED,
-  SET_MARKER_UNPRESSED,
+  ON_MAP_PRESSED,
   SHOW_TOAST,
 } = constants;
 
@@ -286,7 +287,7 @@ export function onMarkerPressed(payload) {
 export function onMapPressed(payload) {
   console.log('onMarkerPressed: ', payload)
   return {
-    type: SET_MARKER_UNPRESSED,
+    type: ON_MAP_PRESSED,
     payload
   }
 }
@@ -314,7 +315,7 @@ const ACTION_HANDLERS = {
   UPDATE_CENTER_MARKER: handleUpdateCenterMarker,
   DISPLAY_NEARBY_PARKING_SPOTS: handleDisplayNearbyParkingSpots,
   SET_MARKER_PRESSED: handleSetMarkerPressed,
-  SET_MARKER_UNPRESSED: handleSetMarkerUnpressed,
+  ON_MAP_PRESSED: handleMapPressed,
   SHOW_TOAST: handleShowToast,
   TOGGLE_SEARCH_BAR: handleHeaderPressed,
 }
@@ -588,17 +589,6 @@ function handleSetMarkerPressed(state, action) {
     },
     displayCentreMarker: {
       $set: false
-    }
-  })
-}
-
-function handleSetMarkerUnpressed(state, action) {
-  return update(state, {
-    calloutPressed: {
-      $set: false
-    },
-    displayCentreMarker: {
-      $set: true
     }
   })
 }

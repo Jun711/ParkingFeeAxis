@@ -8,3 +8,17 @@ export function handleHeaderPressed(state) {
     }
   })
 }
+
+export function handleMapPressed(state) {
+  return update(state, {
+    calloutPressed: {
+      $set: false
+    },
+    displayCentreMarker: {
+      $set: true
+    },
+    displaySearchBar: {
+      $set: false
+    }
+  })
+}

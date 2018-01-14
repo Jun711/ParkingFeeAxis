@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TOGGLE_SEARCH_BAR action should create TOGGLE_SEARCH_BAR action 1`] = `
+Object {
+  "payload": Object {},
+  "type": "TOGGLE_SEARCH_BAR",
+}
+`;

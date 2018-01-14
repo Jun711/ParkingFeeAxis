@@ -25,6 +25,9 @@ import {
   MAX_PARKING_RATE,
   FREE_PARKING,
 } from '../../../util/constants';
+import {
+  handleHeaderPressed,
+} from './homeActionHandlers'
 
 //-------------------------------
 //Constants
@@ -288,6 +291,13 @@ export function onMapPressed(payload) {
   }
 }
 
+export function onHeaderPressed(payload) {
+  return {
+    type: constants.TOGGLE_SEARCH_BAR,
+    payload
+  }
+}
+
 //-------------------------------
 //Action Handlers
 //-------------------------------
@@ -306,6 +316,7 @@ const ACTION_HANDLERS = {
   SET_MARKER_PRESSED: handleSetMarkerPressed,
   SET_MARKER_UNPRESSED: handleSetMarkerUnpressed,
   SHOW_TOAST: handleShowToast,
+  TOGGLE_SEARCH_BAR: handleHeaderPressed,
 }
 
 function handleGetLocationPermission(state, action) {
@@ -606,30 +617,31 @@ function handleShowToast(state, action) {
 //-------------------------------
 // Initialization
 //-------------------------------
-const initialState = {
+export const initialState = {
   calloutPressed: false,
-  gettingCurrentLocation: false,
-  locationPermission: false,
   displayCentreMarker: true,
-  userCoord: {
-    latitude: 49.2820,
-    longitude: -123.1171,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA,
-  },
+  displaySearchBar: false,
+  gettingCurrentLocation: false,
+  highestRate: MAX_PARKING_RATE,
+  inputData: {},
+  locationPermission: false,
+  lowestRate: MIN_PARKING_RATE,
+  nearbyParkingSpots: [],
+  parkingSpotIDSet: new Set(),
   region: {
     latitude: 49.2820,
     longitude: -123.1171,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   },
-  inputData: {},
   resultTypes: {},
   selectedAddress: {},
-  nearbyParkingSpots: [],
-  parkingSpotIDSet: new Set(),
-  lowestRate: MIN_PARKING_RATE,
-  highestRate: MAX_PARKING_RATE,
+  userCoord: {
+    latitude: 49.2820,
+    longitude: -123.1171,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
+  },
 };
 
 export function HomeReducer(state = initialState, action) {

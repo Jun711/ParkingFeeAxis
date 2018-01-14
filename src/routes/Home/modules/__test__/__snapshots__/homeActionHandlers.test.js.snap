@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`handle TOGGLE_SEARCH_BAR action handles TOGGLE_SEARCH_BAR action 1`] = `
+Object {
+  "calloutPressed": false,
+  "displayCentreMarker": true,
+  "displaySearchBar": true,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;
+
+exports[`handle TOGGLE_SEARCH_BAR action returns the same state on an unhandled action 1`] = `
+Object {
+  "calloutPressed": false,
+  "displayCentreMarker": true,
+  "displaySearchBar": true,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;

@@ -5,6 +5,8 @@ var constants = require('../util/constants');
 
 var db = mongojs(constants.DB_PARKING, ['parkingSpots']);
 
+var parkingSpotUtils = require('../util').ParkingSpots;
+
 // get nearby drivers within a radius
 router.get('/parkingSpots', function (req, res, next) {
   db.parkingSpots.createIndex({'geometry': '2dsphere'});
@@ -19,10 +21,13 @@ router.get('/parkingSpots', function (req, res, next) {
       }
     }
   }, function (err, parkingSpots) {
+
+    var processedParkingSpots = parkingSpotUtils.processParkingSpotDescription(parkingSpots);
+
     if (err) {
       res.send(err);
     } else {
-      res.send(parkingSpots)
+      res.send(processedParkingSpots)
     }
   });
 })

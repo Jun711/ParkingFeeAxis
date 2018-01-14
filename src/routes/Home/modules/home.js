@@ -259,7 +259,7 @@ export function handleRegionChangeComplete(payload) {
             // TODO: display error
             console.log('parkingSpots req err: ', err);
           } else {
-            console.log('res: ', res.body)
+            console.log('res from server: ', res.body);
             dispatch({
               type: DISPLAY_NEARBY_PARKING_SPOTS,
               payload: res.body
@@ -492,63 +492,6 @@ function handleUpdateCenterMarker(state, action) {
   })
 }
 
-function processText(text) {
-  let textArr = text.split('<br>');
-  let weekdayOfficeHourRate = 0;
-  let weekdayAfterOfficeRate = 0;
-  let satOfficeHourRate = 0;
-  let satAfterOfficeRate = 0;
-  let sunOfficeHourRate = 0;
-  let sunAfterOfficeRate = 0;
-  let doParsing = false;
-  let parseDone = false;
-
-  for (let i = 0; i < textArr.length; i++) {
-    if (textArr[i] && !textArr[i].endsWith('\n'))
-      textArr[i] += '\n';
-
-    if (!parseDone && textArr[i] && textArr[i].startsWith('Rates'))
-      doParsing = true;
-
-    if (textArr[i] && textArr[i].startsWith('Effect')) {
-      parseDone = true;
-      doParsing = false;
-    }
-
-    if (doParsing) {
-      if (textArr[i] && textArr[i].startsWith('M-F 9AM'))
-        weekdayOfficeHourRate = textArr[i].substr(-5, 5).trim();
-
-      if (textArr[i] && textArr[i].startsWith('M-F 6PM'))
-        weekdayAfterOfficeRate = textArr[i].substr(-5, 5).trim();
-
-      if (textArr[i] && textArr[i].startsWith('SAT 9AM'))
-        satOfficeHourRate = textArr[i].substr(-5, 5).trim();
-
-      if (textArr[i] && textArr[i].startsWith('SAT 6PM'))
-        satAfterOfficeRate = textArr[i].substr(-5, 5).trim();
-
-      if (textArr[i] && textArr[i].startsWith('SUN 9AM'))
-        sunOfficeHourRate = textArr[i].substr(-5, 5).trim();
-
-      if (textArr[i] && textArr[i].startsWith('SUN 6PM'))
-        sunAfterOfficeRate = textArr[i].substr(-5, 5).trim();
-    }
-  }
-
-  let processedDescription = {
-    description: textArr.join('').trim(),
-    weekdayOfficeHourRate,
-    weekdayAfterOfficeRate,
-    satOfficeHourRate,
-    satAfterOfficeRate,
-    sunOfficeHourRate,
-    sunAfterOfficeRate,
-  }
-
-  return processedDescription
-}
-
 // determine current parking rate category
 function getPresent() {
   let present = new Date();
@@ -577,19 +520,17 @@ function processParkingSpotDesc(parkingSpots, lowestRate, highestRate) {
   // TODO: handle FREE_PARKING
   for (let i = 0; i < parkingSpots.length; i++) {
     if (!parkingSpots[i].processed && parkingSpots[i] && parkingSpots[i].properties) {
-      let processedDescription = processText(parkingSpots[i].properties.description)
-
-      if (processedDescription[present] < lowestRate) {
-        lowestRate = processedDescription[present];
+      let parkingSpotCurrentRate = parkingSpots[i].properties[present];
+      console.log('parkingSpotCurrentRate: ', parkingSpotCurrentRate);
+      if (parkingSpotCurrentRate < lowestRate) {
+        lowestRate = parkingSpots[i].properties[present];
       }
 
-      if (processedDescription[present] > highestRate) {
-        highestRate = processedDescription[present];
+      if (parkingSpotCurrentRate > highestRate) {
+        highestRate = parkingSpots[i].properties[present];
       }
 
-      // maybe can use Object assign
-      parkingSpots[i].properties.description = processedDescription.description;
-      parkingSpots[i].properties.presentRate = processedDescription[present];
+      parkingSpots[i].properties.presentRate = parkingSpotCurrentRate;
       parkingSpots[i].processed = true;
     }
   }
@@ -599,7 +540,7 @@ function processParkingSpotDesc(parkingSpots, lowestRate, highestRate) {
 
 // filter parking spots out if its ID already exists in parkingSpotIDSet
 function filterParkingSpot(state, parkingSpots) {
-  const newParkingSpots = parkingSpots.filter((parkingSpot) => {
+  const parkingSpotSet = parkingSpots.filter((parkingSpot) => {
     if (state.parkingSpotIDSet && state.parkingSpotIDSet.has(parkingSpot.id)) {
       return false;
     } else {
@@ -607,13 +548,13 @@ function filterParkingSpot(state, parkingSpots) {
       return true;
     }
   })
-  return newParkingSpots;
+  return parkingSpotSet;
 }
 
 // merge parking spots local data and data from server
 function handleDisplayNearbyParkingSpots(state, action) {
-  let newParkingSpots = filterParkingSpot(state, action.payload);
-  let parkingSpots = [...state.nearbyParkingSpots, ...newParkingSpots]
+  let parkingSpotSet = filterParkingSpot(state, action.payload);
+  let parkingSpots = [...state.nearbyParkingSpots, ...parkingSpotSet]
   let processedRes = processParkingSpotDesc(parkingSpots, state.lowestRate, state.highestRate);
 
   return update(state, {

@@ -1,10 +1,8 @@
 import React from 'react';
-import {AppRegistry, View, Text, StyleSheet, Dimensions} from 'react-native';
-
-import {Container} from 'native-base'
+import { AppRegistry, StyleSheet, Dimensions } from 'react-native';
+import { Container } from 'native-base'
 import MapContainer from './MapContainer/MapContainer';
 import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent';
-import FooterComponent from '../../../components/FooterComponent/FooterComponent';
 import FloatingActionButton from './FloatingActionButton/FloatingActionButton';
 import FloatingCenterMarker from './FloatingCenterMarker/FloatingCenterMarker';
 
@@ -20,38 +18,39 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.props.checkLocationPermission();
-    // this.props.getCurrentLocation();
   }
 
-  // componentWillMount() {
-  //   setTimeout(() => this.forceUpdate(), 500);
-  // }
-
   render() {
-    return(
+    return (
       <Container>
-        <HeaderComponent />
+        <HeaderComponent
+          displaySearchBar={this.props.displaySearchBar}
+          onHeaderPressed={this.props.onHeaderPressed}
+        />
         {this.props.region.latitude &&
-          <MapContainer
-            userCoord={this.props.userCoord}
-            region={this.props.region}
-            // displayCentreMarker={this.props.displayCentreMarker}
-            getInputData={this.props.getInputData}
-            toggleSearchResultModal={this.props.toggleSearchResultModal}
-            getLocationPredictions={this.props.getLocationPredictions}
-            resultTypes={this.props.resultTypes}
-            predictions={this.props.predictions}
-            getSelectedAddress={this.props.getSelectedAddress}
-            selectedAddress={this.props.selectedAddress}
-            handleRegionChangeComplete={this.props.handleRegionChangeComplete}
-            nearbyParkingSpots={this.props.nearbyParkingSpots}
-          />
+        <MapContainer
+          userCoord={this.props.userCoord}
+          region={this.props.region}
+          getInputData={this.props.getInputData}
+          toggleSearchResultModal={this.props.toggleSearchResultModal}
+          getLocationPredictions={this.props.getLocationPredictions}
+          resultTypes={this.props.resultTypes}
+          predictions={this.props.predictions}
+          getSelectedAddress={this.props.getSelectedAddress}
+          selectedAddress={this.props.selectedAddress}
+          handleRegionChangeComplete={this.props.handleRegionChangeComplete}
+          nearbyParkingSpots={this.props.nearbyParkingSpots}
+          displayCentreMarker={this.props.displayCentreMarker}
+          onMarkerPressed={this.props.onMarkerPressed}
+          onMapPressed={this.props.onMapPressed}
+          lowestRate={this.props.lowestRate}
+          highestRate={this.props.highestRate}
+        />
         }
         {this.props.displayCentreMarker &&
-          <FloatingCenterMarker displayCentreCoord={this.props.displayCentreCoord} />
+        <FloatingCenterMarker displayCentreCoord={this.props.displayCentreCoord}/>
         }
-        <FloatingActionButton getCurrentLocation={this.props.getCurrentLocation} />
-        <FooterComponent/>
+        <FloatingActionButton getCurrentLocation={this.props.getCurrentLocation}/>
       </Container>
     )
   }

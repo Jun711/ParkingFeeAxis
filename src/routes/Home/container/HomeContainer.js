@@ -13,20 +13,23 @@ import {
   displayCentreCoord,
   onMarkerPressed,
   onMapPressed,
+  onHeaderPressed
 } from '../modules/home';
 
+// pass subsets of application state as props to Home container
 const mapStateToProps = (state) => ({
   displayCentreMarker: state.home.displayCentreMarker || false,
-  locationPermission: state.home.locationPermission || false,
-  userCoord: state.home.userCoord,
-  region: state.home.region,
-  inputData: state.home.inputData || {},
-  resultTypes: state.home.resultTypes || {},
-  predictions: state.home.predictions || [],
-  selectedAddress: state.home.selectedAddress || {},
-  nearbyParkingSpots: state.home.nearbyParkingSpots || [],
-  lowestRate: state.home.lowestRate || MIN_PARKING_RATE,
+  displaySearchBar: state.home.displaySearchBar || false,
   highestRate: state.home.highestRate || MAX_PARKING_RATE,
+  inputData: state.home.inputData || {},
+  locationPermission: state.home.locationPermission || false,
+  lowestRate: state.home.lowestRate || MIN_PARKING_RATE,
+  nearbyParkingSpots: state.home.nearbyParkingSpots || [],
+  predictions: state.home.predictions || [],
+  region: state.home.region,
+  resultTypes: state.home.resultTypes || {},
+  selectedAddress: state.home.selectedAddress || {},
+  userCoord: state.home.userCoord,
 })
 
 // so that the component knows these actions exist
@@ -42,5 +45,6 @@ const mapActionCreators = {
   displayCentreCoord,
   onMarkerPressed,
   onMapPressed,
+  onHeaderPressed
 };
 export default connect(mapStateToProps, mapActionCreators)(Home)

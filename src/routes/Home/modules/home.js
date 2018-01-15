@@ -26,7 +26,7 @@ import {
   FREE_PARKING,
 } from '../../../util/constants';
 import {
-  handleHeaderPressed,
+  handleToggleSearchBar,
   handleMapPressed,
 } from './homeActionHandlers'
 
@@ -299,6 +299,13 @@ export function onHeaderPressed(payload) {
   }
 }
 
+export function onHeaderBackPressed(payload) {
+  return {
+    type: constants.TOGGLE_SEARCH_BAR,
+    payload
+  }
+}
+
 //-------------------------------
 //Action Handlers
 //-------------------------------
@@ -317,7 +324,7 @@ const ACTION_HANDLERS = {
   SET_MARKER_PRESSED: handleSetMarkerPressed,
   ON_MAP_PRESSED: handleMapPressed,
   SHOW_TOAST: handleShowToast,
-  TOGGLE_SEARCH_BAR: handleHeaderPressed,
+  TOGGLE_SEARCH_BAR: handleToggleSearchBar,
 }
 
 function handleGetLocationPermission(state, action) {
@@ -618,6 +625,7 @@ export const initialState = {
   lowestRate: MIN_PARKING_RATE,
   nearbyParkingSpots: [],
   parkingSpotIDSet: new Set(),
+  predictions: [],
   region: {
     latitude: 49.2820,
     longitude: -123.1171,

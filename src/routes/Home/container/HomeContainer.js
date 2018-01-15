@@ -13,7 +13,8 @@ import {
   displayCentreCoord,
   onMarkerPressed,
   onMapPressed,
-  onHeaderPressed
+  onHeaderPressed,
+  onHeaderBackPressed
 } from '../modules/home';
 
 // pass subsets of application state as props to Home container
@@ -45,6 +46,7 @@ const mapActionCreators = {
   displayCentreCoord,
   onMarkerPressed,
   onMapPressed,
-  onHeaderPressed
+  onHeaderPressed,
+  onHeaderBackPressed
 };
 export default connect(mapStateToProps, mapActionCreators)(Home)

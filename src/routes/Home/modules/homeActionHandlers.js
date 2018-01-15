@@ -1,10 +1,10 @@
 import update from "immutability-helper/index";
 import { initialState } from "./home";
 
-export function handleHeaderPressed(state) {
+export function handleToggleSearchBar(state) {
   return update(state, {
     displaySearchBar: {
-      $set: !initialState.displaySearchBar
+      $set: !state.displaySearchBar
     }
   })
 }

@@ -5,6 +5,7 @@ import MapContainer from './MapContainer/MapContainer';
 import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent';
 import FloatingActionButton from './FloatingActionButton/FloatingActionButton';
 import FloatingCenterMarker from './FloatingCenterMarker/FloatingCenterMarker';
+import SearchResults from './SearchResults/SearchResults'
 
 const {width, height} = Dimensions.get('window');
 
@@ -24,8 +25,10 @@ class Home extends React.Component {
     return (
       <Container>
         <HeaderComponent
+          handleSearchInput={this.props.getInputData}
           displaySearchBar={this.props.displaySearchBar}
           onHeaderPressed={this.props.onHeaderPressed}
+          onHeaderBackPressed={this.props.onHeaderBackPressed}
         />
         {this.props.region.latitude &&
         <MapContainer
@@ -47,10 +50,16 @@ class Home extends React.Component {
           highestRate={this.props.highestRate}
         />
         }
-        {this.props.displayCentreMarker &&
+
+        {!this.props.displaySearchBar && this.props.displayCentreMarker &&
         <FloatingCenterMarker displayCentreCoord={this.props.displayCentreCoord}/>
         }
+        {!this.props.displaySearchBar &&
         <FloatingActionButton getCurrentLocation={this.props.getCurrentLocation}/>
+        }
+        {this.props.displaySearchBar &&
+        <SearchResults />
+        }
       </Container>
     )
   }

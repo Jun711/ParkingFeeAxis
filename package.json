@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"immutability-helper": "^2.6.3",
+		"lodash": "^4.17.4",
 		"native-base": "^2.3.6",
 		"react": "16.0.0",
 		"react-native": "0.50.4",

@@ -14,9 +14,11 @@ const styles = {
     width: 50,
     borderRadius: 50 / 2,
     overflow: 'hidden',
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    // backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    backgroundColor: 'rgba(81, 92, 109, 0.1)',
     borderWidth: 1,
-    borderColor: 'rgba(0, 112, 255, 0.3)',
+    // borderColor: 'rgba(0, 112, 255, 0.3)',
+    borderColor: 'rgba(81, 92, 109, 0.3)',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -27,7 +29,7 @@ const styles = {
     borderWidth: 1,
     borderColor: 'white',
     overflow: 'hidden',
-    backgroundColor: 'rgb(0, 122, 255)'
+    backgroundColor: 'rgb(81, 92, 109)'
   },
   centreMarker: {
     height: 15,

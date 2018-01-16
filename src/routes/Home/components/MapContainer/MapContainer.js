@@ -2,31 +2,40 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { View } from 'native-base';
 import MapView from 'react-native-maps';
-
 import SearchBox from '../SearchBox/SearchBox';
 import SearchResults from '../SearchResults/SearchResults';
 import MapCallout from '../MapCallout/MapCallout';
-
+import { LOADER_COLOR } from '../../../../util/constants';
 import styles from './MapContainerStyles';
-const parkingSpotPin = require('../../../../assets/parking-icon.png');
+
+const greenPin = require('../../../../assets/greenPin.png');
+const yellowPin = require('../../../../assets/yellowPin.png');
+const orangePin = require('../../../../assets/orangePin.png');
+// const redPin = require('../../../../assets/redPin.png');
 
 export default class MapContainer extends Component {
-  constructor(props) {
-    super(props);
-    console.log('this.props: ', props);
+
+  decidePin(rate) {
+    if (this.props.lowestRate == rate) {
+      return greenPin
+    } else if (this.props.highestRate == rate) {
+      return orangePin
+    } else {
+      return yellowPin
+    }
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <MapView
+        <MapView.Animated
           showsUserLocation={false}
           showsMyLocationButton={true}
           loadingEnabled={true}
           // scrollEnabled={false}
-          rotateEnabled={false}
+          rotateEnabled={true}
           moveOnMarkerPress={false}
-          loadingIndicatorColor={'#515c6d'}
+          loadingIndicatorColor={LOADER_COLOR}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.map}
           region={this.props.region}
@@ -43,6 +52,8 @@ export default class MapContainer extends Component {
           </MapView.Marker.Animated>
           {
             this.props.nearbyParkingSpots && this.props.nearbyParkingSpots.map((parkingSpot, index) => {
+              let pin = this.decidePin.bind(this, parkingSpot.properties.presentRate)()
+
               return (<MapView.Marker
                 key={index}
                 coordinate={{
@@ -51,11 +62,10 @@ export default class MapContainer extends Component {
                 }}
                 title='Parking Meter'
                 description={parkingSpot.properties.description}
-                // pinColor='blue'
-                image={parkingSpotPin}
-                onPress={(event)=> this.props.onMarkerPressed(event.nativeEvent)}
+                image={pin}
+                onPress={(event) => this.props.onMarkerPressed(event.nativeEvent)}
               >
-                <MapView.Callout tooltip={true} >
+                <MapView.Callout tooltip={true}>
                   <MapCallout
                     text={parkingSpot.properties.description}
                   />
@@ -63,17 +73,17 @@ export default class MapContainer extends Component {
               </MapView.Marker>)
             })
           }
-        </MapView>
+        </MapView.Animated>
         {/*<SearchBox*/}
-          {/*getInputData={this.props.getInputData}*/}
-          {/*toggleSearchResultModal={this.props.toggleSearchResultModal}*/}
-          {/*getLocationPredictions={this.props.getLocationPredictions}*/}
-          {/*selectedAddress={this.props.selectedAddress}*/}
+        {/*getInputData={this.props.getInputData}*/}
+        {/*toggleSearchResultModal={this.props.toggleSearchResultModal}*/}
+        {/*getLocationPredictions={this.props.getLocationPredictions}*/}
+        {/*selectedAddress={this.props.selectedAddress}*/}
         {/*/>*/}
         {/*{(this.props.resultTypes.pickUp || this.props.resultTypes.dropOff) &&*/}
         {/*<SearchResults*/}
-          {/*predictions={this.props.predictions}*/}
-          {/*getSelectedAddress={this.props.getSelectedAddress}*/}
+        {/*predictions={this.props.predictions}*/}
+        {/*getSelectedAddress={this.props.getSelectedAddress}*/}
         {/*/>*/}
         {/*}*/}
       </View>

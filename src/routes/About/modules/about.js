@@ -1,7 +1,6 @@
 // contains actions and handlers
 import update from 'immutability-helper';
 import constants from './actionConstants';
-import { PermissionsAndroid, Dimensions, ToastAndroid } from 'react-native';
 import {} from '../../../util/constants';
 import { Actions } from 'react-native-router-flux'
 

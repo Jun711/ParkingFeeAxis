@@ -7,7 +7,7 @@ import {
 
 import styles from './BrandStyles';
 
-const logo = require('../../../../assets/shuriken.png');
+const logo = require('../../../../assets/icon.png');
 
 export default class Brand extends Component {
 

@@ -4,18 +4,21 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
     margin: 10,
+    flex: 1,
+    // backgroundColor: '#fff',
+    alignItems: 'center',
   },
   brandText: {
-    fontSize: 13,
+    fontSize: 20,
+    color: '#000',
   },
   appVersion: {
-    fontSize: 8,
+    fontSize: 10,
     paddingBottom: 5,
   },
   logo: {
-    height: 75,
-    width: 75,
-
+    height: 80,
+    width: 80,
   }
 });
 

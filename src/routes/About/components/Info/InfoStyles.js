@@ -18,17 +18,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   infoIcon: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#38414e',
   },
   infoItem: {
     flex: 8,
     textAlign: 'left',
-    fontSize: 25,
+    fontSize: 18,
     color: '#000',
   },
   sectionTitle: {
-    fontSize: 25,
+    fontSize: 20,
     color: '#000',
   }
 });

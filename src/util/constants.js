@@ -34,6 +34,8 @@ export const MAX_PARKING_RATE = -1
 
 // color
 export const LOADER_COLOR = '#515c6d'
+export const THEME_COLOR = '#38414e'
+export const WHITE_COLOR = '#fff'
 
 // search bar
 export const SEARCH_PLACEHOLDER = 'Search'

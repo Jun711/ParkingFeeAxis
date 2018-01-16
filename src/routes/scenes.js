@@ -3,6 +3,7 @@ import { Actions, Scene, Stack } from 'react-native-router-flux'
 import AboutContainer from './About/container/AboutContainer'
 import FaqContainer from './Faq/container/FaqContainer'
 import HomeContainer from './Home/container/HomeContainer'
+import { WHITE_COLOR, THEME_COLOR } from '../util/constants'
 
 const scenes = Actions.create(
   <Stack
@@ -16,18 +17,22 @@ const scenes = Actions.create(
       titleStyle={{alignSelf: 'center'}}
     >
       <Scene
+        navigationBarStyle={{backgroundColor: THEME_COLOR}}
         key='_about'
         component={AboutContainer}
         title='About'
-        titleStyle={{alignSelf: 'flex-start'}}
+        titleStyle={{alignSelf: 'flex-start', color: WHITE_COLOR}}
+        leftButtonStyle={{color: WHITE_COLOR}}
+        backButtonTintColor={WHITE_COLOR}
         back={true}
       />
       <Scene
-        hideNavBar={false}
+        backButtonTintColor={WHITE_COLOR}
+        navigationBarStyle={{backgroundColor: THEME_COLOR}}
         key='faq'
         component={FaqContainer}
         title='FAQ'
-        titleStyle={{alignSelf: 'flex-start'}}
+        titleStyle={{alignSelf: 'flex-start', color: WHITE_COLOR}}
         back={true}
       />
     </Stack>

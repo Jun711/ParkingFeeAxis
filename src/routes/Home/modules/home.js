@@ -4,7 +4,7 @@ import constants from './actionConstants';
 import { PermissionsAndroid, Dimensions, ToastAndroid } from 'react-native';
 import RNGooglePlaces from 'react-native-google-places';
 import request from '../../../util/request';
-import parkingSpots from '../../../assets/data/parkingSpots';
+import mockParkingSpots from '../../../assets/data/parkingSpots';
 import {
   PARKING_SERVER_URL,
   LATITUDE_DELTA,
@@ -24,11 +24,11 @@ import {
   MIN_PARKING_RATE,
   MAX_PARKING_RATE,
   FREE_PARKING,
+  SEARCH_INPUT_KEY,
+  DEFAULT_LATITUDE,
+  DEFAULT_LONGITUDE
 } from '../../../util/constants';
-import {
-  handleToggleSearchBar,
-  handleMapPressed,
-} from './homeActionHandlers'
+import * as actionHandlers from './homeActionHandlers'
 
 //-------------------------------
 //Constants
@@ -167,9 +167,17 @@ export function getCurrentLocation() {
 
 // get user's input
 export function getInputData(payload) {
-  return {
-    type: GET_INPUT,
-    payload
+  return (dispatch) => {
+    dispatch({
+      type: GET_INPUT,
+      payload
+    })
+    dispatch({
+      type: constants.TOGGLE_LOADER,
+      payload: {
+        value: true
+      }
+    })
   }
 }
 
@@ -188,11 +196,20 @@ export function getLocationPredictions() {
   console.log('getLocationPredictions')
   return (dispatch, store) => {
     console.log('store: ', store, ' store(): ', store());
-    let userInput = store().home.resultTypes.pickUp ? store().home.inputData.pickUp : store().home.inputData.dropOff;
+    // let userInput = store().home.resultTypes.pickUp ? store().home.inputData.pickUp : store().home.inputData.dropOff;
+    let userInput = store().home.inputData[SEARCH_INPUT_KEY]
     RNGooglePlaces.getAutocompletePredictions(userInput, {
+      latitude: store().home.userCoord.latitude || DEFAULT_LATITUDE,
+      longitude: store().home.userCoord.longitude || DEFAULT_LONGITUDE,
       country: 'CA'
     })
       .then((result) => {
+        dispatch({
+          type: constants.TOGGLE_LOADER,
+          payload: {
+            value: false
+          }
+        })
         dispatch({
           type: GET_LOCATION_PREDICTIONS,
           payload: result
@@ -203,13 +220,22 @@ export function getLocationPredictions() {
 }
 
 // get selected address and do a distance matrix request
-export function getSelectedAddress(payload) {
+export function selectLocation(payload) {
   return (dispatch, store) => {
     RNGooglePlaces.lookUpPlaceByID(payload)
       .then((result) => {
         dispatch({
           type: GET_SELECTED_ADDRESS,
           payload: result
+        })
+        dispatch({
+          type: constants.TOGGLE_SEARCH_BAR
+        })
+        dispatch({
+          type: constants.TOGGLE_CENTRE_MARKER,
+          payload: {
+            value: false
+          }
         })
       })
       .then(() => {
@@ -283,7 +309,6 @@ export function onMarkerPressed(payload) {
   }
 }
 
-// handle map press
 export function onMapPressed(payload) {
   console.log('onMarkerPressed: ', payload)
   return {
@@ -322,9 +347,11 @@ const ACTION_HANDLERS = {
   UPDATE_CENTER_MARKER: handleUpdateCenterMarker,
   DISPLAY_NEARBY_PARKING_SPOTS: handleDisplayNearbyParkingSpots,
   SET_MARKER_PRESSED: handleSetMarkerPressed,
-  ON_MAP_PRESSED: handleMapPressed,
+  ON_MAP_PRESSED: actionHandlers.handleMapPressed,
   SHOW_TOAST: handleShowToast,
-  TOGGLE_SEARCH_BAR: handleToggleSearchBar,
+  TOGGLE_CENTRE_MARKER: actionHandlers.handleToggleCentreMarker,
+  TOGGLE_LOADER: actionHandlers.handleToggleLoader,
+  TOGGLE_SEARCH_BAR: actionHandlers.handleToggleSearchBar,
 }
 
 function handleGetLocationPermission(state, action) {
@@ -417,7 +444,7 @@ function handleToggleSearchResult(state, action) {
           $set: false
         }
       },
-      predictions: {
+      locationPredictions: {
         $set: []
       }
     })
@@ -433,7 +460,7 @@ function handleToggleSearchResult(state, action) {
           $set: true
         }
       },
-      predictions: {
+      locationPredictions: {
         $set: []
       }
     })
@@ -443,7 +470,7 @@ function handleToggleSearchResult(state, action) {
 function handleGetLocationPredictions(state, action) {
   console.log('handleGetLocationPredictions action: ', action)
   return update(state, {
-    predictions: {
+    locationPredictions: {
       $set: action.payload
     }
   })
@@ -451,21 +478,25 @@ function handleGetLocationPredictions(state, action) {
 
 function handleGetSelectedAddress(state, action) {
   console.log('handleGetSelectedAddress action: ', action)
-  let selectedTitle = state.resultTypes.pickUp ? 'selectedPickUp' : 'selectedDropOff';
+  // let selectedTitle = state.resultTypes.pickUp ? 'selectedPickUp' : 'selectedDropOff';
   return update(state, {
     selectedAddress: {
-      [selectedTitle]: {
-        $set: action.payload
+      $set: action.payload
+    },
+    region: {
+      latitude: {
+        $set: action.payload.latitude
+      },
+      longitude: {
+        $set: action.payload.longitude
+      },
+      latitudeDelta: {
+        $set: state.region.latitudeDelta
+      },
+      longitudeDelta: {
+        $set: state.region.longitudeDelta
       }
     },
-    resultTypes: {
-      pickUp: {
-        $set: false
-      },
-      dropOff: {
-        $set: false
-      }
-    }
   })
 }
 
@@ -617,6 +648,7 @@ function handleShowToast(state, action) {
 export const initialState = {
   calloutPressed: false,
   displayCentreMarker: true,
+  displayLoader: false,
   displaySearchBar: false,
   gettingCurrentLocation: false,
   highestRate: MAX_PARKING_RATE,
@@ -625,18 +657,18 @@ export const initialState = {
   lowestRate: MIN_PARKING_RATE,
   nearbyParkingSpots: [],
   parkingSpotIDSet: new Set(),
-  predictions: [],
+  locationPredictions: [],
   region: {
-    latitude: 49.2820,
-    longitude: -123.1171,
+    latitude: DEFAULT_LATITUDE,
+    longitude: DEFAULT_LONGITUDE,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   },
   resultTypes: {},
   selectedAddress: {},
   userCoord: {
-    latitude: 49.2820,
-    longitude: -123.1171,
+    latitude: DEFAULT_LATITUDE,
+    longitude: DEFAULT_LONGITUDE,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   },

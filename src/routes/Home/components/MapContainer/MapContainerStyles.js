@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
+import { CURRENT_MARKER_COLOR } from '../../../../util/constants'
 
 const styles = {
   container: {
@@ -10,9 +11,9 @@ const styles = {
     ...StyleSheet.absoluteFillObject
   },
   radius: {
-    height: 50,
-    width: 50,
-    borderRadius: 50 / 2,
+    height: 70,
+    width: 70,
+    borderRadius: 70 / 2,
     overflow: 'hidden',
     // backgroundColor: 'rgba(0, 122, 255, 0.1)',
     backgroundColor: 'rgba(81, 92, 109, 0.1)',
@@ -29,7 +30,7 @@ const styles = {
     borderWidth: 1,
     borderColor: 'white',
     overflow: 'hidden',
-    backgroundColor: 'rgb(81, 92, 109)'
+    backgroundColor: CURRENT_MARKER_COLOR
   },
   centreMarker: {
     height: 15,
@@ -203,4 +204,4 @@ const styles = {
   ]
 }
 
-export default styles;
+export default styles

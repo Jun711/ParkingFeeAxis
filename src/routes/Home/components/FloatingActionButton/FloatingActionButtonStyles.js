@@ -1,4 +1,7 @@
-const styles = {
+import { StyleSheet } from 'react-native'
+import { THEME_COLOR } from '../../../../util/constants'
+
+const styles =  StyleSheet.create({
   fabContainer: {
     borderColor: '#fff',
     height: 30,
@@ -19,9 +22,9 @@ const styles = {
     alignItems: 'center',
   },
   icon: {
-    color: '#FF5E3A',
+    color: THEME_COLOR,
     fontSize: 20
   }
-};
+})
 
 export default styles;

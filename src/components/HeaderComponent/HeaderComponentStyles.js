@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { FONT_COLOR } from '../../util/constants'
+import { THEME_COLOR } from '../../util/constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   inputSearch: {
     height: 40,
     fontSize: 18,
-    color: FONT_COLOR,
+    color: THEME_COLOR,
   },
   headerText: {
     fontSize: 20,

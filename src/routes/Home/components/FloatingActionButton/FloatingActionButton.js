@@ -7,9 +7,11 @@ import styles from './FloatingActionButtonStyles'
 export default class FloatingActionButton extends Component {
   render() {
     return (
-      <Button style={styles.fabContainer} onPress={() => this.props.getCurrentLocation()}>
-        <Icon name='crosshairs' style={styles.icon}/>
-      </Button>
+      <View>
+        <Button style={styles.fabContainer} onPress={() => this.props.getCurrentLocation()}>
+          <Icon name='crosshairs' style={styles.icon}/>
+        </Button>
+      </View>
     )
   }
 }

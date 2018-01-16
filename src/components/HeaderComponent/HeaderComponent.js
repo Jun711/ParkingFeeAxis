@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import styles from './HeaderComponentStyles'
-import { SEARCH_INPUT_KEY, SEARCH_PLACEHOLDER, FONT_COLOR } from '../../util/constants'
+import { SEARCH_INPUT_KEY, SEARCH_PLACEHOLDER, THEME_COLOR } from '../../util/constants'
 import debounce from 'lodash/debounce'
 
 export class HeaderComponent extends Component {
@@ -62,7 +62,7 @@ export class HeaderComponent extends Component {
           }
           {this.props.displaySearchBar &&
           <Input
-            placeholderTextColor={FONT_COLOR}
+            placeholderTextColor={THEME_COLOR}
             autoFocus={true}
             style={styles.inputSearch}
             placeholder={SEARCH_PLACEHOLDER}

@@ -4,15 +4,16 @@ exports[`handle ON_MAP_PRESSED action handles ON_MAP_PRESSED action 1`] = `
 Object {
   "calloutPressed": false,
   "displayCentreMarker": true,
+  "displayLoader": false,
   "displaySearchBar": false,
   "gettingCurrentLocation": false,
   "highestRate": -1,
   "inputData": Object {},
   "locationPermission": false,
+  "locationPredictions": Array [],
   "lowestRate": 100,
   "nearbyParkingSpots": Array [],
   "parkingSpotIDSet": Set {},
-  "predictions": Array [],
   "region": Object {
     "latitude": 49.282,
     "latitudeDelta": 0.01,
@@ -34,15 +35,202 @@ exports[`handle ON_MAP_PRESSED action returns the same state on an unhandled act
 Object {
   "calloutPressed": false,
   "displayCentreMarker": true,
+  "displayLoader": false,
   "displaySearchBar": false,
   "gettingCurrentLocation": false,
   "highestRate": -1,
   "inputData": Object {},
   "locationPermission": false,
+  "locationPredictions": Array [],
   "lowestRate": 100,
   "nearbyParkingSpots": Array [],
   "parkingSpotIDSet": Set {},
-  "predictions": Array [],
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;
+
+exports[`handle TOGGLE_CENTRE_MARKER action returns the same state on an unhandled action 1`] = `
+Object {
+  "calloutPressed": false,
+  "displayCentreMarker": false,
+  "displayLoader": false,
+  "displaySearchBar": false,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "locationPredictions": Array [],
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;
+
+exports[`handle TOGGLE_CENTRE_MARKER action snapshot - handles TOGGLE_CENTRE_MARKER action with payload 1`] = `
+Object {
+  "calloutPressed": false,
+  "displayCentreMarker": false,
+  "displayLoader": false,
+  "displaySearchBar": false,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "locationPredictions": Array [],
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;
+
+exports[`handle TOGGLE_CENTRE_MARKER action snapshot - handles TOGGLE_CENTRE_MARKER action without payload 1`] = `
+Object {
+  "calloutPressed": false,
+  "displayCentreMarker": false,
+  "displayLoader": false,
+  "displaySearchBar": false,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "locationPredictions": Array [],
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;
+
+exports[`handle TOGGLE_LOADER action returns the same state on an unhandled action 1`] = `
+Object {
+  "calloutPressed": false,
+  "displayCentreMarker": true,
+  "displayLoader": true,
+  "displaySearchBar": false,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "locationPredictions": Array [],
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;
+
+exports[`handle TOGGLE_LOADER action snapshot - handles TOGGLE_LOADER action with payload 1`] = `
+Object {
+  "calloutPressed": false,
+  "displayCentreMarker": true,
+  "displayLoader": false,
+  "displaySearchBar": false,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "locationPredictions": Array [],
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;
+
+exports[`handle TOGGLE_LOADER action snapshot handles TOGGLE_LOADER action without payload 1`] = `
+Object {
+  "calloutPressed": false,
+  "displayCentreMarker": true,
+  "displayLoader": true,
+  "displaySearchBar": false,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "locationPredictions": Array [],
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
   "region": Object {
     "latitude": 49.282,
     "latitudeDelta": 0.01,
@@ -64,15 +252,16 @@ exports[`handle TOGGLE_SEARCH_BAR action handles TOGGLE_SEARCH_BAR action 1`] = 
 Object {
   "calloutPressed": false,
   "displayCentreMarker": true,
+  "displayLoader": false,
   "displaySearchBar": true,
   "gettingCurrentLocation": false,
   "highestRate": -1,
   "inputData": Object {},
   "locationPermission": false,
+  "locationPredictions": Array [],
   "lowestRate": 100,
   "nearbyParkingSpots": Array [],
   "parkingSpotIDSet": Set {},
-  "predictions": Array [],
   "region": Object {
     "latitude": 49.282,
     "latitudeDelta": 0.01,
@@ -94,15 +283,16 @@ exports[`handle TOGGLE_SEARCH_BAR action returns the same state on an unhandled 
 Object {
   "calloutPressed": false,
   "displayCentreMarker": true,
+  "displayLoader": false,
   "displaySearchBar": true,
   "gettingCurrentLocation": false,
   "highestRate": -1,
   "inputData": Object {},
   "locationPermission": false,
+  "locationPredictions": Array [],
   "lowestRate": 100,
   "nearbyParkingSpots": Array [],
   "parkingSpotIDSet": Set {},
-  "predictions": Array [],
   "region": Object {
     "latitude": 49.282,
     "latitudeDelta": 0.01,

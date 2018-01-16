@@ -26,6 +26,7 @@ class Home extends React.Component {
       <Container>
         <HeaderComponent
           handleSearchInput={this.props.getInputData}
+          getLocationPredictions={this.props.getLocationPredictions}
           displaySearchBar={this.props.displaySearchBar}
           onHeaderPressed={this.props.onHeaderPressed}
           onHeaderBackPressed={this.props.onHeaderBackPressed}
@@ -39,7 +40,7 @@ class Home extends React.Component {
           getLocationPredictions={this.props.getLocationPredictions}
           resultTypes={this.props.resultTypes}
           predictions={this.props.predictions}
-          getSelectedAddress={this.props.getSelectedAddress}
+          getSelectedAddress={this.props.selectLocation}
           selectedAddress={this.props.selectedAddress}
           handleRegionChangeComplete={this.props.handleRegionChangeComplete}
           nearbyParkingSpots={this.props.nearbyParkingSpots}
@@ -58,7 +59,11 @@ class Home extends React.Component {
         <FloatingActionButton getCurrentLocation={this.props.getCurrentLocation}/>
         }
         {this.props.displaySearchBar &&
-        <SearchResults />
+        <SearchResults
+          displayLoader={this.props.displayLoader}
+          locationPredictions={this.props.locationPredictions}
+          selectLocation={this.props.selectLocation}
+        />
         }
       </Container>
     )

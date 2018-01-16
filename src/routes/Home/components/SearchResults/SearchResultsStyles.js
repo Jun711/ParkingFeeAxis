@@ -1,14 +1,14 @@
 import { Dimensions } from 'react-native'
-var width = Dimensions.get('window').width; //full width
+
+const width = Dimensions.get('window').width; //full width
 
 const styles = {
   searchResultsWrapper: {
-    top: 160,
+    top: 55,
     position: 'absolute',
     width: width,
     height: 1000,
     backgroundColor: '#fff',
-    opacity: 0.9
   },
   primaryText: {
     fontWeight: 'bold',

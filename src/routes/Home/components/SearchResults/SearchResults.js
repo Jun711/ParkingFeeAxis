@@ -1,24 +1,21 @@
-import React, {Component} from 'react';
-import {Text} from 'react-native';
-import {View, List, ListItem, Left, Body} from 'native-base';
+import React, { Component } from 'react';
+import { Text } from 'react-native';
+import { View, List, ListItem, Left, Body } from 'native-base';
+import Loader from '../../../../components/Loader/Loader'
 import styles from './SearchResultsStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// export const SearchResults = ({predictions, getSelectedAddress})=> {
 export default class SearchResults extends Component {
-
-  handleSelectedAddress(placeID) {
-    this.props.getSelectedAddress(placeID);
-  }
-
   render() {
-    return(
+    return (
       <View style={styles.searchResultsWrapper}>
+        {this.props.displayLoader && <Loader/>}
+        {this.props.locationPredictions.length > 0 &&
         <List
-          dataArray={this.props.predictions}
+          dataArray={this.props.locationPredictions}
           renderRow={(item) =>
             <View>
-              <ListItem onPress={()=> handleSelectedAddress(item.placeID)} button avatar>
+              <ListItem onPress={() => this.props.selectLocation(item.placeID)} button avatar>
                 <Left style={styles.leftContainer}>
                   <Icon style={styles.leftIcon} name="location-on"/>
                 </Left>
@@ -30,6 +27,7 @@ export default class SearchResults extends Component {
             </View>
           }
         />
+        }
       </View>
     )
   }

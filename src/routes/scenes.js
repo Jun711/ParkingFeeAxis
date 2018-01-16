@@ -3,7 +3,6 @@ import { Actions, Scene, Stack } from 'react-native-router-flux'
 import AboutContainer from './About/container/AboutContainer'
 import FaqContainer from './Faq/container/FaqContainer'
 import HomeContainer from './Home/container/HomeContainer'
-import SearchContainer from './Search/container/SearchContainer'
 
 const scenes = Actions.create(
   <Stack
@@ -12,7 +11,6 @@ const scenes = Actions.create(
     titleStyle={{alignSelf: 'center'}}
   >
     <Scene key='home' component={HomeContainer} title='home' initial/>
-    <Scene key='search' component={SearchContainer} title='search'/>
     <Stack
       key='about'
       titleStyle={{alignSelf: 'center'}}

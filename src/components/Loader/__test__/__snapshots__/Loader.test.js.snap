@@ -6,7 +6,8 @@ exports[`<Loader /> FaqList renders correctly 1`] = `
     Object {
       "flex": 1,
       "flexDirection": "column",
-      "justifyContent": "center",
+      "justifyContent": "flex-start",
+      "paddingTop": 10,
     }
   }
 >

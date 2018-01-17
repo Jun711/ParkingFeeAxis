@@ -3,6 +3,8 @@ import { AppRegistry, View, StyleSheet } from 'react-native'
 import { Container } from 'native-base'
 import Loader from '../../../components/Loader/Loader'
 import FaqList from './FaqList/FaqList'
+import Error from '../../../components/Error/Error'
+import { FAQ_LOADING_ERROR } from '../../../util/constants'
 
 class Faq extends Component {
 
@@ -13,8 +15,9 @@ class Faq extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {!this.props.faqLoaded && <Loader/>}
+        {!this.props.loadingError && !this.props.faqLoaded && <Loader/>}
         {this.props.faqLoaded && <FaqList faqList={this.props.faqList}/>}
+        {this.props.loadingError && <Error errorMsg={FAQ_LOADING_ERROR}/>}
       </View>
     )
   }

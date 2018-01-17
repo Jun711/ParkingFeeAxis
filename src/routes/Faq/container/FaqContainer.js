@@ -7,7 +7,8 @@ import {
 
 const mapStateToProps = (state) => ({
   faqLoaded: state.faq.faqLoaded || false,
-  faqList: state.faq.faqList || []
+  faqList: state.faq.faqList || [],
+  loadingError: state.faq.loadingError || false
 })
 
 // so that the component knows these actions exist

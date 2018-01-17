@@ -59,7 +59,8 @@ const ACTION_HANDLERS = {
 //-------------------------------
 export const initialState = {
   faqLoaded: false,
-  faqList: []
+  faqList: [],
+  loadingError: false,
 }
 
 export function FaqReducer(state = initialState, action) {

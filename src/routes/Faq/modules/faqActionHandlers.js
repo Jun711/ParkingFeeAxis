@@ -9,6 +9,9 @@ export function handleLoadFaqList(state, action) {
     },
     faqList: {
       $set: action.payload
+    },
+    loadingError: {
+      $set: false
     }
   })
 }
@@ -17,10 +20,10 @@ export function handleLoadFaqListError(state) {
   // TODO can make a global error page
   return update(state, {
     faqLoaded: {
-      $set: true
+      $set: false
     },
-    faqList: {
-      $set: errorMsg
+    loadingError: {
+      $set: true
     }
   })
 }

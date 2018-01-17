@@ -45,6 +45,7 @@ Object {
     },
   ],
   "faqLoaded": true,
+  "loadingError": false,
 }
 `;
 
@@ -52,12 +53,14 @@ exports[`handle LOAD_FAQ_LIST action returns the same state on an unhandled acti
 Object {
   "faqList": undefined,
   "faqLoaded": true,
+  "loadingError": false,
 }
 `;
 
 exports[`handle LOAD_FAQ_LIST_ERROR action handles LOAD_FAQ_LIST_ERROR action 1`] = `
 Object {
-  "faqList": undefined,
-  "faqLoaded": true,
+  "faqList": Array [],
+  "faqLoaded": false,
+  "loadingError": true,
 }
 `;

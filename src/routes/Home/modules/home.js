@@ -225,6 +225,12 @@ export function selectLocation(payload) {
     RNGooglePlaces.lookUpPlaceByID(payload)
       .then((result) => {
         dispatch({
+          type: constants.TOGGLE_CALLOUT,
+          payload: {
+            value: false
+          }
+        })
+        dispatch({
           type: GET_SELECTED_ADDRESS,
           payload: result
         })
@@ -352,6 +358,7 @@ const ACTION_HANDLERS = {
   TOGGLE_CENTRE_MARKER: actionHandlers.handleToggleCentreMarker,
   TOGGLE_LOADER: actionHandlers.handleToggleLoader,
   TOGGLE_SEARCH_BAR: actionHandlers.handleToggleSearchBar,
+  TOGGLE_CALLOUT: actionHandlers.handleToggleCallout,
 }
 
 function handleGetLocationPermission(state, action) {
@@ -620,7 +627,7 @@ function handleDisplayNearbyParkingSpots(state, action) {
   });
 }
 
-function handleSetMarkerPressed(state, action) {
+function handleSetMarkerPressed(state) {
   return update(state, {
     calloutPressed: {
       $set: true

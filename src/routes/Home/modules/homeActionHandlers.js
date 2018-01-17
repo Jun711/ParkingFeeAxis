@@ -25,6 +25,17 @@ export function handleMapPressed(state) {
   })
 }
 
+//-------------------------------
+// Utility fns
+//-------------------------------
+function toggleStateKey(state, key, action) {
+  return update(state, {
+    [key]: {
+      $set: action.payload ? action.payload.value : !state.calloutPressed
+    }
+  })
+}
+
 export function handleToggleCentreMarker(state, action) {
   return update(state, {
     displayCentreMarker: {
@@ -39,4 +50,8 @@ export function handleToggleLoader(state, action) {
       $set: action.payload ? action.payload.value : !state.displayLoader
     }
   })
+}
+
+export function handleToggleCallout(state, action) {
+  return toggleStateKey(state, 'calloutPressed', action)
 }

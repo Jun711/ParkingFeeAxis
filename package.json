@@ -41,6 +41,9 @@
 		"preset": "react-native",
 		"setupFiles": [
 			"./config/jest/globalFetch.js"
+		],
+		"transformIgnorePatterns": [
+			"node_modules/(?!(jest-)?react-native|react-navigation|mobx-react)"
 		]
 	},
 	"config": {

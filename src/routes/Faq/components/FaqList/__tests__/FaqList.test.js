@@ -7,10 +7,10 @@ import renderer from 'react-test-renderer';
 
 describe('<FaqList />', () => {
   it('FaqList renders correctly', () => {
-    const mapCalloutTree = renderer.create(
+    const faqListComponent = renderer.create(
       <FaqList />
     ).toJSON();
-    expect(mapCalloutTree).toMatchSnapshot();
+    expect(faqListComponent).toMatchSnapshot();
   });
 });
 

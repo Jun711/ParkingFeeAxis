@@ -25,13 +25,12 @@ describe(`handle ${LOAD_FAQ_LIST} action`, () => {
 describe(`handle ${LOAD_FAQ_LIST_ERROR} action`, () => {
   it(`handles ${LOAD_FAQ_LIST_ERROR} action`, () => {
     const error = new Error('error')
-
-    const errorMsg = [{'key': 0, 'text': 'Error: Faq Loading timeout'}];
-
-    expect(handleLoadFaqList(initialState, {type: LOAD_FAQ_LIST, payload: errorMsg})).toEqual({
+    const errorMsg = '[{"_id": 0, "text": "Error: Faq loading timeout"}]'
+    
+    expect(handleLoadFaqList(initialState, {type: LOAD_FAQ_LIST, payload: JSON.parse(errorMsg)})).toEqual({
       ...initialState,
       faqLoaded: true,
-      faqList: errorMsg
+      faqList: JSON.parse(errorMsg)
     })
 
     expect(handleLoadFaqList(initialState, {type: LOAD_FAQ_LIST_ERROR, error})).toMatchSnapshot()

@@ -4,15 +4,33 @@ import AboutContainer from './About/container/AboutContainer'
 import ContactContainer from './Contact/container/ContactContainer'
 import FaqContainer from './Faq/container/FaqContainer'
 import HomeContainer from './Home/container/HomeContainer'
+import ParkingSpotContainer from './ParkingSpot/container/ParkingSpotContainer'
 import { WHITE_COLOR, THEME_COLOR } from '../util/constants'
 
 const scenes = Actions.create(
   <Stack
     hideNavBar
     key='root'
+    duration={10}
   >
     <Scene key='home' component={HomeContainer} title='home' initial/>
-    <Stack key='about'>
+    <Stack key='parkingSpot'>
+      <Scene
+        navigationBarStyle={{backgroundColor: THEME_COLOR}}
+        key='_parkingSpot'
+        component={ParkingSpotContainer}
+        title='Parking Spot'
+        titleStyle={{alignSelf: 'flex-start', color: WHITE_COLOR}}
+        leftButtonStyle={{color: WHITE_COLOR}}
+        backButtonTintColor={WHITE_COLOR}
+        back={true}
+      />
+    </Stack>
+    <Stack key='about'
+           back
+           backTitle="Back"
+           duration={10}
+    >
       <Scene
         navigationBarStyle={{backgroundColor: THEME_COLOR}}
         key='_about'

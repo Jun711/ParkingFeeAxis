@@ -1,25 +1,25 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
+import { APP_NAME_FONT_SIZE, APP_VERSION_FONT_SIZE, TEXT_COLOR } from '../../../../util/constants'
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
     margin: 10,
     flex: 1,
-    // backgroundColor: '#fff',
     alignItems: 'center',
   },
   appName: {
-    fontSize: 15,
-    color: '#000',
+    fontSize: APP_NAME_FONT_SIZE,
+    color: TEXT_COLOR,
   },
   appVersion: {
-    fontSize: 10,
+    fontSize: APP_VERSION_FONT_SIZE,
     paddingBottom: 5,
   },
   logo: {
     height: 80,
     width: 80,
   }
-});
+})
 
-export default styles;
+export default styles

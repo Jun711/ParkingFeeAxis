@@ -5,8 +5,8 @@ import ContactInfoList from '../ContactInfoList'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
-describe('<ContactInfoList />', () => {
-  it('ContactInfoList renders correctly', () => {
+describe('<ParkingSpotDetail />', () => {
+  it('ParkingSpotDetail renders correctly', () => {
     const contactInfoComponent = renderer.create(
       <ContactInfoList/>
     ).toJSON()

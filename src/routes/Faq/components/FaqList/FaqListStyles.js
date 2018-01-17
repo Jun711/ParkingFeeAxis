@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { PRIMARY_FONT_SIZE, THEME_COLOR, TEXT_COLOR } from '../../../../util/constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -18,14 +19,14 @@ const styles = StyleSheet.create({
   },
   faqNumber: {
     flex: 1,
-    fontSize: 18,
-    color: '#38414e',
+    fontSize: PRIMARY_FONT_SIZE,
+    color: THEME_COLOR,
   },
   faqItem: {
     flex: 10,
     textAlign: 'left',
-    fontSize: 18,
-    color: '#38414e',
+    fontSize: PRIMARY_FONT_SIZE,
+    color: TEXT_COLOR,
   },
 });
 

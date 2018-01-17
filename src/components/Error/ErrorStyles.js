@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { THEME_COLOR, TEXT_COLOR } from '../../util/constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -19,13 +20,13 @@ const styles = StyleSheet.create({
   },
   infoIcon: {
     fontSize: 18,
-    color: '#38414e',
+    color: THEME_COLOR,
   },
   infoItem: {
     flex: 8,
     textAlign: 'left',
     fontSize: 18,
-    color: '#000',
+    color: TEXT_COLOR,
   },
 })
 

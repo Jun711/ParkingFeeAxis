@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { PRIMARY_FONT_SIZE, THEME_COLOR, TEXT_COLOR } from '../../../../util/constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -18,14 +19,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   infoIcon: {
-    fontSize: 18,
-    color: '#38414e',
+    fontSize: PRIMARY_FONT_SIZE,
+    color: THEME_COLOR,
   },
   infoItem: {
     flex: 8,
     textAlign: 'left',
-    fontSize: 18,
-    color: '#000',
+    fontSize: PRIMARY_FONT_SIZE,
+    color: TEXT_COLOR,
   },
 })
 

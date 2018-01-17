@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
     // backgroundColor: '#fff',
     alignItems: 'center',
   },
-  brandText: {
-    fontSize: 20,
+  appName: {
+    fontSize: 15,
     color: '#000',
   },
   appVersion: {

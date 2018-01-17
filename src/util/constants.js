@@ -35,11 +35,18 @@ export const MAX_PARKING_RATE = -1
 // color
 export const LOADER_COLOR = '#515c6d'
 export const THEME_COLOR = '#38414e'
+// export const CENTRE_MARKER_COLOR = '#8585ad'
+export const CURRENT_MARKER_COLOR = '#98a3b3'
+export const CENTRE_MARKER_COLOR ='#515c6d'
 export const WHITE_COLOR = '#fff'
 
 // search bar
 export const SEARCH_PLACEHOLDER = 'Search'
 export const SEARCH_INPUT_KEY = 'headerSearchBar'
+
+// error message
+export const CONTACT_INFO_LOADING_ERROR = 'Contact info loading timeout'
+export const FAQ_LOADING_ERROR = 'FAQ list loading timeout'
 
 
 

@@ -11,7 +11,7 @@ import styles from './MapContainerStyles';
 const greenPin = require('../../../../assets/greenPin.png');
 const yellowPin = require('../../../../assets/yellowPin.png');
 const orangePin = require('../../../../assets/orangePin.png');
-// const redPin = require('../../../../assets/redPin.png');
+const redPin = require('../../../../assets/redPin.png');
 
 export default class MapContainer extends Component {
 
@@ -19,9 +19,9 @@ export default class MapContainer extends Component {
     if (this.props.lowestRate == rate) {
       return greenPin
     } else if (this.props.highestRate == rate) {
-      return orangePin
+      return redPin
     } else {
-      return yellowPin
+      return yellowPin  
     }
   }
 

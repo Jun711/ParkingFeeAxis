@@ -47,7 +47,8 @@ const ACTION_HANDLERS = {
 //-------------------------------
 export const initialState = {
   contactInfoLoaded: false,
-  contactInfo: []
+  contactInfo: [],
+  loadingError: false,
 }
 
 export function ContactReducer(state = initialState, action) {

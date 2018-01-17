@@ -14,6 +14,9 @@ export function handleLoadContactInfo(state, action) {
     },
     contactInfo: {
       $set: action.payload
+    },
+    loadingError: {
+      $set: false
     }
   })
 }
@@ -22,10 +25,10 @@ export function handleLoadContactInfoError(state) {
   // TODO can make a global error page
   return update(state, {
     contactInfoLoaded: {
-      $set: true
+      $set: false
     },
-    contactInfo: {
-      $set: errorMsg
+    loadingError: {
+      $set: true
     }
   })
 }

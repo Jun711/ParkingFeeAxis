@@ -7,7 +7,8 @@ import {
 
 const mapStateToProps = (state) => ({
   contactInfoLoaded: state.contact.contactInfoLoaded || false,
-  contactInfo: state.contact.contactInfo || []
+  contactInfo: state.contact.contactInfo || [],
+  loadingError: state.contact.loadingError || false
 })
 
 // so that the component knows these actions exist

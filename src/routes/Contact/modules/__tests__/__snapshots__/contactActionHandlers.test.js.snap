@@ -20,6 +20,7 @@ Object {
     },
   ],
   "contactInfoLoaded": true,
+  "loadingError": false,
 }
 `;
 
@@ -27,12 +28,14 @@ exports[`handle LOAD_CONTACT_INFO action returns the same state on an unhandled 
 Object {
   "contactInfo": undefined,
   "contactInfoLoaded": true,
+  "loadingError": false,
 }
 `;
 
 exports[`handle LOAD_CONTACT_INFO_ERROR action handles LOAD_CONTACT_INFO_ERROR action 1`] = `
 Object {
-  "contactInfo": undefined,
-  "contactInfoLoaded": true,
+  "contactInfo": Array [],
+  "contactInfoLoaded": false,
+  "loadingError": true,
 }
 `;

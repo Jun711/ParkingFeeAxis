@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LOAD_CONTACT_INFO action should handle LOAD_CONTACT_INFO failure action 1`] = `
+Array [
+  Object {
+    "payload": [Error: error],
+    "type": "LOAD_CONTACT_INFO_ERROR",
+  },
+]
+`;
+
+exports[`LOAD_CONTACT_INFO action should handle LOAD_CONTACT_INFO success action 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "contactInfo": Array [
+        Object {
+          "icon": "envelope-o",
+          "method": "email",
+          "text": "Please email me at juny.g711@gmail.com.",
+        },
+      ],
+    },
+    "type": "LOAD_CONTACT_INFO",
+  },
+]
+`;

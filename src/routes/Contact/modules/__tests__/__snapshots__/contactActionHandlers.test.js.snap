@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`handle LOAD_CONTACT_INFO action handles LOAD_CONTACT_INFO success action 1`] = `
+Object {
+  "contactInfo": Array [
+    Object {
+      "icon": "envelope-o",
+      "method": "email",
+      "text": "Please email me at juny.g711@gmail.com.",
+    },
+    Object {
+      "icon": "globe",
+      "method": "web",
+      "text": "Check out my website at www.language-diary.com",
+    },
+    Object {
+      "icon": "twitter",
+      "method": "twitter",
+      "text": "Follow me at @Juny_g711",
+    },
+  ],
+  "contactInfoLoaded": true,
+}
+`;
+
+exports[`handle LOAD_CONTACT_INFO action returns the same state on an unhandled action 1`] = `
+Object {
+  "contactInfo": undefined,
+  "contactInfoLoaded": true,
+}
+`;
+
+exports[`handle LOAD_CONTACT_INFO_ERROR action handles LOAD_CONTACT_INFO_ERROR action 1`] = `
+Object {
+  "contactInfo": undefined,
+  "contactInfoLoaded": true,
+}
+`;

@@ -31,7 +31,7 @@ export function handleMapPressed(state) {
 function toggleStateKey(state, key, action) {
   return update(state, {
     [key]: {
-      $set: action.payload ? action.payload.value : !state.calloutPressed
+      $set: action.payload ? action.payload.value : !state[key]
     }
   })
 }

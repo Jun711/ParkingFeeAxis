@@ -62,6 +62,99 @@ Object {
 }
 `;
 
+exports[`handle TOGGLE_CALLOUT action returns the same state on an unhandled action 1`] = `
+Object {
+  "calloutPressed": true,
+  "displayCentreMarker": true,
+  "displayLoader": false,
+  "displaySearchBar": false,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "locationPredictions": Array [],
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;
+
+exports[`handle TOGGLE_CALLOUT action snapshot - handles TOGGLE_CALLOUT action with payload 1`] = `
+Object {
+  "calloutPressed": false,
+  "displayCentreMarker": true,
+  "displayLoader": false,
+  "displaySearchBar": false,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "locationPredictions": Array [],
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;
+
+exports[`handle TOGGLE_CALLOUT action snapshot handles TOGGLE_CALLOUT action without payload 1`] = `
+Object {
+  "calloutPressed": true,
+  "displayCentreMarker": true,
+  "displayLoader": false,
+  "displaySearchBar": false,
+  "gettingCurrentLocation": false,
+  "highestRate": -1,
+  "inputData": Object {},
+  "locationPermission": false,
+  "locationPredictions": Array [],
+  "lowestRate": 100,
+  "nearbyParkingSpots": Array [],
+  "parkingSpotIDSet": Set {},
+  "region": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+  "resultTypes": Object {},
+  "selectedAddress": Object {},
+  "userCoord": Object {
+    "latitude": 49.282,
+    "latitudeDelta": 0.01,
+    "longitude": -123.1171,
+    "longitudeDelta": 0.005622188905547227,
+  },
+}
+`;
+
 exports[`handle TOGGLE_CENTRE_MARKER action returns the same state on an unhandled action 1`] = `
 Object {
   "calloutPressed": false,

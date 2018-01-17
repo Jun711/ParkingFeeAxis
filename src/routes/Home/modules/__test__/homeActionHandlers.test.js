@@ -121,3 +121,41 @@ describe(`handle ${constants.TOGGLE_LOADER} action`, () => {
     })).toMatchSnapshot()
   })
 })
+
+describe(`handle ${constants.TOGGLE_CALLOUT} action`, () => {
+  it('returns the same state on an unhandled action', () => {
+    expect(actionHandlers.handleToggleCallout(initialState, {type: undefined})).toMatchSnapshot()
+  })
+
+  it(`handles ${constants.TOGGLE_CALLOUT} action without payload`, () => {
+    expect(actionHandlers.handleToggleCallout(initialState, {type: constants.TOGGLE_CALLOUT})).toEqual({
+      ...initialState,
+      calloutPressed: !initialState.calloutPressed,
+    })
+  })
+
+  it(`snapshot handles ${constants.TOGGLE_CALLOUT} action without payload`, () => {
+    expect(actionHandlers.handleToggleCallout(initialState, {
+      type: constants.TOGGLE_CALLOUT,
+    })).toMatchSnapshot()
+  })
+
+  it(`handles ${constants.TOGGLE_CALLOUT} action with payload`, () => {
+    const payload = {value: true}
+
+    expect(actionHandlers.handleToggleCallout(initialState, {
+      type: constants.TOGGLE_CALLOUT,
+      payload
+    })).toEqual({
+      ...initialState,
+      calloutPressed: payload.value
+    })
+  })
+
+  it(`snapshot - handles ${constants.TOGGLE_CALLOUT} action with payload`, () => {
+    expect(actionHandlers.handleToggleCallout(initialState, {
+      type: constants.TOGGLE_CALLOUT,
+      payload: {value: false}
+    })).toMatchSnapshot()
+  })
+})

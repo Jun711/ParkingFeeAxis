@@ -12,6 +12,8 @@ target 'reactNativePractice' do
   pod 'GoogleMaps'
   pod 'GooglePlacePicker'
 
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   target 'reactNativePracticeTests' do
     # inherit! :search_paths
     # Pods for testing

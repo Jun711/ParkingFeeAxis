@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppRegistry, ScrollView, Text, StyleSheet } from 'react-native'
+import { AppRegistry, ScrollView, StyleSheet } from 'react-native'
 import ParkingSpotDetail from './ParkingSpotDetail/ParkingSpotDetail'
 
 class ParkingSpot extends Component {
@@ -9,7 +9,8 @@ class ParkingSpot extends Component {
       <ScrollView contentContainerStyle={styles.container}>
         <ParkingSpotDetail
           calloutDetail={this.props.calloutDetail}
-          presentRate={this.props.presentRate}
+          presentRateText={this.props.presentRateText}
+          presentTimeLimitText={this.props.presentTimeLimitText}
         />
       </ScrollView>
     )

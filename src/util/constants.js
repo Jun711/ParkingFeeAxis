@@ -20,13 +20,16 @@ export const APP_NAME = 'Path'
 export const APP_VERSION = 'Version 1.0.0'
 
 // time
-export const WEEKDAY_9_6 = 'weekdayOfficeHourRate'
-export const WEEKDAY_6_PLUS = 'weekdayAfterOfficeRate'
-export const SAT_9_6 = 'satOfficeHourRate'
-export const SAT_6_PLUS = 'satAfterOfficeRate'
-export const SUN_9_6 = 'sunOfficeHourRate'
-export const SUN_6_PLUS = 'sunAfterOfficeRate'
+export const WEEKDAY_9_6 = 'weekdayOffice'
+export const WEEKDAY_6_PLUS = 'weekdayAfterOffice'
+export const SAT_9_6 = 'satOffice'
+export const SAT_6_PLUS = 'satAfterOffice'
+export const SUN_9_6 = 'sunOffice'
+export const SUN_6_PLUS = 'sunAfterOffice'
 export const FREE_PARKING = 'freeParking'
+export const FREE_PARKING_LIMIT = 'until 9am'
+export const NO_TIME_LIMIT_TEXT = 'no limit'
+
 
 // min and max rate
 export const MIN_PARKING_RATE = 100
@@ -55,7 +58,3 @@ export const SEARCH_INPUT_KEY = 'headerSearchBar'
 // error message
 export const CONTACT_INFO_LOADING_ERROR = 'Contact info loading timeout'
 export const FAQ_LOADING_ERROR = 'FAQ list loading timeout'
-
-
-
-

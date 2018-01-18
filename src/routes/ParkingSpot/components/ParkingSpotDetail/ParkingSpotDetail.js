@@ -7,8 +7,9 @@ export default class ParkingSpotDetail extends Component {
 
   constructor(props) {
     super(props)
-    this._presentRate = this.props.presentRate ? this.props.presentRate : 1
-    this._hourCount = this.props.hourLimit && this.props.hourLimit > 1 ? 'hours' : 'hour'
+    this._presentRate = this.props.presentRateText
+    this._hourCount = this.props.presentTimeLimitText.startsWith('no') ?
+      'There is no time limit.' : `Time limit is ${this.props.presentTimeLimitText}.`
   }
 
   render() {
@@ -17,11 +18,11 @@ export default class ParkingSpotDetail extends Component {
         <View>
           <IconWithText
             icon='money'
-            message={`It is $${this._presentRate} per hour.`}
+            message={`It is ${this._presentRate} now.`}
           />
           <IconWithText
             icon='hourglass-start'
-            message={`Time limit is ${this._presentRate} ${this._hourCount}.`}
+            message={this._hourCount}
           />
         </View>
         <Text

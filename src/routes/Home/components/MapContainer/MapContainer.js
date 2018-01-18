@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 import { View } from 'native-base';
 import MapView from 'react-native-maps';
-import SearchBox from '../SearchBox/SearchBox';
-import SearchResults from '../SearchResults/SearchResults';
 import MapCallout from '../MapCallout/MapCallout';
 import { LOADER_COLOR } from '../../../../util/constants';
 import styles from './MapContainerStyles';
@@ -21,7 +18,7 @@ export default class MapContainer extends Component {
     } else if (this.props.highestRate == rate) {
       return redPin
     } else {
-      return yellowPin  
+      return yellowPin
     }
   }
 
@@ -32,7 +29,7 @@ export default class MapContainer extends Component {
           showsUserLocation={false}
           showsMyLocationButton={true}
           loadingEnabled={true}
-          // scrollEnabled={false}
+          zoomControlEnabled={true}
           rotateEnabled={true}
           moveOnMarkerPress={false}
           loadingIndicatorColor={LOADER_COLOR}
@@ -53,6 +50,7 @@ export default class MapContainer extends Component {
           {
             this.props.nearbyParkingSpots && this.props.nearbyParkingSpots.map((parkingSpot, index) => {
               let pin = this.decidePin.bind(this, parkingSpot.properties.presentRate)()
+              let calloutText = `Rate: ${parkingSpot.properties.presentRateText}\nTime limit: ${parkingSpot.properties.presentTimeLimitText}`
 
               return (<MapView.Marker
                 key={index}
@@ -65,27 +63,23 @@ export default class MapContainer extends Component {
                 image={pin}
                 onPress={(event) => this.props.onMarkerPressed(event.nativeEvent)}
               >
-                <MapView.Callout tooltip={true}>
+                <MapView.Callout
+                  tooltip={true}
+                  onPress={(event) => this.props.onCalloutPressed({
+                    event: event.nativeEvent,
+                    calloutDetail: parkingSpot.properties.description,
+                    presentRateText: parkingSpot.properties.presentRateText,
+                    presentTimeLimitText: parkingSpot.properties.presentTimeLimitText
+                  })}
+                >
                   <MapCallout
-                    text={parkingSpot.properties.description}
+                    text={calloutText}
                   />
                 </MapView.Callout>
               </MapView.Marker>)
             })
           }
         </MapView.Animated>
-        {/*<SearchBox*/}
-        {/*getInputData={this.props.getInputData}*/}
-        {/*toggleSearchResultModal={this.props.toggleSearchResultModal}*/}
-        {/*getLocationPredictions={this.props.getLocationPredictions}*/}
-        {/*selectedAddress={this.props.selectedAddress}*/}
-        {/*/>*/}
-        {/*{(this.props.resultTypes.pickUp || this.props.resultTypes.dropOff) &&*/}
-        {/*<SearchResults*/}
-        {/*predictions={this.props.predictions}*/}
-        {/*getSelectedAddress={this.props.getSelectedAddress}*/}
-        {/*/>*/}
-        {/*}*/}
       </View>
     )
   }

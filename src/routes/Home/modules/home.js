@@ -26,7 +26,7 @@ import {
   FREE_PARKING,
   SEARCH_INPUT_KEY,
   DEFAULT_LATITUDE,
-  DEFAULT_LONGITUDE
+  DEFAULT_LONGITUDE, NO_TIME_LIMIT_TEXT, FREE_PARKING_LIMIT
 } from '../../../util/constants';
 import * as actionHandlers from './homeActionHandlers'
 
@@ -161,6 +161,14 @@ export function getCurrentLocation() {
         },
         {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
       )
+
+      // TODO check if it updates my current location
+      this.watchID = navigator.geolocation.watchPosition((position) => {
+        dispatch({
+          type: GET_CURRENT_LOCATION,
+          payload: position
+        });
+      })
     }
   }
 }
@@ -278,11 +286,11 @@ export function handleRegionChangeComplete(payload) {
       payload
     })
 
-    // // TODO
-    // dispatch({
-    //   type: DISPLAY_NEARBY_PARKING_SPOTS,
-    //   payload: parkingSpots
-    // })
+    // TODO
+    dispatch({
+      type: DISPLAY_NEARBY_PARKING_SPOTS,
+      payload: parkingSpots
+    })
     if (!store().home.calloutPressed) {
       request
         .get(PARKING_SERVER_URL)
@@ -306,11 +314,17 @@ export function handleRegionChangeComplete(payload) {
   }
 }
 
-// handle marker press
 export function onMarkerPressed(payload) {
   console.log('onMarkerPressed: ', payload)
   return {
     type: SET_MARKER_PRESSED,
+    payload
+  }
+}
+
+export function onCalloutPressed(payload) {
+  return {
+    type: constants.DISPLAY_CALLOUT_DETAIL,
     payload
   }
 }
@@ -359,6 +373,7 @@ const ACTION_HANDLERS = {
   TOGGLE_LOADER: actionHandlers.handleToggleLoader,
   TOGGLE_SEARCH_BAR: actionHandlers.handleToggleSearchBar,
   TOGGLE_CALLOUT: actionHandlers.handleToggleCallout,
+  DISPLAY_CALLOUT_DETAIL: actionHandlers.handleDisplayCalloutDetail,
 }
 
 function handleGetLocationPermission(state, action) {
@@ -570,24 +585,44 @@ function getPresent() {
   }
 }
 
-// process parking spot to display
+function parseTimeLimit(timeLimit) {
+  if (timeLimit.startsWith('no time limit')) {
+    return NO_TIME_LIMIT_TEXT
+  } else if (timeLimit.startsWith('until 9am')) {
+    return FREE_PARKING_LIMIT
+  } else {
+    if (timeLimit == 1) {
+      return '1 hour'
+    } else {
+      return timeLimit + ' hours'
+    }
+  }
+}
+
+function parseRate(rate) {
+  return rate === '0' ? 'free' : `$${rate} per hour`
+}
+
 function processParkingSpotDesc(parkingSpots, lowestRate, highestRate) {
   let present = getPresent()
 
-  // TODO: handle FREE_PARKING
+  // TODO: handle FREE_PARKING and processed variable
   for (let i = 0; i < parkingSpots.length; i++) {
     if (!parkingSpots[i].processed && parkingSpots[i] && parkingSpots[i].properties) {
-      let parkingSpotCurrentRate = parkingSpots[i].properties[present];
+      let parkingSpotCurrentRate = parkingSpots[i].properties[present].rate;
+      let parkingSpotCurrentTimeLimit = parkingSpots[i].properties[present].limit;
       console.log('parkingSpotCurrentRate: ', parkingSpotCurrentRate);
       if (parkingSpotCurrentRate < lowestRate) {
-        lowestRate = parkingSpots[i].properties[present];
+        lowestRate = parkingSpots[i].properties[present].rate;
       }
 
       if (parkingSpotCurrentRate > highestRate) {
-        highestRate = parkingSpots[i].properties[present];
+        highestRate = parkingSpots[i].properties[present].rate;
       }
 
       parkingSpots[i].properties.presentRate = parkingSpotCurrentRate;
+      parkingSpots[i].properties.presentRateText = parseRate(parkingSpotCurrentRate);
+      parkingSpots[i].properties.presentTimeLimitText = parseTimeLimit(parkingSpotCurrentTimeLimit);
       parkingSpots[i].processed = true;
     }
   }
@@ -654,7 +689,7 @@ function handleShowToast(state, action) {
 //-------------------------------
 export const initialState = {
   calloutPressed: false,
-  displayCentreMarker: true,
+  displayCentreMarker: false,
   displayLoader: false,
   displaySearchBar: false,
   gettingCurrentLocation: false,

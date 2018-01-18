@@ -46,6 +46,7 @@ class Home extends React.Component {
           nearbyParkingSpots={this.props.nearbyParkingSpots}
           displayCentreMarker={this.props.displayCentreMarker}
           onMarkerPressed={this.props.onMarkerPressed}
+          onCalloutPressed={this.props.onCalloutPressed}
           onMapPressed={this.props.onMapPressed}
           lowestRate={this.props.lowestRate}
           highestRate={this.props.highestRate}

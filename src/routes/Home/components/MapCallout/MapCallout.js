@@ -15,6 +15,7 @@ export default class MapCallout extends Component {
       <Text style={styles.mapCalloutText}
             selectable={true}
             adjustsFontSizeToFit={true}
+            allowFontScaling={true}
       >{this.props.text}</Text>
     )
   }

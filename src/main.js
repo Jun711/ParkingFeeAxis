@@ -8,7 +8,6 @@ export const store = createStore(initialState);
 
 export default class Root extends React.Component {
   renderApp(){
-    console.log('renderApp store: ', store);
     return (
       <AppContainer store={store} />
     );

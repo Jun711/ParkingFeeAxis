@@ -18,7 +18,9 @@ export class Error extends Component {
           <View style={styles.iconContainer}>
             <Icon style={styles.infoIcon} name='warning'/>
           </View>
-          <Text style={styles.infoItem}>{this.errorMessage}</Text>
+          <Text
+            allowFontScaling={true}
+            style={styles.infoItem}>{this.errorMessage}</Text>
         </View>
       </View>
     )

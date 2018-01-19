@@ -10,9 +10,10 @@ exports[`<MapCallout /> MapCallout renders correctly 1`] = `
   style={
     Object {
       "backgroundColor": "#fff",
-      "borderColor": "#000",
+      "borderColor": "#38414e",
       "borderWidth": 1,
-      "fontSize": 10,
+      "color": "#000",
+      "fontSize": 18,
       "padding": 5,
       "position": "relative",
       "zIndex": 5,

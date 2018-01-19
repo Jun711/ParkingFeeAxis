@@ -1,13 +1,13 @@
-import React from 'react';
-import { AppRegistry, StyleSheet, Dimensions } from 'react-native';
+import React from 'react'
+import { AppRegistry, Dimensions, StyleSheet } from 'react-native'
 import { Container } from 'native-base'
-import MapContainer from './MapContainer/MapContainer';
-import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent';
-import FloatingActionButton from './FloatingActionButton/FloatingActionButton';
-import FloatingCenterMarker from './FloatingCenterMarker/FloatingCenterMarker';
+import MapContainer from './MapContainer/MapContainer'
+import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent'
+import FloatingActionButton from './FloatingActionButton/FloatingActionButton'
+import FloatingCenterMarker from './FloatingCenterMarker/FloatingCenterMarker'
 import SearchResults from './SearchResults/SearchResults'
 
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window')
 
 const SCREEN_HEIGHT = height
 const SCREEN_WIDTH = width
@@ -18,7 +18,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 class Home extends React.Component {
 
   componentDidMount() {
-    this.props.checkLocationPermission();
+    this.props.checkLocationPermission()
   }
 
   render() {
@@ -26,8 +26,8 @@ class Home extends React.Component {
       <Container>
         <HeaderComponent
           handleSearchInput={this.props.getInputData}
-          getLocationPredictions={this.props.getLocationPredictions}
           displaySearchBar={this.props.displaySearchBar}
+          getLocationPredictions={this.props.getLocationPredictions}
           onHeaderPressed={this.props.onHeaderPressed}
           onHeaderBackPressed={this.props.onHeaderBackPressed}
         />
@@ -40,7 +40,6 @@ class Home extends React.Component {
           getLocationPredictions={this.props.getLocationPredictions}
           resultTypes={this.props.resultTypes}
           predictions={this.props.predictions}
-          getSelectedAddress={this.props.selectLocation}
           selectedAddress={this.props.selectedAddress}
           handleRegionChangeComplete={this.props.handleRegionChangeComplete}
           nearbyParkingSpots={this.props.nearbyParkingSpots}
@@ -71,14 +70,6 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default Home
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
-});
-
-AppRegistry.registerComponent('Home', () => Home);
+AppRegistry.registerComponent('Home', () => Home)

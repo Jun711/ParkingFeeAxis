@@ -1,6 +1,5 @@
 import update from "immutability-helper/index";
 import { Actions } from 'react-native-router-flux'
-import ParkingSpotDetail from "../../ParkingSpot/components/ParkingSpotDetail/ParkingSpotDetail";
 
 export function handleToggleSearchBar(state) {
   return update(state, {

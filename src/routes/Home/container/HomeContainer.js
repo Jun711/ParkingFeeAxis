@@ -3,7 +3,6 @@ import Home from '../components/Home';
 import { MIN_PARKING_RATE, MAX_PARKING_RATE } from '../../../util/constants';
 import {
   checkLocationPermission,
-  // getLocationPermission,
   getCurrentLocation,
   getInputData,
   toggleSearchResultModal,
@@ -38,7 +37,6 @@ const mapStateToProps = (state) => ({
 // so that the component knows these actions exist
 const mapActionCreators = {
   checkLocationPermission,
-  // getLocationPermission,
   getCurrentLocation,
   getInputData,
   toggleSearchResultModal,

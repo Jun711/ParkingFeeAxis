@@ -1,7 +1,7 @@
 // contains actions and handlers
-import update from 'immutability-helper';
-import constants from './actionConstants';
-import {} from '../../../util/constants';
+import update from 'immutability-helper'
+import constants from './actionConstants'
+import {} from '../../../util/constants'
 import { Actions } from 'react-native-router-flux'
 
 
@@ -10,7 +10,7 @@ import { Actions } from 'react-native-router-flux'
 //-------------------------------
 const {
   OPEN_PAGE
-} = constants;
+} = constants
 
 //-------------------------------
 // Utility functions
@@ -35,8 +35,8 @@ const ACTION_HANDLERS = {
 }
 
 function handleOpenPage(state, action) {
-  console.log('action: ', action);
-  Actions[action.payload.page].call();
+  console.log('action: ', action)
+  Actions[action.payload.page].call()
   return update(state, {
     currentPage: {
       $set: action.payload.page
@@ -49,10 +49,10 @@ function handleOpenPage(state, action) {
 //-------------------------------
 const initialState = {
   currentPage: '',
-};
+}
 
 export function AboutReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type];
+  const handler = ACTION_HANDLERS[action.type]
 
-  return handler ? handler(state, action) : state;
+  return handler ? handler(state, action) : state
 }

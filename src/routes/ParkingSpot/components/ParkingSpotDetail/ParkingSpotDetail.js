@@ -8,7 +8,7 @@ export default class ParkingSpotDetail extends Component {
   constructor(props) {
     super(props)
     this._presentRate = this.props.presentRateText
-    this._hourCount = this.props.presentTimeLimitText.startsWith('no') ?
+    this._hourCount = this.props.presentTimeLimitText && this.props.presentTimeLimitText.startsWith('no') ?
       'There is no time limit.' : `Time limit is ${this.props.presentTimeLimitText}.`
   }
 

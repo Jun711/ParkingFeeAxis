@@ -8,9 +8,21 @@ import renderer from 'react-test-renderer'
 describe('<ParkingSpotDetail />', () => {
   it('ParkingSpotDetail renders correctly', () => {
     const parkingSpotDetailComponent = renderer.create(
-      <ParkingSpotDetail/>
+      <ParkingSpotDetail
+        presentRateText={'$1 per hour.'}
+        presentTimeLimitText={'2 hours.'}
+      />
+    ).toJSON()
+    expect(parkingSpotDetailComponent).toMatchSnapshot()
+  })
+
+  it('ParkingSpotDetail renders correctly', () => {
+    const parkingSpotDetailComponent = renderer.create(
+      <ParkingSpotDetail
+        presentRateText={'free now.'}
+        presentTimeLimitText={'no time limit.'}
+      />
     ).toJSON()
     expect(parkingSpotDetailComponent).toMatchSnapshot()
   })
 })
-

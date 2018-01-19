@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { Text, Keyboard, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types'
 import { Header, Left, Right, Button, Input, Item, InputGroup } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
-
 import styles from './HeaderComponentStyles'
 import { SEARCH_INPUT_KEY, SEARCH_PLACEHOLDER, THEME_COLOR } from '../../util/constants'
 import debounce from 'lodash/debounce'
@@ -14,15 +13,35 @@ export class HeaderComponent extends Component {
 
   constructor(props) {
     super(props)
-    this.debouncedHandleInput = debounce(this.handleInput.bind(this), 500)
+    this.debouncedHandleInput = debounce(this._handleInput.bind(this), 500)
+    this._shouldPop = false
   }
 
-  handleInput(val) {
+  componentWillMount() {
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidHide() {
+    if (this._shouldPop) {
+      this.props.onHeaderBackPressed({value: false})
+    }
+  }
+
+  _handleInput(val) {
     this.props.handleSearchInput({
       'key': SEARCH_INPUT_KEY,
       'value': val
     })
     this.props.getLocationPredictions();
+  }
+
+  _backButtonPressed() {
+    this._shouldPop = true
+    Keyboard.dismiss();
   }
 
   render() {
@@ -49,7 +68,7 @@ export class HeaderComponent extends Component {
         {this.props.displaySearchBar &&
         <Left style={{flex: 1}}>
           <TouchableOpacity>
-            <Button transparent onPress={() => this.props.onHeaderBackPressed({value: false})}>
+            <Button transparent onPress={() => this._backButtonPressed()}>
               <MaterialIcon name='arrow-left' style={styles.backIcon}/>
             </Button>
           </TouchableOpacity>

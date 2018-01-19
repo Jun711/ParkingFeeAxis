@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
   },
   distance: {
     fontSize: 12,
+  },
+  container: {
+    flex: 1,
   }
 })
 

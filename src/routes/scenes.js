@@ -46,7 +46,7 @@ const scenes = Actions.create(
         navigationBarStyle={{backgroundColor: THEME_COLOR}}
         key='contact'
         component={ContactContainer}
-        title='Contact Me'
+        title='Hello'
         titleStyle={{alignSelf: 'flex-start', color: WHITE_COLOR}}
         back={true}
       />

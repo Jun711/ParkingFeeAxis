@@ -1,7 +1,5 @@
 // contains actions and handlers
 import constants from './actionConstants'
-import {} from '../../../util/constants'
-import { ToastAndroid } from 'react-native'
 import timeout from '../../../util/timeout'
 import {
   CONTACT_INFO,

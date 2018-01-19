@@ -275,6 +275,14 @@ export function selectLocation(payload) {
   }
 }
 
+function shouldRetrieve(lastSearchCoords, currentCoordinates) {
+  if (lastSearchCoords.latitude.toFixed(3) === currentCoordinates.latitude.toFixed(3)
+    && lastSearchCoords.longitude.toFixed(3) === currentCoordinates.longitude.toFixed(3)) {
+    return false
+  }
+  return true
+}
+
 // update map region and get nearby parking spots
 export function handleRegionChangeComplete(payload) {
   return (dispatch, store) => {
@@ -291,25 +299,36 @@ export function handleRegionChangeComplete(payload) {
       type: DISPLAY_NEARBY_PARKING_SPOTS,
       payload: parkingSpots
     })
+
     if (!store().home.calloutPressed) {
-      request
-        .get(PARKING_SERVER_URL)
-        .query({
-          latitude: payload.latitude,
-          longitude: payload.longitude
-        })
-        .finish((err, res) => {
-          if (err) {
-            // TODO: display error
-            console.log('parkingSpots req err: ', err);
-          } else {
-            console.log('res from server: ', res.body);
-            dispatch({
-              type: DISPLAY_NEARBY_PARKING_SPOTS,
-              payload: res.body
-            })
-          }
-        })
+      if (shouldRetrieve(store().home.lastSearchCoordinates,
+          {latitude: payload.latitude, longitude: payload.longitude})) {
+        request
+          .get(PARKING_SERVER_URL)
+          .query({
+            latitude: payload.latitude,
+            longitude: payload.longitude
+          })
+          .finish((err, res) => {
+            if (err) {
+              // TODO: display error
+              console.log('parkingSpots req err: ', err);
+            } else {
+              console.log('res from server: ', res.body);
+              dispatch({
+                type: constants.UPDATE_LAST_SEARCH,
+                payload: {
+                  latitude: payload.latitude,
+                  longitude: payload.longitude
+                }
+              })
+              dispatch({
+                type: DISPLAY_NEARBY_PARKING_SPOTS,
+                payload: res.body
+              })
+            }
+          })
+      }
     }
   }
 }
@@ -374,6 +393,7 @@ const ACTION_HANDLERS = {
   TOGGLE_SEARCH_BAR: actionHandlers.handleToggleSearchBar,
   TOGGLE_CALLOUT: actionHandlers.handleToggleCallout,
   DISPLAY_CALLOUT_DETAIL: actionHandlers.handleDisplayCalloutDetail,
+  UPDATE_LAST_SEARCH: actionHandlers.handleUpdateLastSearch,
 }
 
 function handleGetLocationPermission(state, action) {
@@ -700,6 +720,10 @@ export const initialState = {
   nearbyParkingSpots: [],
   parkingSpotIDSet: new Set(),
   locationPredictions: [],
+  lastSearchCoordinates: {
+    latitude: 0,
+    longitude: 0
+  },
   region: {
     latitude: DEFAULT_LATITUDE,
     longitude: DEFAULT_LONGITUDE,

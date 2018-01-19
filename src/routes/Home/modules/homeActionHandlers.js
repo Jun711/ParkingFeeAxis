@@ -36,15 +36,21 @@ export function handleDisplayCalloutDetail(state, action) {
   return update(state, {})
 }
 
-//-------------------------------
-// Utility fns
-//-------------------------------
-function toggleStateKey(state, key, action) {
-  return update(state, {
-    [key]: {
-      $set: action.payload ? action.payload.value : !state[key]
-    }
-  })
+export function handleUpdateLastSearch(state, action) {
+  if (action.payload) {
+    return update(state, {
+      lastSearchCoordinates: {
+        latitude: {
+          $set: action.payload.latitude
+        },
+        longitude: {
+          $set: action.payload.longitude
+        }
+      }
+    })
+  } else {
+    return update(state, {})
+  }
 }
 
 export function handleToggleCentreMarker(state, action) {
@@ -66,3 +72,16 @@ export function handleToggleLoader(state, action) {
 export function handleToggleCallout(state, action) {
   return toggleStateKey(state, 'calloutPressed', action)
 }
+
+//-------------------------------
+// Utility fns
+//-------------------------------
+function toggleStateKey(state, key, action) {
+  return update(state, {
+    [key]: {
+      $set: action.payload ? action.payload.value : !state[key]
+    }
+  })
+}
+
+

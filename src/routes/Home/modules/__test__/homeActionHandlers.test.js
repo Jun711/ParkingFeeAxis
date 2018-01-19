@@ -159,3 +159,26 @@ describe(`handle ${constants.TOGGLE_CALLOUT} action`, () => {
     })).toMatchSnapshot()
   })
 })
+
+describe(`handle ${constants.UPDATE_LAST_SEARCH} action`, () => {
+  it('returns the same state on an unhandled action', () => {
+    expect(actionHandlers.handleUpdateLastSearch(initialState, {type: undefined})).toMatchSnapshot()
+  })
+
+  const payload = {latitude: 111, longitude: -50}
+
+  it(`handles ${constants.UPDATE_LAST_SEARCH} action`, () => {
+    expect(actionHandlers.handleUpdateLastSearch(initialState, {type: constants.UPDATE_LAST_SEARCH, payload: payload})).toEqual({
+      ...initialState,
+      lastSearchCoordinates: {
+        latitude: payload.latitude,
+        longitude: payload.longitude
+      }
+    })
+
+    expect(actionHandlers.handleUpdateLastSearch(initialState, {
+      type: constants.UPDATE_LAST_SEARCH,
+      payload
+    })).toMatchSnapshot()
+  })
+})

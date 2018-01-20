@@ -1,11 +1,12 @@
 import React from 'react'
-import { AppRegistry, Dimensions, StyleSheet } from 'react-native'
+import { AppRegistry, Dimensions } from 'react-native'
 import { Container } from 'native-base'
 import MapContainer from './MapContainer/MapContainer'
 import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent'
 import FloatingActionButton from './FloatingActionButton/FloatingActionButton'
 import FloatingCenterMarker from './FloatingCenterMarker/FloatingCenterMarker'
 import SearchResults from './SearchResults/SearchResults'
+import BottomBannerAd from '../../../components/BottomBannerAd/BottomBannerAd'
 
 const {width, height} = Dimensions.get('window')
 
@@ -65,6 +66,7 @@ class Home extends React.Component {
           selectLocation={this.props.selectLocation}
         />
         }
+        <BottomBannerAd/>
       </Container>
     )
   }

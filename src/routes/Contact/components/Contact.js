@@ -5,6 +5,7 @@ import Loader from '../../../components/Loader/Loader'
 import ContactInfoList from './ContactInfoList/ContactInfoList'
 import Error from '../../../components/Error/Error'
 import { CONTACT_INFO_LOADING_ERROR } from '../../../util/constants'
+import BottomBannerAd from '../../../components/BottomBannerAd/BottomBannerAd'
 
 class Contact extends Component {
 
@@ -18,6 +19,7 @@ class Contact extends Component {
         {!this.props.loadingError && !this.props.contactInfoLoaded && <Loader/>}
         {this.props.contactInfoLoaded && <ContactInfoList contactInfo={this.props.contactInfo}/>}
         {this.props.loadingError && <Error errorMsg={CONTACT_INFO_LOADING_ERROR}/>}
+        <BottomBannerAd/>
       </View>
     )
   }

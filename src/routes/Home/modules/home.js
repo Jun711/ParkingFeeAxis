@@ -26,7 +26,14 @@ import {
   FREE_PARKING,
   SEARCH_INPUT_KEY,
   DEFAULT_LATITUDE,
-  DEFAULT_LONGITUDE, NO_TIME_LIMIT_TEXT, FREE_PARKING_LIMIT
+  DEFAULT_LONGITUDE,
+  NO_TIME_LIMIT_TEXT,
+  FREE_PARKING_LIMIT,
+  NORTH_BAND,
+  SOUTH_BAND,
+  EAST_BAND,
+  WEST_BAND,
+  SERVICE_UNAVAILABLE
 } from '../../../util/constants';
 import * as actionHandlers from './homeActionHandlers'
 
@@ -53,9 +60,6 @@ const {
 } = constants;
 
 const {width, height} = Dimensions.get('window')
-
-const SCREEN_HEIGHT = height;
-const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
@@ -91,7 +95,6 @@ export function checkLocationPermission() {
     PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
       .then((suc, err) => {
         if (suc) {
-          // getLocationPermission();
           dispatch({
             type: SET_LOCATION_PERMISSION,
             payload: suc
@@ -275,19 +278,27 @@ export function selectLocation(payload) {
   }
 }
 
-function shouldRetrieve(lastSearchCoords, currentCoordinates) {
-  if (lastSearchCoords.latitude.toFixed(3) === currentCoordinates.latitude.toFixed(3)
-    && lastSearchCoords.longitude.toFixed(3) === currentCoordinates.longitude.toFixed(3)) {
+function isWithinBound(coordinates) {
+  if (coordinates.latitude > NORTH_BAND || coordinates.latitude < SOUTH_BAND
+    || coordinates.longitude > EAST_BAND || coordinates.longitude < WEST_BAND) {
     return false
   }
   return true
+}
+
+function isCloseToLastSearch(lastSearchCoords, nextSearchCoordinates) {
+  if (lastSearchCoords.latitude.toFixed(3) === nextSearchCoordinates.latitude.toFixed(3)
+    && lastSearchCoords.longitude.toFixed(3) === nextSearchCoordinates.longitude.toFixed(3)) {
+    return true
+  }
+  return false
 }
 
 // update map region and get nearby parking spots
 export function handleRegionChangeComplete(payload) {
   return (dispatch, store) => {
     if (store().home.calloutPressed) {
-      payload = {...payload, notDisplayingMarker: true}
+      payload = {...payload, notDisplayingCenterMarker: true}
     }
     dispatch({
       type: UPDATE_CENTER_MARKER,
@@ -301,33 +312,43 @@ export function handleRegionChangeComplete(payload) {
     })
 
     if (!store().home.calloutPressed) {
-      if (shouldRetrieve(store().home.lastSearchCoordinates,
-          {latitude: payload.latitude, longitude: payload.longitude})) {
-        request
-          .get(PARKING_SERVER_URL)
-          .query({
-            latitude: payload.latitude,
-            longitude: payload.longitude
-          })
-          .finish((err, res) => {
-            if (err) {
-              // TODO: display error
-              console.log('parkingSpots req err: ', err);
-            } else {
-              console.log('res from server: ', res.body);
-              dispatch({
-                type: constants.UPDATE_LAST_SEARCH,
-                payload: {
-                  latitude: payload.latitude,
-                  longitude: payload.longitude
-                }
-              })
-              dispatch({
-                type: DISPLAY_NEARBY_PARKING_SPOTS,
-                payload: res.body
-              })
+
+      if (!isWithinBound({latitude: payload.latitude, longitude: payload.longitude})) {
+          dispatch({
+            type: SHOW_TOAST,
+            payload: {
+              text: SERVICE_UNAVAILABLE
             }
-          })
+          });
+      } else {
+        if (!isCloseToLastSearch(store().home.lastSearchCoordinates,
+            {latitude: payload.latitude, longitude: payload.longitude})) {
+          request
+            .get(PARKING_SERVER_URL)
+            .query({
+              latitude: payload.latitude,
+              longitude: payload.longitude
+            })
+            .finish((err, res) => {
+              if (err) {
+                // TODO: display error
+                console.log('parkingSpots req err: ', err);
+              } else {
+                console.log('res from server: ', res.body);
+                dispatch({
+                  type: constants.UPDATE_LAST_SEARCH,
+                  payload: {
+                    latitude: payload.latitude,
+                    longitude: payload.longitude
+                  }
+                })
+                dispatch({
+                  type: DISPLAY_NEARBY_PARKING_SPOTS,
+                  payload: res.body
+                })
+              }
+            })
+        }
       }
     }
   }
@@ -557,7 +578,7 @@ function handleUpdateCenterMarker(state, action) {
   let stateLon = state.userCoord.longitude;
 
   let displayCenterMarker;
-  if (action.payload.notDisplayingMarker) {
+  if (action.payload.notDisplayingCenterMarker) {
     displayCenterMarker = false;
   } else {
     displayCenterMarker = (stateLat.toFixed(6) === actionLat.toFixed(6) && stateLon.toFixed(6) === actionLon.toFixed(6)) ? false : true;

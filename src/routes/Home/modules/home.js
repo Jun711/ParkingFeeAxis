@@ -34,7 +34,8 @@ import {
   EAST_BAND,
   WEST_BAND,
   SERVICE_UNAVAILABLE,
-  SERVICE_UNAVAILABLE_HERE
+  SERVICE_UNAVAILABLE_HERE,
+  NO_PARKING_METERS
 } from '../../../util/constants'
 import * as actionHandlers from './homeActionHandlers'
 
@@ -307,10 +308,10 @@ export function handleRegionChangeComplete(payload) {
     })
 
     // TODO need to remove
-    dispatch({
-      type: DISPLAY_NEARBY_PARKING_SPOTS,
-      payload: mockParkingSpots
-    })
+    // dispatch({
+    //   type: DISPLAY_NEARBY_PARKING_SPOTS,
+    //   payload: mockParkingSpots
+    // })
 
     if (!store().home.calloutPressed) {
 
@@ -332,7 +333,6 @@ export function handleRegionChangeComplete(payload) {
             })
             .finish((err, res) => {
               if (err) {
-                // TODO: display error
                 dispatch({
                   type: SHOW_TOAST,
                   payload: {
@@ -347,10 +347,20 @@ export function handleRegionChangeComplete(payload) {
                     longitude: payload.longitude
                   }
                 })
-                dispatch({
-                  type: DISPLAY_NEARBY_PARKING_SPOTS,
-                  payload: res.body
-                })
+
+                if (res.body && res.body.length === 0) {
+                  dispatch({
+                    type: SHOW_TOAST,
+                    payload: {
+                      text: NO_PARKING_METERS
+                    }
+                  })
+                } else {
+                  dispatch({
+                    type: DISPLAY_NEARBY_PARKING_SPOTS,
+                    payload: res.body
+                  })
+                }
               }
             })
         }
@@ -548,10 +558,10 @@ function handleGetSelectedAddress(state, action) {
         $set: action.payload.longitude
       },
       latitudeDelta: {
-        $set: state.region.latitudeDelta
+        $set: LATITUDE_DELTA
       },
       longitudeDelta: {
-        $set: state.region.longitudeDelta
+        $set: LONGITUDE_DELTA
       }
     },
   })

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { THEME_COLOR } from '../../util/constants'
+import { THEME_COLOR, TITLE_FONT_SIZE, PRIMARY_FONT_SIZE, WHITE_COLOR } from '../../util/constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: TITLE_FONT_SIZE,
   },
   backIcon: {
     color: '#fff',
@@ -18,15 +18,21 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: TITLE_FONT_SIZE,
   },
   inputSearch: {
+    backgroundColor: WHITE_COLOR,
     height: 40,
-    fontSize: 18,
+    fontSize: TITLE_FONT_SIZE,
+    paddingTop: 1,
+    paddingBottom: 1,
     color: THEME_COLOR,
+    textAlignVertical: 'center',
+    includeFontPadding: false,
+    borderRadius: 5,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: TITLE_FONT_SIZE,
     color: '#fff',
   }
 })

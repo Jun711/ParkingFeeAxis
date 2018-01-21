@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Text, Keyboard, TouchableOpacity } from 'react-native'
+import { Text, Keyboard, TouchableOpacity, View, TextInput } from 'react-native'
 import PropTypes from 'prop-types'
-import { Header, Left, Right, Button, Input, Item, InputGroup } from 'native-base'
+import { Header, Left, Right, Button, Input, Item, InputGroup, } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -15,19 +15,36 @@ export class HeaderComponent extends Component {
     super(props)
     this.debouncedHandleInput = debounce(this._handleInput.bind(this), 500)
     this._shouldPop = false
+    this._shouldGoToAbout = false
+    this._isKeyboardUp = false
   }
 
   componentWillMount() {
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this))
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this))
   }
 
   componentWillUnmount() {
-    this.keyboardDidHideListener.remove();
+    this.keyboardDidShowListener.remove()
+    this.keyboardDidHideListener.remove()
+  }
+
+  _keyboardDidShow() {
+    if (Actions.currentScene === '_about') {
+      Keyboard.dismiss()
+    } else {
+      this._isKeyboardUp = true
+    }
   }
 
   _keyboardDidHide() {
+    this._isKeyboardUp = false
     if (this._shouldPop) {
+      this._shouldPop = false
       this.props.onHeaderBackPressed({value: false})
+    } else if (this._shouldGoToAbout) {
+      this._shouldGoToAbout = false
+      Actions.about()
     }
   }
 
@@ -36,12 +53,25 @@ export class HeaderComponent extends Component {
       'key': SEARCH_INPUT_KEY,
       'value': val
     })
-    this.props.getLocationPredictions();
+    this.props.getLocationPredictions()
   }
 
   _backButtonPressed() {
-    this._shouldPop = true
-    Keyboard.dismiss();
+    if (this._isKeyboardUp) {
+      this._shouldPop = true
+      Keyboard.dismiss()
+    } else {
+      this.props.onHeaderBackPressed({value: false})
+    }
+  }
+
+  _goToAbout() {
+    if (this._isKeyboardUp) {
+      Keyboard.dismiss()
+      this._shouldGoToAbout = true
+    } else {
+      Actions.about()
+    }
   }
 
   render() {
@@ -74,13 +104,19 @@ export class HeaderComponent extends Component {
           </TouchableOpacity>
         </Left>
         }
+        {!this.props.displaySearchBar &&
         <Item style={{flex: 6, height: 40}}
               onPress={(evt) => this.props.onHeaderPressed(evt.nativeEvent)}>
-          {!this.props.displaySearchBar &&
           <Text style={styles.headerText}>{SEARCH_PLACEHOLDER}</Text>
-          }
-          {this.props.displaySearchBar &&
-          <Input
+        </Item>
+        }
+        {this.props.displaySearchBar &&
+
+        <View style={{flex: 6, height: 40}}>
+          <TextInput
+            autoCorrect={false}
+            disableFullscreenUI={true}
+            maxLength={40}
             placeholderTextColor={THEME_COLOR}
             autoFocus={true}
             style={styles.inputSearch}
@@ -88,11 +124,11 @@ export class HeaderComponent extends Component {
             underlineColorAndroid={'transparent'}
             onChangeText={this.debouncedHandleInput}
           />
-          }
-        </Item>
+        </View>
+        }
         <Right style={{flex: 1}}>
           <TouchableOpacity>
-            <Button transparent onPress={Actions.about}>
+            <Button transparent onPress={this._goToAbout.bind(this)}>
               <Icon name='gear' style={styles.icon}/>
             </Button>
           </TouchableOpacity>

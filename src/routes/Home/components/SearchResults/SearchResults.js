@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, KeyboardAvoidingView, View, FlatList } from 'react-native';
+import { Text, KeyboardAvoidingView, View, FlatList, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { List, ListItem, Left, Body } from 'native-base';
 import Loader from '../../../../components/Loader/Loader'
 import styles from './SearchResultsStyles';
@@ -25,21 +25,23 @@ export default class SearchResults extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.searchResultsWrapper}>
-        {this.props.displayLoader && <Loader/>}
-        {this.props.locationPredictions.length > 0 &&
-        <View style={styles.container}>
-          <FlatList
-            keyboardShouldPersistTaps='always'
-            keyboardDismissMode='on-drag'
-            data={this.props.locationPredictions}
-            renderItem={this._renderItem}
-            keyExtractor={this._keyExtractor}
-            ItemSeparatorComponent={() => <SeparatorComponent/>}
-          />
-        </View>
-        }
-      </KeyboardAvoidingView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView style={styles.searchResultsWrapper}>
+          {this.props.displayLoader && <Loader/>}
+          {this.props.locationPredictions.length > 0 &&
+          <View style={styles.container}>
+            <FlatList
+              keyboardShouldPersistTaps='always'
+              keyboardDismissMode='on-drag'
+              data={this.props.locationPredictions}
+              renderItem={this._renderItem}
+              keyExtractor={this._keyExtractor}
+              ItemSeparatorComponent={() => <SeparatorComponent/>}
+            />
+          </View>
+          }
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     )
   }
 }

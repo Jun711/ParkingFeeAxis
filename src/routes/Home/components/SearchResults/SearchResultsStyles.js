@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     top: 55,
     position: 'absolute',
-    height: 1000,
     backgroundColor: '#fff',
   },
   primaryText: {

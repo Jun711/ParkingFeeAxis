@@ -16,7 +16,7 @@ export const LOCATION_ERROR_MSG_TWO = 'Location service is unavailable.'
 export const LOCATION_ERROR_DEFAULT_MSG = 'Location request timeout.'
 
 // about
-export const APP_NAME = 'Path'
+export const APP_NAME = 'Me'
 export const APP_VERSION = 'Version 1.0.0'
 
 // time
@@ -29,7 +29,6 @@ export const SUN_6_PLUS = 'sunAfterOffice'
 export const FREE_PARKING = 'freeParking'
 export const FREE_PARKING_LIMIT = 'until 9am'
 export const NO_TIME_LIMIT_TEXT = 'no limit'
-
 
 // min and max rate
 export const MIN_PARKING_RATE = 100
@@ -58,3 +57,12 @@ export const SEARCH_INPUT_KEY = 'headerSearchBar'
 // error message
 export const CONTACT_INFO_LOADING_ERROR = 'Contact info loading timeout'
 export const FAQ_LOADING_ERROR = 'FAQ list loading timeout'
+
+// notifications
+export const SERVICE_UNAVAILABLE_HERE = 'Service is not available here'
+export const SERVICE_UNAVAILABLE = 'Service is not available now'
+
+// maps
+export const MARKER_SIZE = 15
+export const MARKER_RADIUS = 70
+

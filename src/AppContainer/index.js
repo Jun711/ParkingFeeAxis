@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import { Alert, BackHandler } from 'react-native';
+import React, { Component } from 'react'
+import { Alert, BackHandler } from 'react-native'
 import PropTypes from 'prop-types'
 import { Actions, Router } from 'react-native-router-flux'
-
-import scenes from '../routes/scenes';
-
-import { Provider } from 'react-redux';
+import scenes from '../routes/scenes'
+import { Provider } from 'react-redux'
+import { APP_NAME } from '../util/constants'
 
 export default class AppContainer extends Component {
   static propTypes = {
@@ -15,7 +14,7 @@ export default class AppContainer extends Component {
   showExitAlert() {
     Alert.alert(
       'Shut Down',
-      'Do you want to shut down Ninja?',
+      `Do you want to shut down ${APP_NAME}? :(`,
       [
         {
           text: 'Cancel', onPress: () => {
@@ -33,11 +32,11 @@ export default class AppContainer extends Component {
 
   onBackPress() {
     if (Actions.state.index !== 0) {
-      Actions.pop();
-      return true;
+      Actions.pop()
+      return true
     }
-    this.showExitAlert();
-    return true;
+    this.showExitAlert()
+    return true
   }
 
   render() {
@@ -48,6 +47,6 @@ export default class AppContainer extends Component {
           scenes={scenes}
         />
       </Provider>
-    );
+    )
   }
 }

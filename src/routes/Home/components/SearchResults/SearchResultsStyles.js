@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { TITLE_FONT_SIZE } from '../../../../util/constants'
 
 const styles = StyleSheet.create({
   searchResultsWrapper: {
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     borderLeftColor: '#7D7D7D',
   },
   leftIcon: {
-    fontSize: 20,
+    fontSize: TITLE_FONT_SIZE,
     color: '#7D7D7D',
   },
   distance: {

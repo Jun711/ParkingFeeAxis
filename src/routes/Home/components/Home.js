@@ -1,20 +1,12 @@
 import React from 'react'
-import { AppRegistry, Dimensions } from 'react-native'
+import { AppRegistry } from 'react-native'
 import { Container } from 'native-base'
 import MapContainer from './MapContainer/MapContainer'
 import HeaderComponent from '../../../components/HeaderComponent/HeaderComponent'
-import FloatingActionButton from './FloatingActionButton/FloatingActionButton'
+import FloatingActionButton from './GetLocationButton/GetLocationButton'
 import FloatingCenterMarker from './FloatingCenterMarker/FloatingCenterMarker'
 import SearchResults from './SearchResults/SearchResults'
 import BottomBannerAd from '../../../components/BottomBannerAd/BottomBannerAd'
-
-const {width, height} = Dimensions.get('window')
-
-const SCREEN_HEIGHT = height
-const SCREEN_WIDTH = width
-const ASPECT_RATIO = width / height
-const LATITUDE_DELTA = 0.020
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class Home extends React.Component {
 
@@ -37,7 +29,6 @@ class Home extends React.Component {
           userCoord={this.props.userCoord}
           region={this.props.region}
           getInputData={this.props.getInputData}
-          toggleSearchResultModal={this.props.toggleSearchResultModal}
           getLocationPredictions={this.props.getLocationPredictions}
           resultTypes={this.props.resultTypes}
           predictions={this.props.predictions}

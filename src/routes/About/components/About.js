@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, ScrollView } from 'react-native';
+import React, { Component } from 'react'
+import { AppRegistry, StyleSheet, ScrollView } from 'react-native'
 import { Container } from 'native-base'
-import Brand from './Brand/Brand';
-import Info from './Info/Info';
+import Brand from './Brand/Brand'
+import Info from './Info/Info'
 import BottomBannerAd from '../../../components/BottomBannerAd/BottomBannerAd'
 
 class About extends Component {
@@ -17,7 +17,7 @@ class About extends Component {
   }
 }
 
-export default About;
+export default About
 
 const styles = StyleSheet.create({
   container: {
@@ -27,6 +27,6 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     backgroundColor: '#fff'
   }
-});
+})
 
-AppRegistry.registerComponent('About', () => About);
+AppRegistry.registerComponent('About', () => About)

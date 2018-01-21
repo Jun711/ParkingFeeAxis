@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import { View } from 'native-base';
-import MapView from 'react-native-maps';
-import MapCallout from '../MapCallout/MapCallout';
-import { LOADER_COLOR } from '../../../../util/constants';
-import styles from './MapContainerStyles';
+import React, { Component } from 'react'
+import { View } from 'native-base'
+import MapView from 'react-native-maps'
+import MapCallout from '../MapCallout/MapCallout'
+import { LOADER_COLOR } from '../../../../util/constants'
+import styles from './MapContainerStyles'
 
-const greenPin = require('../../../../assets/greenPin.png');
-const yellowPin = require('../../../../assets/yellowPin.png');
-const orangePin = require('../../../../assets/orangePin.png');
-const redPin = require('../../../../assets/redPin.png');
+const greenPin = require('../../../../assets/greenPin.png')
+const yellowPin = require('../../../../assets/yellowPin.png')
+const redPin = require('../../../../assets/redPin.png')
 
 export default class MapContainer extends Component {
 
@@ -37,7 +36,6 @@ export default class MapContainer extends Component {
           style={styles.map}
           region={this.props.region}
           onRegionChangeComplete={(event) => this.props.handleRegionChangeComplete(event)}
-          // customMapStyle={styles.mapStyle}
           onPress={(event) => this.props.onMapPressed(event.nativeEvent)}
         >
           <MapView.Marker.Animated

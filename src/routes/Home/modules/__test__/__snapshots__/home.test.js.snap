@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ON_MAP_PRESSED action should create ON_MAP_PRESSED action 1`] = `
+exports[`ON_MAP_PRESSED action onMapPressed should create ON_MAP_PRESSED action 1`] = `
 Object {
   "payload": Object {},
   "type": "ON_MAP_PRESSED",
 }
 `;
 
-exports[`TOGGLE_SEARCH_BAR action should create TOGGLE_SEARCH_BAR action 1`] = `
+exports[`TOGGLE_SEARCH_BAR action onHeaderPressed should create TOGGLE_SEARCH_BAR action 1`] = `
 Object {
   "payload": Object {},
   "type": "TOGGLE_SEARCH_BAR",

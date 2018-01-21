@@ -6,14 +6,14 @@ import styles from './FaqListStyles'
 
 export default class FaqList extends Component {
 
-  _keyExtractor = (item) => item._id;
+  _keyExtractor = (item) => item._id
 
   _renderItem = ({item, index}) => (
     <View key={item._id} style={styles.itemContainer}>
       <Text style={styles.faqNumber}>{index + 1})</Text>
       <Text style={styles.faqItem}>{item.text}</Text>
     </View>
-  );
+  )
 
   render() {
     return (

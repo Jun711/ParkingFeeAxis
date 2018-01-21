@@ -6,7 +6,7 @@ import styles from './ContactInfoListStyles'
 
 export default class ContactInfoList extends Component {
 
-  _keyExtractor = (item) => item._id;
+  _keyExtractor = (item) => item._id
 
   _renderItem = ({item}) => (
     <View style={styles.itemContainer}>
@@ -14,7 +14,7 @@ export default class ContactInfoList extends Component {
         <Icon style={styles.infoIcon} name={item.icon}/>
       </View>
       <Text style={styles.infoItem}>{item.text}</Text>
-    </View>);
+    </View>)
 
   render() {
     return (

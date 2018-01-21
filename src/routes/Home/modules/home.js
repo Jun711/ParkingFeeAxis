@@ -1,10 +1,10 @@
 // contains actions and handlers
-import update from 'immutability-helper';
-import constants from './actionConstants';
-import { PermissionsAndroid, Dimensions, ToastAndroid } from 'react-native';
-import RNGooglePlaces from 'react-native-google-places';
-import request from '../../../util/request';
-import mockParkingSpots from '../../../assets/data/parkingSpots';
+import update from 'immutability-helper'
+import constants from './actionConstants'
+import { PermissionsAndroid, Dimensions, ToastAndroid } from 'react-native'
+import RNGooglePlaces from 'react-native-google-places'
+import request from '../../../util/request'
+import mockParkingSpots from '../../../assets/data/parkingSpots'
 import {
   PARKING_SERVER_URL,
   LATITUDE_DELTA,
@@ -33,8 +33,9 @@ import {
   SOUTH_BAND,
   EAST_BAND,
   WEST_BAND,
-  SERVICE_UNAVAILABLE
-} from '../../../util/constants';
+  SERVICE_UNAVAILABLE,
+  SERVICE_UNAVAILABLE_HERE
+} from '../../../util/constants'
 import * as actionHandlers from './homeActionHandlers'
 
 //-------------------------------
@@ -57,17 +58,16 @@ const {
   SET_MARKER_PRESSED,
   ON_MAP_PRESSED,
   SHOW_TOAST,
-} = constants;
+} = constants
 
 const {width, height} = Dimensions.get('window')
-const ASPECT_RATIO = width / height;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const ASPECT_RATIO = width / height
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 //-------------------------------
 // Utility function
 //-------------------------------
 function getLocationPermission() {
-  console.log('getLocationPermission')
   try {
     PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -83,7 +83,7 @@ function getLocationPermission() {
       }
     })
   } catch (err) {
-    console.error('getLocationPermission: ', err);
+    console.error('getLocationPermission: ', err)
   }
 }
 
@@ -98,12 +98,12 @@ export function checkLocationPermission() {
           dispatch({
             type: SET_LOCATION_PERMISSION,
             payload: suc
-          });
+          })
         } else {
-          getLocationPermission();
+          getLocationPermission()
           // dispatch({
           //   type: GET_LOCATION_PERMISSION,
-          // });
+          // })
         }
       })
       .catch((error) => console.error('PermissionsAndroid error: ', error))
@@ -111,16 +111,16 @@ export function checkLocationPermission() {
 }
 
 function displayLocationErrorToast(errorCode, dispatch) {
-  let errorText;
+  let errorText
   switch (errorCode) {
     case 1:
-      errorText = LOCATION_ERROR_MSG_ONE;
-      break;
+      errorText = LOCATION_ERROR_MSG_ONE
+      break
     case 2:
-      errorText = LOCATION_ERROR_MSG_TWO;
-      break;
+      errorText = LOCATION_ERROR_MSG_TWO
+      break
     default:
-      errorText = LOCATION_ERROR_DEFAULT_MSG;
+      errorText = LOCATION_ERROR_DEFAULT_MSG
   }
 
   dispatch({
@@ -128,50 +128,47 @@ function displayLocationErrorToast(errorCode, dispatch) {
     payload: {
       text: errorText
     }
-  });
+  })
 }
 
 export function getCurrentLocation() {
-  console.log('getCurrentLocation dispatch action');
-
   return (dispatch, store) => {
     dispatch({
       type: SHOW_TOAST,
       payload: {
         text: 'Getting current location.'
       }
-    });
+    })
 
     if (!store().home.gettingCurrentLocation) {
       dispatch({
         type: GETTING_CURRENT_LOCATION,
         payload: true
-      });
+      })
       navigator.geolocation.getCurrentPosition(
         (position) => {
           dispatch({
             type: GET_CURRENT_LOCATION,
             payload: position
-          });
+          })
         },
         (error) => {
           dispatch({
             type: GETTING_CURRENT_LOCATION,
             payload: false
-          });
-          console.log('getCurrentLocation error: ', error)
-          displayLocationErrorToast(error.code, dispatch);
+          })
+          displayLocationErrorToast(error.code, dispatch)
         },
         {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
       )
 
       // TODO check if it updates my current location
-      this.watchID = navigator.geolocation.watchPosition((position) => {
-        dispatch({
-          type: GET_CURRENT_LOCATION,
-          payload: position
-        });
-      })
+      // this.watchID = navigator.geolocation.watchPosition((position) => {
+      //   dispatch({
+      //     type: GET_CURRENT_LOCATION,
+      //     payload: position
+      //   })
+      // })
     }
   }
 }
@@ -194,8 +191,6 @@ export function getInputData(payload) {
 
 // toggle search result modal
 export function toggleSearchResultModal(payload) {
-  console.log('constants: ', constants)
-  console.log('toggleSearchResultModal payload: ', payload)
   return {
     type: TOGGLE_SEARCH_RESULT,
     payload
@@ -204,10 +199,8 @@ export function toggleSearchResultModal(payload) {
 
 // get location suggestions from google place
 export function getLocationPredictions() {
-  console.log('getLocationPredictions')
   return (dispatch, store) => {
-    console.log('store: ', store, ' store(): ', store());
-    // let userInput = store().home.resultTypes.pickUp ? store().home.inputData.pickUp : store().home.inputData.dropOff;
+    // let userInput = store().home.resultTypes.pickUp ? store().home.inputData.pickUp : store().home.inputData.dropOff
     let userInput = store().home.inputData[SEARCH_INPUT_KEY]
     RNGooglePlaces.getAutocompletePredictions(userInput, {
       latitude: store().home.userCoord.latitude || DEFAULT_LATITUDE,
@@ -226,8 +219,16 @@ export function getLocationPredictions() {
           payload: result
         })
       })
-      .catch((error) => console.error('GPlace prediction error: ', error))
-  };
+      .catch((error) => {
+        console.error('GPlace prediction error: ', error)
+        dispatch({
+          type: SHOW_TOAST,
+          payload: {
+            text: SERVICE_UNAVAILABLE
+          }
+        })
+      })
+  }
 }
 
 // get selected address and do a distance matrix request
@@ -255,26 +256,26 @@ export function selectLocation(payload) {
           }
         })
       })
-      .then(() => {
-        // Get the distance and time
-        if (store().home.selectedAddress.selectedPickUp &&
-          store().home.selectedAddress.selectedDropOff) {
-          request.get('https://maps.googleapis.com/maps/api/distancematrix/json')
-            .query({
-              origins: store().home.selectedAddress.selectedPickUp.latitude + ',' + store().home.selectedAddress.selectedPickUp.longitude,
-              destinations: store().home.selectedAddress.selectedDropOff.latitude + ',' + store().home.selectedAddress.selectedDropOff.longitude,
-              mode: 'driving',
-              key: 'AIzaSyB8V0YoKfKn94GulxdwTJoIW0T4UZixSgI'
-            })
-            .finish((error, res) => {
-              dispatch({
-                type: GET_DISTANCE_MATRIX,
-                payload: res.body
-              })
-            })
-        }
-      })
-      .catch((error) => console.log(error.message));
+      // .then(() => {
+      //   // Get the distance and time
+      //   if (store().home.selectedAddress.selectedPickUp &&
+      //     store().home.selectedAddress.selectedDropOff) {
+      //     request.get('https://maps.googleapis.com/maps/api/distancematrix/json')
+      //       .query({
+      //         origins: store().home.selectedAddress.selectedPickUp.latitude + ',' + store().home.selectedAddress.selectedPickUp.longitude,
+      //         destinations: store().home.selectedAddress.selectedDropOff.latitude + ',' + store().home.selectedAddress.selectedDropOff.longitude,
+      //         mode: 'driving',
+      //         key: 'AIzaSyB8V0YoKfKn94GulxdwTJoIW0T4UZixSgI'
+      //       })
+      //       .finish((error, res) => {
+      //         dispatch({
+      //           type: GET_DISTANCE_MATRIX,
+      //           payload: res.body
+      //         })
+      //       })
+      //   }
+      // })
+      .catch((error) => console.log(error.message))
   }
 }
 
@@ -305,21 +306,21 @@ export function handleRegionChangeComplete(payload) {
       payload
     })
 
-    // TODO
+    // TODO need to remove
     dispatch({
       type: DISPLAY_NEARBY_PARKING_SPOTS,
-      payload: parkingSpots
+      payload: mockParkingSpots
     })
 
     if (!store().home.calloutPressed) {
 
       if (!isWithinBound({latitude: payload.latitude, longitude: payload.longitude})) {
-          dispatch({
-            type: SHOW_TOAST,
-            payload: {
-              text: SERVICE_UNAVAILABLE
-            }
-          });
+        dispatch({
+          type: SHOW_TOAST,
+          payload: {
+            text: SERVICE_UNAVAILABLE_HERE
+          }
+        })
       } else {
         if (!isCloseToLastSearch(store().home.lastSearchCoordinates,
             {latitude: payload.latitude, longitude: payload.longitude})) {
@@ -332,9 +333,13 @@ export function handleRegionChangeComplete(payload) {
             .finish((err, res) => {
               if (err) {
                 // TODO: display error
-                console.log('parkingSpots req err: ', err);
+                dispatch({
+                  type: SHOW_TOAST,
+                  payload: {
+                    text: SERVICE_UNAVAILABLE
+                  }
+                })
               } else {
-                console.log('res from server: ', res.body);
                 dispatch({
                   type: constants.UPDATE_LAST_SEARCH,
                   payload: {
@@ -355,7 +360,6 @@ export function handleRegionChangeComplete(payload) {
 }
 
 export function onMarkerPressed(payload) {
-  console.log('onMarkerPressed: ', payload)
   return {
     type: SET_MARKER_PRESSED,
     payload
@@ -370,7 +374,6 @@ export function onCalloutPressed(payload) {
 }
 
 export function onMapPressed(payload) {
-  console.log('onMarkerPressed: ', payload)
   return {
     type: ON_MAP_PRESSED,
     payload
@@ -434,7 +437,6 @@ function handleSetLocationPermission(state, action) {
 }
 
 function handleGettingCurrentLocation(state, action) {
-  console.log('handleGettingCurrentLocation state: ', state);
   return update(state, {
     gettingCurrentLocation: {
       $set: action.payload
@@ -482,7 +484,7 @@ function handleGetCurrentLocation(state, action) {
 }
 
 function handleGetInputData(state, action) {
-  const {key, value} = action.payload;
+  const {key, value} = action.payload
   return update(state, {
     inputData: {
       [key]: {
@@ -493,11 +495,7 @@ function handleGetInputData(state, action) {
 }
 
 function handleToggleSearchResult(state, action) {
-  console.log('handleToggleSearchResult action:', action)
-  console.log('pickup true?: ', action.payload === 'pickUp')
-  console.log('pickup true?: ', action.payload == 'dropOff')
   if (action.payload === 'pickUp') {
-    console.log('pickup')
     return update(state, {
       resultTypes: {
         pickUp: {
@@ -513,7 +511,6 @@ function handleToggleSearchResult(state, action) {
     })
   }
   if (action.payload === 'dropOff') {
-    console.log('dropOff')
     return update(state, {
       resultTypes: {
         pickUp: {
@@ -531,7 +528,6 @@ function handleToggleSearchResult(state, action) {
 }
 
 function handleGetLocationPredictions(state, action) {
-  console.log('handleGetLocationPredictions action: ', action)
   return update(state, {
     locationPredictions: {
       $set: action.payload
@@ -540,8 +536,6 @@ function handleGetLocationPredictions(state, action) {
 }
 
 function handleGetSelectedAddress(state, action) {
-  console.log('handleGetSelectedAddress action: ', action)
-  // let selectedTitle = state.resultTypes.pickUp ? 'selectedPickUp' : 'selectedDropOff';
   return update(state, {
     selectedAddress: {
       $set: action.payload
@@ -572,16 +566,16 @@ function handleGetDistanceMatrix(state, action) {
 }
 
 function handleUpdateCenterMarker(state, action) {
-  let actionLat = action.payload.latitude;
-  let actionLon = action.payload.longitude;
-  let stateLat = state.userCoord.latitude;
-  let stateLon = state.userCoord.longitude;
+  let actionLat = action.payload.latitude
+  let actionLon = action.payload.longitude
+  let stateLat = state.userCoord.latitude
+  let stateLon = state.userCoord.longitude
 
-  let displayCenterMarker;
+  let displayCenterMarker
   if (action.payload.notDisplayingCenterMarker) {
-    displayCenterMarker = false;
+    displayCenterMarker = false
   } else {
-    displayCenterMarker = (stateLat.toFixed(6) === actionLat.toFixed(6) && stateLon.toFixed(6) === actionLon.toFixed(6)) ? false : true;
+    displayCenterMarker = (stateLat.toFixed(6) === actionLat.toFixed(6) && stateLon.toFixed(6) === actionLon.toFixed(6)) ? false : true
   }
 
   return update(state, {
@@ -607,22 +601,22 @@ function handleUpdateCenterMarker(state, action) {
 
 // determine current parking rate category
 function getPresent() {
-  let present = new Date();
+  let present = new Date()
 
   if (present.getDay() == 0 && present.getHours() >= 9 && present.getHours() <= 18) {
-    return SUN_9_6;
+    return SUN_9_6
   } else if (present.getDay() == 0 && present.getHours() > 18 && present.getHours() <= 20) {
-    return SUN_6_PLUS;
+    return SUN_6_PLUS
   } else if (present.getDay() == 6 && present.getHours() >= 9 && present.getHours() <= 18) {
-    return SAT_9_6;
+    return SAT_9_6
   } else if (present.getDay() == 6 && present.getHours() > 18 && present.getHours() <= 20) {
-    return SAT_6_PLUS;
+    return SAT_6_PLUS
   } else if (present.getHours() >= 9 && present.getHours() <= 18) {
-    return WEEKDAY_9_6;
+    return WEEKDAY_9_6
   } else if (present.getHours() > 18 && present.getHours() <= 20) {
-    return WEEKDAY_6_PLUS;
+    return WEEKDAY_6_PLUS
   } else {
-    return FREE_PARKING;
+    return FREE_PARKING
   }
 }
 
@@ -650,45 +644,45 @@ function processParkingSpotDesc(parkingSpots, lowestRate, highestRate) {
   // TODO: handle FREE_PARKING and processed variable
   for (let i = 0; i < parkingSpots.length; i++) {
     if (!parkingSpots[i].processed && parkingSpots[i] && parkingSpots[i].properties) {
-      let parkingSpotCurrentRate = parkingSpots[i].properties[present].rate;
-      let parkingSpotCurrentTimeLimit = parkingSpots[i].properties[present].limit;
-      console.log('parkingSpotCurrentRate: ', parkingSpotCurrentRate);
+      let parkingSpotCurrentRate = parkingSpots[i].properties[present].rate
+      let parkingSpotCurrentTimeLimit = parkingSpots[i].properties[present].limit
+
       if (parkingSpotCurrentRate < lowestRate) {
-        lowestRate = parkingSpots[i].properties[present].rate;
+        lowestRate = parkingSpots[i].properties[present].rate
       }
 
       if (parkingSpotCurrentRate > highestRate) {
-        highestRate = parkingSpots[i].properties[present].rate;
+        highestRate = parkingSpots[i].properties[present].rate
       }
 
-      parkingSpots[i].properties.presentRate = parkingSpotCurrentRate;
-      parkingSpots[i].properties.presentRateText = parseRate(parkingSpotCurrentRate);
-      parkingSpots[i].properties.presentTimeLimitText = parseTimeLimit(parkingSpotCurrentTimeLimit);
-      parkingSpots[i].processed = true;
+      parkingSpots[i].properties.presentRate = parkingSpotCurrentRate
+      parkingSpots[i].properties.presentRateText = parseRate(parkingSpotCurrentRate)
+      parkingSpots[i].properties.presentTimeLimitText = parseTimeLimit(parkingSpotCurrentTimeLimit)
+      parkingSpots[i].processed = true
     }
   }
 
-  return {parkingSpots, lowestRate, highestRate};
+  return {parkingSpots, lowestRate, highestRate}
 }
 
 // filter parking spots out if its ID already exists in parkingSpotIDSet
 function filterParkingSpot(state, parkingSpots) {
   const parkingSpotSet = parkingSpots.filter((parkingSpot) => {
     if (state.parkingSpotIDSet && state.parkingSpotIDSet.has(parkingSpot.id)) {
-      return false;
+      return false
     } else {
       state.parkingSpotIDSet.add(parkingSpot.id)
-      return true;
+      return true
     }
   })
-  return parkingSpotSet;
+  return parkingSpotSet
 }
 
 // merge parking spots local data and data from server
 function handleDisplayNearbyParkingSpots(state, action) {
-  let parkingSpotSet = filterParkingSpot(state, action.payload);
+  let parkingSpotSet = filterParkingSpot(state, action.payload)
   let parkingSpots = [...state.nearbyParkingSpots, ...parkingSpotSet]
-  let processedRes = processParkingSpotDesc(parkingSpots, state.lowestRate, state.highestRate);
+  let processedRes = processParkingSpotDesc(parkingSpots, state.lowestRate, state.highestRate)
 
   return update(state, {
     nearbyParkingSpots: {
@@ -700,7 +694,7 @@ function handleDisplayNearbyParkingSpots(state, action) {
     highestRate: {
       $set: processedRes.highestRate
     }
-  });
+  })
 }
 
 function handleSetMarkerPressed(state) {
@@ -721,7 +715,7 @@ function handleShowToast(state, action) {
     ToastAndroid.TOP,
     TOAST_HEADER_X_OFFSET,
     TOAST_HEADER_Y_OFFSET
-  );
+  )
   return update(state, {})
 }
 
@@ -759,10 +753,10 @@ export const initialState = {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   },
-};
+}
 
 export function HomeReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type];
+  const handler = ACTION_HANDLERS[action.type]
 
-  return handler ? handler(state, action) : state;
+  return handler ? handler(state, action) : state
 }

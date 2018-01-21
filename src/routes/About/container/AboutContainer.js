@@ -1,9 +1,9 @@
-import { connect } from 'react-redux';
-import About from '../components/About';
+import { connect } from 'react-redux'
+import About from '../components/About'
 
 import {
   openPage
-} from '../modules/about';
+} from '../modules/about'
 
 const mapStateToProps = (state) => ({
   currentPage: state.about.currentPage || '',
@@ -12,6 +12,6 @@ const mapStateToProps = (state) => ({
 // so that the component knows these actions exist
 const mapActionCreators = {
   openPage
-};
+}
 
 export default connect(mapStateToProps, mapActionCreators)(About)

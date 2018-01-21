@@ -1,11 +1,10 @@
-import { connect } from 'react-redux';
-import Home from '../components/Home';
-import { MIN_PARKING_RATE, MAX_PARKING_RATE } from '../../../util/constants';
+import { connect } from 'react-redux'
+import Home from '../components/Home'
+import { MIN_PARKING_RATE, MAX_PARKING_RATE } from '../../../util/constants'
 import {
   checkLocationPermission,
   getCurrentLocation,
   getInputData,
-  toggleSearchResultModal,
   getLocationPredictions,
   selectLocation,
   handleRegionChangeComplete,
@@ -15,7 +14,7 @@ import {
   onMapPressed,
   onHeaderPressed,
   onHeaderBackPressed
-} from '../modules/home';
+} from '../modules/home'
 
 // pass subsets of application state as props to Home container
 const mapStateToProps = (state) => ({
@@ -39,7 +38,6 @@ const mapActionCreators = {
   checkLocationPermission,
   getCurrentLocation,
   getInputData,
-  toggleSearchResultModal,
   getLocationPredictions,
   selectLocation,
   handleRegionChangeComplete,
@@ -49,5 +47,5 @@ const mapActionCreators = {
   onMapPressed,
   onHeaderPressed,
   onHeaderBackPressed
-};
+}
 export default connect(mapStateToProps, mapActionCreators)(Home)

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 import { PRIMARY_FONT_SIZE, THEME_COLOR, TEXT_COLOR } from '../../../../util/constants'
 
 const styles = StyleSheet.create({
@@ -28,6 +28,6 @@ const styles = StyleSheet.create({
     fontSize: PRIMARY_FONT_SIZE,
     color: TEXT_COLOR,
   },
-});
+})
 
-export default styles;
+export default styles

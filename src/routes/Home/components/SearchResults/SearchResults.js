@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Text, KeyboardAvoidingView, View, FlatList, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { List, ListItem, Left, Body } from 'native-base';
+import React, { Component } from 'react'
+import { Text, KeyboardAvoidingView, View, FlatList, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { List, ListItem, Left, Body } from 'native-base'
 import Loader from '../../../../components/Loader/Loader'
-import styles from './SearchResultsStyles';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import styles from './SearchResultsStyles'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import SeparatorComponent from '../../../../components/SeparatorComponent/SeparatorComponent'
 
 export default class SearchResults extends Component {
 
-  _keyExtractor = (item) => item.placeID;
+  _keyExtractor = (item) => item.placeID
 
   _renderItem = ({item}) => (
     <View>
@@ -21,7 +21,7 @@ export default class SearchResults extends Component {
         <Text style={styles.secondaryText}>{item.secondaryText}</Text>
         </Body>
       </ListItem>
-    </View>);
+    </View>)
 
   render() {
     return (

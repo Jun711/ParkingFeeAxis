@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import React, { Component } from 'react'
+import { Text, View, Image } from 'react-native'
 import {
   APP_NAME,
   APP_VERSION
-} from '../../../../util/constants';
+} from '../../../../util/constants'
 
-import styles from './BrandStyles';
+import styles from './BrandStyles'
 
-const logo = require('../../../../assets/icon.png');
+const logo = require('../../../../assets/icon.png')
 
 export default class Brand extends Component {
 
   constructor(props) {
-    super(props);
-    this.state = {...props};
+    super(props)
+    this.state = {...props}
   }
 
   render() {

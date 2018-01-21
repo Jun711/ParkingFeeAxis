@@ -1,4 +1,4 @@
-import update from "immutability-helper/index";
+import update from "immutability-helper/index"
 import { Actions } from 'react-native-router-flux'
 
 export function handleToggleSearchBar(state) {

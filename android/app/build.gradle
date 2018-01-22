@@ -98,7 +98,7 @@ android {
     buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId "com.reactnativepractice"
+        applicationId "com.jungoh"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

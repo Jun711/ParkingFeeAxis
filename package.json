@@ -1,6 +1,8 @@
 {
-	"name": "reactNativePractice",
-	"version": "0.0.1",
+	"name": "Axis",
+	"version": "1.0.0",
+	"description": "A tool to display nearby street parking meters in Vancouver",
+	"author": "Jun Goh",
 	"private": true,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",

@@ -1,4 +1,4 @@
-package com.reactnativepractice;
+package com.jungoh;
 
 import android.app.Application;
 

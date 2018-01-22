@@ -64,4 +64,4 @@ export const FAQ_LOADING_ERROR = 'FAQ list loading timeout'
 // maps
 export const MARKER_SIZE = 15
 export const MARKER_RADIUS = 70
-export const MARKER_THRESHOLD = 30
+export const MARKER_THRESHOLD = 500

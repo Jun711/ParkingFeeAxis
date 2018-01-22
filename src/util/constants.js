@@ -1,5 +1,5 @@
 // config
-export const LATITUDE_DELTA = 0.005
+export const LATITUDE_DELTA = 0.004
 export const defaultAjaxTimeout = 30000
 export const DEFAULT_LATITUDE = 49.2820
 export const DEFAULT_LONGITUDE = -123.1171
@@ -11,9 +11,12 @@ export const PERMISSION_REQ_MSG = 'Parking App needs access to your location to 
 // toast
 export const TOAST_HEADER_Y_OFFSET = 145
 export const TOAST_HEADER_X_OFFSET = 0
-export const LOCATION_ERROR_MSG_ONE = 'Please enable location service.'
-export const LOCATION_ERROR_MSG_TWO = 'Location service is unavailable.'
-export const LOCATION_ERROR_DEFAULT_MSG = 'Location request timeout.'
+export const LOCATION_ERROR_MSG_ONE = 'Please enable location service'
+export const LOCATION_ERROR_MSG_TWO = 'Location service is unavailable'
+export const LOCATION_ERROR_DEFAULT_MSG = 'Location request timeout'
+export const SERVICE_UNAVAILABLE_HERE = 'Service is not available here'
+export const SERVICE_UNAVAILABLE = 'Service is not available now'
+export const NO_PARKING_METERS = 'There is probably no parking meter here'
 
 // about
 export const APP_NAME = 'Me'
@@ -40,7 +43,7 @@ export const THEME_COLOR = '#38414e'
 export const TEXT_COLOR = '#000'
 // export const CENTRE_MARKER_COLOR = '#8585ad'
 export const CURRENT_MARKER_COLOR = '#98a3b3'
-export const CENTRE_MARKER_COLOR ='#515c6d'
+export const CENTRE_MARKER_COLOR = '#515c6d'
 export const WHITE_COLOR = '#fff'
 
 // font size
@@ -58,11 +61,7 @@ export const SEARCH_INPUT_KEY = 'headerSearchBar'
 export const CONTACT_INFO_LOADING_ERROR = 'Contact info loading timeout'
 export const FAQ_LOADING_ERROR = 'FAQ list loading timeout'
 
-// notifications
-export const SERVICE_UNAVAILABLE_HERE = 'Service is not available here'
-export const SERVICE_UNAVAILABLE = 'Service is not available now'
-
 // maps
 export const MARKER_SIZE = 15
 export const MARKER_RADIUS = 70
-
+export const MARKER_THRESHOLD = 30

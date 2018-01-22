@@ -35,7 +35,8 @@ import {
   WEST_BAND,
   SERVICE_UNAVAILABLE,
   SERVICE_UNAVAILABLE_HERE,
-  NO_PARKING_METERS
+  NO_PARKING_METERS,
+  MARKER_THRESHOLD,
 } from '../../../util/constants'
 import * as actionHandlers from './homeActionHandlers'
 
@@ -59,6 +60,7 @@ const {
   SET_MARKER_PRESSED,
   ON_MAP_PRESSED,
   SHOW_TOAST,
+  REMOVE_MARKERS_POST_THRESHOLD
 } = constants
 
 const {width, height} = Dimensions.get('window')
@@ -357,6 +359,9 @@ export function handleRegionChangeComplete(payload) {
                   })
                 } else {
                   dispatch({
+                    type: REMOVE_MARKERS_POST_THRESHOLD
+                  })
+                  dispatch({
                     type: DISPLAY_NEARBY_PARKING_SPOTS,
                     payload: res.body
                   })
@@ -428,6 +433,7 @@ const ACTION_HANDLERS = {
   TOGGLE_CALLOUT: actionHandlers.handleToggleCallout,
   DISPLAY_CALLOUT_DETAIL: actionHandlers.handleDisplayCalloutDetail,
   UPDATE_LAST_SEARCH: actionHandlers.handleUpdateLastSearch,
+  REMOVE_MARKERS_POST_THRESHOLD: actionHandlers.handleRemoveMarkersPostThreshold,
 }
 
 function handleGetLocationPermission(state, action) {
@@ -639,7 +645,8 @@ function parseTimeLimit(timeLimit) {
     if (timeLimit == 1) {
       return '1 hour'
     } else {
-      return timeLimit + ' hours'
+      let timeLimitSubStr = timeLimit.substring(0, 1)
+      return timeLimitSubStr + ' hours'
     }
   }
 }
@@ -653,7 +660,7 @@ function processParkingSpotDesc(parkingSpots, lowestRate, highestRate) {
 
   // TODO: handle FREE_PARKING and processed variable
   for (let i = 0; i < parkingSpots.length; i++) {
-    if (!parkingSpots[i].processed && parkingSpots[i] && parkingSpots[i].properties) {
+    if (parkingSpots[i] && parkingSpots[i].properties) {
       let parkingSpotCurrentRate = parkingSpots[i].properties[present].rate
       let parkingSpotCurrentTimeLimit = parkingSpots[i].properties[present].limit
 
@@ -668,7 +675,6 @@ function processParkingSpotDesc(parkingSpots, lowestRate, highestRate) {
       parkingSpots[i].properties.presentRate = parkingSpotCurrentRate
       parkingSpots[i].properties.presentRateText = parseRate(parkingSpotCurrentRate)
       parkingSpots[i].properties.presentTimeLimitText = parseTimeLimit(parkingSpotCurrentTimeLimit)
-      parkingSpots[i].processed = true
     }
   }
 

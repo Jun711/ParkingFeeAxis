@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { AppRegistry, ScrollView, StyleSheet } from 'react-native'
 import ParkingSpotDetail from './ParkingSpotDetail/ParkingSpotDetail'
+import BottomBannerAd from '../../../components/BottomBannerAd/BottomBannerAd'
 
 class ParkingSpot extends Component {
-
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
@@ -12,6 +12,7 @@ class ParkingSpot extends Component {
           presentRateText={this.props.presentRateText}
           presentTimeLimitText={this.props.presentTimeLimitText}
         />
+        <BottomBannerAd />
       </ScrollView>
     )
   }

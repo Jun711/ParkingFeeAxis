@@ -9,7 +9,7 @@ import styles from './InfoStyles'
 export default class Info extends Component {
   _renderItem = ({item}) => (
     <TouchableNativeFeedback
-      onPressIn={(event) => this.props.openPage({
+      onPress={(event) => this.props.openPage({
         event: event.nativeEvent,
         page: item.key
       })}

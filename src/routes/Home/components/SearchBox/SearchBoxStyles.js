@@ -1,7 +1,7 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native'
 var width = Dimensions.get('window').width; //full width
 
-const styles = {
+const styles = StyleSheet.create({
   searchBox: {
     top: 0,
     position: 'absolute',
@@ -34,6 +34,6 @@ const styles = {
     marginTop: 10,
     marginBottom: 0
   }
-};
+})
 
-export default styles;
+export default styles

@@ -15,7 +15,6 @@ export function handleLoadFaqList(state, action) {
 }
 
 export function handleLoadFaqListError(state) {
-  // TODO can make a global error page
   return update(state, {
     faqLoaded: {
       $set: false

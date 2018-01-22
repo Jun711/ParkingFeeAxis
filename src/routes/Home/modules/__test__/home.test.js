@@ -1,13 +1,29 @@
 import * as actions from '../home'
 import constants from '../actionConstants'
+import { SEARCH_INPUT_KEY } from '../../../../util/constants'
 
-const {TOGGLE_SEARCH_BAR, ON_MAP_PRESSED} = constants
+// describe(`${constants.GET_INPUT} action`, () => {
+//   it(`getInputData should create ${constants.GET_INPUT} action`, () => {
+//     const searchInput = {[SEARCH_INPUT_KEY]: 'Vancouver City Centre'}
+//     const expectedGetInputAction = {
+//       type: constants.GET_INPUT,
+//       payload: searchInput
+//     }
+//     const expectedToggleLoaderAction = {
+//       type: constants.TOGGLE_LOADER,
+//       payload: true
+//     }
+//
+//     expect(actions.getInputData(searchInput)()).toEqual(expectedAction)
+//     expect(actions.getInputData(searchInput)()).toMatchSnapshot()
+//   })
+// })
 
-describe(`${TOGGLE_SEARCH_BAR} action`, () => {
-  it(`should create ${TOGGLE_SEARCH_BAR} action`, () => {
+describe(`${constants.TOGGLE_SEARCH_BAR} action`, () => {
+  it(`onHeaderPressed should create ${constants.TOGGLE_SEARCH_BAR} action`, () => {
 
     const expectedAction = {
-      type: TOGGLE_SEARCH_BAR,
+      type: constants.TOGGLE_SEARCH_BAR,
       payload: {}
     }
 
@@ -16,11 +32,11 @@ describe(`${TOGGLE_SEARCH_BAR} action`, () => {
   })
 })
 
-describe(`${ON_MAP_PRESSED} action`, () => {
-  it(`should create ${ON_MAP_PRESSED} action`, () => {
+describe(`${constants.ON_MAP_PRESSED} action`, () => {
+  it(`onMapPressed should create ${constants.ON_MAP_PRESSED} action`, () => {
 
     const expectedAction = {
-      type: ON_MAP_PRESSED,
+      type: constants.ON_MAP_PRESSED,
       payload: {}
     }
 

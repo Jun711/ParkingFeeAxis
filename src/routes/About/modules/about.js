@@ -35,7 +35,6 @@ const ACTION_HANDLERS = {
 }
 
 function handleOpenPage(state, action) {
-  console.log('action: ', action)
   Actions[action.payload.page].call()
   return update(state, {
     currentPage: {

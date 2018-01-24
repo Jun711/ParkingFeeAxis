@@ -7,8 +7,6 @@ import {
 
 import styles from './BrandStyles'
 
-const logo = require('../../../../assets/icon.png')
-
 export default class Brand extends Component {
 
   constructor(props) {
@@ -20,7 +18,7 @@ export default class Brand extends Component {
 
     return (
       <View style={styles.container}>
-        <Image resizeMode='contain' style={styles.logo} source={logo}/>
+        <Image resizeMode='contain' style={styles.logo} source={require('../../../../assets/icon.png')}/>
         <Text style={styles.appName}>{APP_NAME}</Text>
         <Text style={styles.appVersion}>{APP_VERSION}</Text>
       </View>

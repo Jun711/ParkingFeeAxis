@@ -45,7 +45,7 @@ class Home extends React.Component {
         }
 
         {!this.props.displaySearchBar && this.props.displayCentreMarker &&
-        <FloatingCenterMarker displayCentreCoord={this.props.displayCentreCoord}/>
+        <FloatingCenterMarker/>
         }
         {!this.props.displaySearchBar &&
         <FloatingActionButton getCurrentLocation={this.props.getCurrentLocation}/>

@@ -2,14 +2,20 @@ import React, { Component } from 'react'
 import { View } from 'native-base'
 import MapView from 'react-native-maps'
 import MapCallout from '../MapCallout/MapCallout'
-import { LOADER_COLOR } from '../../../../util/constants'
+import { LOADER_COLOR, DEBOUNCE_MAP_SEARCH } from '../../../../util/constants'
 import styles from './MapContainerStyles'
+import debounce from "lodash.debounce";
 
 const greenPin = require('../../../../assets/greenPin.png')
 const yellowPin = require('../../../../assets/yellowPin.png')
 const redPin = require('../../../../assets/redPin.png')
 
 export default class MapContainer extends Component {
+
+  constructor(props) {
+    super(props)
+    this.debouncedMapSearch = debounce(this._handleRegionChangeComplete.bind(this), DEBOUNCE_MAP_SEARCH)
+  }
 
   decidePin(rate) {
     if (this.props.lowestRate == rate) {
@@ -19,6 +25,9 @@ export default class MapContainer extends Component {
     } else {
       return yellowPin
     }
+  }
+  _handleRegionChangeComplete(event) {
+    this.props.handleRegionChangeComplete(event)
   }
 
   render() {
@@ -35,7 +44,7 @@ export default class MapContainer extends Component {
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.map}
           region={this.props.region}
-          onRegionChangeComplete={(event) => this.props.handleRegionChangeComplete(event)}
+          onRegionChangeComplete={(event) => this.debouncedMapSearch(event)}
           onPress={(event) => this.props.onMapPressed(event.nativeEvent)}
         >
           <MapView.Marker.Animated

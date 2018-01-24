@@ -98,6 +98,14 @@ export function handleRemoveMarkersPostThreshold(state) {
   }
 }
 
+export function handleProcessingParkingSpots(state, action) {
+  return update(state, {
+    processingParkingSpots: {
+      $set: action.payload
+    }
+  })
+}
+
 //-------------------------------
 // Utility fns
 //-------------------------------

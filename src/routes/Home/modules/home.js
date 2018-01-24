@@ -4,7 +4,6 @@ import constants from './actionConstants'
 import { PermissionsAndroid, Dimensions, ToastAndroid } from 'react-native'
 import RNGooglePlaces from 'react-native-google-places'
 import request from '../../../util/request'
-import mockParkingSpots from '../../../assets/data/parkingSpots'
 import {
   PARKING_SERVER_URL,
   LATITUDE_DELTA,
@@ -36,7 +35,7 @@ import {
   SERVICE_UNAVAILABLE,
   SERVICE_UNAVAILABLE_HERE,
   NO_PARKING_METERS,
-  MARKER_THRESHOLD,
+  PROCESSING_NOTE
 } from '../../../util/constants'
 import * as actionHandlers from './homeActionHandlers'
 
@@ -44,23 +43,19 @@ import * as actionHandlers from './homeActionHandlers'
 //Constants
 //-------------------------------
 const {
-  // CHECK_LOCATION_PERMISSION,
-  GET_LOCATION_PERMISSION,
   SET_LOCATION_PERMISSION,
   GETTING_CURRENT_LOCATION,
   GET_CURRENT_LOCATION,
   GET_INPUT,
-  TOGGLE_SEARCH_RESULT,
   GET_LOCATION_PREDICTIONS,
   GET_SELECTED_ADDRESS,
-  GET_DISTANCE_MATRIX,
   UPDATE_CENTER_MARKER,
-  HANDLE_CENTRE_COORD,
   DISPLAY_NEARBY_PARKING_SPOTS,
   SET_MARKER_PRESSED,
   ON_MAP_PRESSED,
   SHOW_TOAST,
-  REMOVE_MARKERS_POST_THRESHOLD
+  REMOVE_MARKERS_POST_THRESHOLD,
+  PROCESSING_PARKING_SPOTS
 } = constants
 
 const {width, height} = Dimensions.get('window')
@@ -104,9 +99,6 @@ export function checkLocationPermission() {
           })
         } else {
           getLocationPermission()
-          // dispatch({
-          //   type: GET_LOCATION_PERMISSION,
-          // })
         }
       })
       .catch((error) => console.error('PermissionsAndroid error: ', error))
@@ -164,14 +156,6 @@ export function getCurrentLocation() {
         },
         {enableHighAccuracy: false, timeout: 25000, maximumAge: 1000}
       )
-
-      // TODO check if it updates my current location
-      // this.watchID = navigator.geolocation.watchPosition((position) => {
-      //   dispatch({
-      //     type: GET_CURRENT_LOCATION,
-      //     payload: position
-      //   })
-      // })
     }
   }
 }
@@ -192,18 +176,9 @@ export function getInputData(payload) {
   }
 }
 
-// toggle search result modal
-export function toggleSearchResultModal(payload) {
-  return {
-    type: TOGGLE_SEARCH_RESULT,
-    payload
-  }
-}
-
 // get location suggestions from google place
 export function getLocationPredictions() {
   return (dispatch, store) => {
-    // let userInput = store().home.resultTypes.pickUp ? store().home.inputData.pickUp : store().home.inputData.dropOff
     let userInput = store().home.inputData[SEARCH_INPUT_KEY]
     RNGooglePlaces.getAutocompletePredictions(userInput, {
       latitude: store().home.userCoord.latitude || DEFAULT_LATITUDE,
@@ -236,7 +211,7 @@ export function getLocationPredictions() {
 
 // get selected address and do a distance matrix request
 export function selectLocation(payload) {
-  return (dispatch, store) => {
+  return (dispatch) => {
     RNGooglePlaces.lookUpPlaceByID(payload)
       .then((result) => {
         dispatch({
@@ -259,25 +234,6 @@ export function selectLocation(payload) {
           }
         })
       })
-      // .then(() => {
-      //   // Get the distance and time
-      //   if (store().home.selectedAddress.selectedPickUp &&
-      //     store().home.selectedAddress.selectedDropOff) {
-      //     request.get('https://maps.googleapis.com/maps/api/distancematrix/json')
-      //       .query({
-      //         origins: store().home.selectedAddress.selectedPickUp.latitude + ',' + store().home.selectedAddress.selectedPickUp.longitude,
-      //         destinations: store().home.selectedAddress.selectedDropOff.latitude + ',' + store().home.selectedAddress.selectedDropOff.longitude,
-      //         mode: 'driving',
-      //         key: 'AIzaSyB8V0YoKfKn94GulxdwTJoIW0T4UZixSgI'
-      //       })
-      //       .finish((error, res) => {
-      //         dispatch({
-      //           type: GET_DISTANCE_MATRIX,
-      //           payload: res.body
-      //         })
-      //       })
-      //   }
-      // })
       .catch((error) => console.log(error.message))
   }
 }
@@ -304,19 +260,21 @@ export function handleRegionChangeComplete(payload) {
     if (store().home.calloutPressed) {
       payload = {...payload, notDisplayingCenterMarker: true}
     }
+    if (store().home.processingParkingSpots) {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          text: PROCESSING_NOTE
+        }
+      })
+      return
+    }
     dispatch({
       type: UPDATE_CENTER_MARKER,
       payload
     })
 
-    // TODO need to remove
-    // dispatch({
-    //   type: DISPLAY_NEARBY_PARKING_SPOTS,
-    //   payload: mockParkingSpots
-    // })
-
     if (!store().home.calloutPressed) {
-
       if (!isWithinBound({latitude: payload.latitude, longitude: payload.longitude})) {
         dispatch({
           type: SHOW_TOAST,
@@ -327,6 +285,10 @@ export function handleRegionChangeComplete(payload) {
       } else {
         if (!isCloseToLastSearch(store().home.lastSearchCoordinates,
             {latitude: payload.latitude, longitude: payload.longitude})) {
+          dispatch({
+            type: PROCESSING_PARKING_SPOTS,
+            payload: true
+          })
           request
             .get(PARKING_SERVER_URL)
             .query({
@@ -358,9 +320,9 @@ export function handleRegionChangeComplete(payload) {
                     }
                   })
                 } else {
-                  dispatch({
-                    type: REMOVE_MARKERS_POST_THRESHOLD
-                  })
+                  // dispatch({
+                  //   type: REMOVE_MARKERS_POST_THRESHOLD
+                  // })
                   dispatch({
                     type: DISPLAY_NEARBY_PARKING_SPOTS,
                     payload: res.body
@@ -414,14 +376,11 @@ export function onHeaderBackPressed(payload) {
 //-------------------------------
 const ACTION_HANDLERS = {
   GETTING_CURRENT_LOCATION: handleGettingCurrentLocation,
-  GET_LOCATION_PERMISSION: handleGetLocationPermission,
   SET_LOCATION_PERMISSION: handleSetLocationPermission,
   GET_CURRENT_LOCATION: handleGetCurrentLocation,
   GET_INPUT: handleGetInputData,
-  TOGGLE_SEARCH_RESULT: handleToggleSearchResult,
   GET_LOCATION_PREDICTIONS: handleGetLocationPredictions,
   GET_SELECTED_ADDRESS: handleGetSelectedAddress,
-  GET_DISTANCE_MATRIX: handleGetDistanceMatrix,
   UPDATE_CENTER_MARKER: handleUpdateCenterMarker,
   DISPLAY_NEARBY_PARKING_SPOTS: handleDisplayNearbyParkingSpots,
   SET_MARKER_PRESSED: handleSetMarkerPressed,
@@ -434,14 +393,7 @@ const ACTION_HANDLERS = {
   DISPLAY_CALLOUT_DETAIL: actionHandlers.handleDisplayCalloutDetail,
   UPDATE_LAST_SEARCH: actionHandlers.handleUpdateLastSearch,
   REMOVE_MARKERS_POST_THRESHOLD: actionHandlers.handleRemoveMarkersPostThreshold,
-}
-
-function handleGetLocationPermission(state, action) {
-  return update(state, {
-    locationPermission: {
-      $set: action.payload
-    }
-  })
+  PROCESSING_PARKING_SPOTS: actionHandlers.handleProcessingParkingSpots,
 }
 
 function handleSetLocationPermission(state, action) {
@@ -510,39 +462,6 @@ function handleGetInputData(state, action) {
   })
 }
 
-function handleToggleSearchResult(state, action) {
-  if (action.payload === 'pickUp') {
-    return update(state, {
-      resultTypes: {
-        pickUp: {
-          $set: true
-        },
-        dropOff: {
-          $set: false
-        }
-      },
-      locationPredictions: {
-        $set: []
-      }
-    })
-  }
-  if (action.payload === 'dropOff') {
-    return update(state, {
-      resultTypes: {
-        pickUp: {
-          $set: false
-        },
-        dropOff: {
-          $set: true
-        }
-      },
-      locationPredictions: {
-        $set: []
-      }
-    })
-  }
-}
-
 function handleGetLocationPredictions(state, action) {
   return update(state, {
     locationPredictions: {
@@ -570,14 +489,6 @@ function handleGetSelectedAddress(state, action) {
         $set: LONGITUDE_DELTA
       }
     },
-  })
-}
-
-function handleGetDistanceMatrix(state, action) {
-  return update(state, {
-    distanceMatrix: {
-      $set: action.payload
-    }
   })
 }
 
@@ -701,6 +612,9 @@ function handleDisplayNearbyParkingSpots(state, action) {
   let processedRes = processParkingSpotDesc(parkingSpots, state.lowestRate, state.highestRate)
 
   return update(state, {
+    processingParkingSpots: {
+      $set: false
+    },
     nearbyParkingSpots: {
       $set: processedRes.parkingSpots
     },
@@ -748,6 +662,7 @@ export const initialState = {
   inputData: {},
   locationPermission: false,
   lowestRate: MIN_PARKING_RATE,
+  processingParkingSpots: false,
   nearbyParkingSpots: [],
   parkingSpotIDSet: new Set(),
   locationPredictions: [],

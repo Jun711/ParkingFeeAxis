@@ -17,9 +17,12 @@ export const LOCATION_ERROR_DEFAULT_MSG = 'Location request timeout'
 export const SERVICE_UNAVAILABLE_HERE = 'Service is not available here'
 export const SERVICE_UNAVAILABLE = 'Service is not available now'
 export const NO_PARKING_METERS = 'There is probably no parking meter here'
+export const CONTACT_INFO_LOADING_ERROR = 'Contact info loading timeout'
+export const FAQ_LOADING_ERROR = 'FAQ list loading timeout'
+export const PROCESSING_NOTE = 'Processing nearby parkings'
 
 // about
-export const APP_NAME = 'Me'
+export const APP_NAME = 'Axis'
 export const APP_VERSION = 'Version 1.0.0'
 
 // time
@@ -41,7 +44,6 @@ export const MAX_PARKING_RATE = -1
 export const LOADER_COLOR = '#515c6d'
 export const THEME_COLOR = '#38414e'
 export const TEXT_COLOR = '#000'
-// export const CENTRE_MARKER_COLOR = '#8585ad'
 export const CURRENT_MARKER_COLOR = '#98a3b3'
 export const CENTRE_MARKER_COLOR = '#515c6d'
 export const WHITE_COLOR = '#fff'
@@ -57,11 +59,8 @@ export const APP_VERSION_FONT_SIZE = 10
 export const SEARCH_PLACEHOLDER = 'Search'
 export const SEARCH_INPUT_KEY = 'headerSearchBar'
 
-// error message
-export const CONTACT_INFO_LOADING_ERROR = 'Contact info loading timeout'
-export const FAQ_LOADING_ERROR = 'FAQ list loading timeout'
-
 // maps
 export const MARKER_SIZE = 15
 export const MARKER_RADIUS = 70
-export const MARKER_THRESHOLD = 500
+export const MARKER_THRESHOLD = 40
+export const DEBOUNCE_MAP_SEARCH = 200

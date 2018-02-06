@@ -1,6 +1,6 @@
 {
 	"name": "Axis",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A tool to display nearby street parking meters in Vancouver",
 	"author": "Jun Goh",
 	"private": true,

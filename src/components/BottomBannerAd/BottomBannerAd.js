@@ -7,7 +7,7 @@ export const BottomBannerAd = () => {
   return (
     <AdMobBanner
       adSize='smartBannerPortrait'
-      adUnitID='ca-app-pub-6805425741453021/2887602580'
+      adUnitID='ca-app-pub-6805425741453021/2997853578'
       onAdFailedToLoad={error => console.error(error)}
     />
   );
